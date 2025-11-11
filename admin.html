@@ -273,6 +273,15 @@
     </style>
 </head>
 <body>
+    <script>
+  const correctPassword = 'hamidov2024'; // Parolni o'zgartiring
+  const enteredPassword = prompt('Admin Panel - Parolni kiriting:');
+  
+  if (enteredPassword !== correctPassword) {
+    alert('Noto\'g\'ri parol!');
+    window.location.href = 'index.html';
+  }
+</script>
     <div class="header">
         <div class="container">
             <h1>🎓 Hamidov Academy - Admin Panel</h1>
@@ -774,4 +783,5 @@ Iltimos, tez orada o'quvchi bilan bog'laning!
         }
     </script>
 </body>
+
 </html>
