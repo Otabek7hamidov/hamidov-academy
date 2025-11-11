@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zamonaviy O'quv Markazi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .lang-btn.active {
+            background: white;
+            color: #667eea;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+
+        .section {
+            padding: 60px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: #667eea;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .course-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .course-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .course-card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .course-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #764ba2;
+        }
+
+        .info-section {
+            background: #f8f9fa;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .hero h2 {
+                font-size: 28px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-button {
+                font-size: 18px;
+                padding: 15px 35px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+        }
+
+        .info-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        }
+
+        .info-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .info-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .register-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .register-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #333;
+            border: none;
+            padding: 20px 50px;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
+            background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
+        }
+
+        .cta-button:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 10px 20px;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #667eea;
+        }
+
+        .success-message {
+            display: none;
+            background: #4caf50;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .error-message {
+            display: none;
+            background: #f44336;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <h1 id="logoText">HAMIDOV ACADEMY</h1>
+            </div>
+            <div class="lang-switch">
+                <button class="lang-btn active" onclick="changeLang('uz')">O'zbek</button>
+                <button class="lang-btn" onclick="changeLang('ru')">Русский</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2 id="heroTitle">Kelajakka Birgalikda Qadam Qo'yamiz!</h2>
+            <p id="heroSubtitle">Professional o'qituvchilar va zamonaviy o'quv dasturlari bilan bilim oling</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title" id="coursesTitle">Bizning Kurslar</h2>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-icon">📐</div>
+                    <h3 id="course1Title">Matematika</h3>
+                    <p id="course1Desc">Algebra, Geometriya va Matematika asoslari. 5-11 sinflar uchun</p>
+                    <div class="course-price" id="course1Price">400,000 so'm/oy</div>
+                </div>
+                <div class="course-card">
+                    <div class="course-icon">🌐</div>
+                    <h3 id="course2Title">Ingliz Tili</h3>
+                    <p id="course2Desc">Boshlang'ich, o'rta va yuqori darajalar. IELTS tayyorgarlik</p>
+                    <div class="course-price" id="course2Price">350,000 so'm/oy</div>
+                </div>
+                <div class="course-card">
+                    <div class="course-icon">⚛️</div>
+                    <h3 id="course3Title">Fizika</h3>
+                    <p id="course3Desc">Mexanika, Elektrodinamika va Optika. 7-11 sinflar uchun</p>
+                    <div class="course-price" id="course3Price">400,000 so'm/oy</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section info-section">
+        <div class="container">
+            <h2 class="section-title" id="infoTitle">Biz Haqimizda</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-icon">📍</div>
+                    <h3 id="addressTitle">Manzil</h3>
+                    <p id="addressText">Toshkent sh., Yunusobod tumani, Abdulla Qodiriy ko'chasi, 15-uy</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">📞</div>
+                    <h3 id="phoneTitle">Telefon</h3>
+                    <p>+998 90 123 45 67<br>+998 91 234 56 78</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">⏰</div>
+                    <h3 id="scheduleTitle">Ish Vaqti</h3>
+                    <p id="scheduleText">Dushanba-Shanba: 09:00-20:00<br>Yakshanba: Dam olish</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section register-section">
+        <div class="container">
+            <h2 class="section-title" id="registerTitle" style="color: white;">Ro'yxatdan O'ting!</h2>
+            <p style="text-align: center; color: white; font-size: 18px; margin-bottom: 40px;" id="registerSubtitle">Bepul sinov darsiga yoziling va o'z imkoniyatlaringizni kashf qiling!</p>
+            
+            <div style="text-align: center; margin-bottom: 30px;">
+                <button class="cta-button" onclick="openRegistrationModal()">
+                    <span id="ctaText">🎓 RO'YXATDAN O'TISH</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Modal -->
+    <div id="registrationModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeRegistrationModal()">&times;</span>
+            <h2 style="color: #667eea; text-align: center; margin-bottom: 30px;" id="modalTitle">Ro'yxatdan O'tish</h2>
+            <div class="register-form" style="padding: 20px;">
+                <div class="success-message" id="successMessage"></div>
+                <div class="error-message" id="errorMessage"></div>
+                <form id="registrationForm">
+                    <div class="form-group">
+                        <label id="nameLabel">Ism Familiya *</label>
+                        <input type="text" id="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label id="phoneLabel">Telefon raqam *</label>
+                        <input type="tel" id="phone" placeholder="+998 90 123 45 67" required>
+                    </div>
+                    <div class="form-group">
+                        <label id="emailLabel">Email</label>
+                        <input type="email" id="email" placeholder="example@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label id="courseLabel">Kurs tanlang *</label>
+                        <select id="course" required>
+                            <option value="" id="selectOption">Kursni tanlang</option>
+                            <option value="Matematika" id="option1">Matematika</option>
+                            <option value="Ingliz tili" id="option2">Ingliz Tili</option>
+                            <option value="Fizika" id="option3">Fizika</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label id="commentLabel">Qo'shimcha izoh</label>
+                        <input type="text" id="comment">
+                    </div>
+                    <button type="submit" class="submit-btn" id="submitBtn">YUBORISH</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p id="footerText">© 2024 Hamidov Academy. Barcha huquqlar himoyalangan.</p>
+        </div>
+    </footer>
+
+    <script>
+        const translations = {
+            uz: {
+                logoText: "HAMIDOV ACADEMY",
+                heroTitle: "Bilim Sari Birinchi Qadam!",
+                heroSubtitle: "Matematika, Fizika va Ingliz tilini chuqur o'rganing",
+                coursesTitle: "Bizning Kurslar",
+                course1Title: "Matematika",
+                course1Desc: "Algebra, Geometriya va Matematika asoslari. 5-11 sinflar uchun",
+                course1Price: "400,000 so'm/oy",
+                course2Title: "Ingliz Tili",
+                course2Desc: "Boshlang'ich, o'rta va yuqori darajalar. IELTS tayyorgarlik",
+                course2Price: "350,000 so'm/oy",
+                course3Title: "Fizika",
+                course3Desc: "Mexanika, Elektrodinamika va Optika. 7-11 sinflar uchun",
+                course3Price: "400,000 so'm/oy",
+                infoTitle: "Biz Haqimizda",
+                addressTitle: "Manzil",
+                addressText: "Toshkent sh., Yunusobod tumani, Abdulla Qodiriy ko'chasi, 15-uy",
+                phoneTitle: "Telefon",
+                scheduleTitle: "Ish Vaqti",
+                scheduleText: "Dushanba-Shanba: 09:00-20:00<br>Yakshanba: Dam olish",
+                emailTitle: "Email",
+                registerTitle: "Ro'yxatdan O'ting!",
+                registerSubtitle: "Bepul sinov darsiga yoziling va o'z imkoniyatlaringizni kashf qiling!",
+                ctaText: "🎓 RO'YXATDAN O'TISH",
+                modalTitle: "Ro'yxatdan O'tish",
+                nameLabel: "Ism Familiya *",
+                phoneLabel: "Telefon raqam *",
+                emailLabel: "Email",
+                courseLabel: "Kurs tanlang *",
+                commentLabel: "Qo'shimcha izoh",
+                submitBtn: "YUBORISH",
+                selectOption: "Kursni tanlang",
+                option1: "Matematika",
+                option2: "Ingliz Tili",
+                option3: "Fizika",
+                footerText: "© 2024 Hamidov Academy. Barcha huquqlar himoyalangan.",
+                successMsg: "Ma'lumotlaringiz muvaffaqiyatli yuborildi! Tez orada siz bilan bog'lanamiz.",
+                errorMsg: "Xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring."
+            },
+            ru: {
+                logoText: "HAMIDOV ACADEMY",
+                heroTitle: "Первый Шаг к Знаниям!",
+                heroSubtitle: "Углубленное изучение Математики, Физики и Английского языка",
+                coursesTitle: "Наши Курсы",
+                course1Title: "Математика",
+                course1Desc: "Алгебра, Геометрия и основы Математики. Для 5-11 классов",
+                course1Price: "400,000 сум/мес",
+                course2Title: "Английский Язык",
+                course2Desc: "Начальный, средний и продвинутый уровни. Подготовка к IELTS",
+                course2Price: "350,000 сум/мес",
+                course3Title: "Физика",
+                course3Desc: "Механика, Электродинамика и Оптика. Для 7-11 классов",
+                course3Price: "400,000 сум/мес",
+                infoTitle: "О Нас",
+                addressTitle: "Адрес",
+                addressText: "г. Ташкент, Юнусабадский район, ул. Абдуллы Кадыри, д. 15",
+                phoneTitle: "Телефон",
+                scheduleTitle: "Время Работы",
+                scheduleText: "Понедельник-Суббота: 09:00-20:00<br>Воскресенье: Выходной",
+                emailTitle: "Email",
+                registerTitle: "Зарегистрируйтесь!",
+                registerSubtitle: "Запишитесь на бесплатный пробный урок и откройте свои возможности!",
+                ctaText: "🎓 ЗАРЕГИСТРИРОВАТЬСЯ",
+                modalTitle: "Регистрация",
+                nameLabel: "Имя Фамилия *",
+                phoneLabel: "Номер телефона *",
+                emailLabel: "Email",
+                courseLabel: "Выберите курс *",
+                commentLabel: "Дополнительный комментарий",
+                submitBtn: "ОТПРАВИТЬ",
+                selectOption: "Выберите курс",
+                option1: "Математика",
+                option2: "Английский Язык",
+                option3: "Физика",
+                footerText: "© 2024 Hamidov Academy. Все права защищены.",
+                successMsg: "Ваши данные успешно отправлены! Мы свяжемся с вами в ближайшее время.",
+                errorMsg: "Произошла ошибка. Пожалуйста, попробуйте снова."
+            }
+        };
+
+        let currentLang = 'uz';
+
+        function changeLang(lang) {
+            currentLang = lang;
+            const btns = document.querySelectorAll('.lang-btn');
+            btns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const trans = translations[lang];
+            for (let key in trans) {
+                const el = document.getElementById(key);
+                if (el) {
+                    if (key.includes('Text') && key !== 'logoText') {
+                        el.innerHTML = trans[key];
+                    } else {
+                        el.textContent = trans[key];
+                    }
+                }
+            }
+        }
+
+        function openRegistrationModal() {
+            document.getElementById('registrationModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeRegistrationModal() {
+            document.getElementById('registrationModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('registrationModal');
+            if (event.target == modal) {
+                closeRegistrationModal();
+            }
+        }
+
+        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            successMsg.style.display = 'none';
+            errorMsg.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.textContent = currentLang === 'uz' ? 'Yuklanmoqda...' : 'Загрузка...';
+
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                course: document.getElementById('course').value,
+                comment: document.getElementById('comment').value,
+                date: new Date().toLocaleString('uz-UZ')
+            };
+
+            // Google Sheets URL (Bu yerga o'zingizning Google Sheets Web App URL'ni qo'ying)
+            const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwcCBAPfO0HcHgTeG-fkcwXDaqShOxQxWVNVphX-1E6e1LZDDgUreBGhzq0kl8-1I2I/exec';
+
+            try {
+                const response = await fetch(GOOGLE_SHEET_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                // LocalStorage ga ham saqlash (Admin Panel uchun)
+                const students = JSON.parse(localStorage.getItem('students')) || [];
+                students.push({
+                    id: Date.now(),
+                    ...formData,
+                    teacher: null,
+                    teacherName: null
+                });
+                localStorage.setItem('students', JSON.stringify(students));
+
+                successMsg.textContent = translations[currentLang].successMsg;
+                successMsg.style.display = 'block';
+                document.getElementById('registrationForm').reset();
+                closeRegistrationModal();
+                
+                setTimeout(() => {
+                    successMsg.style.display = 'none';
+                }, 5000);
+
+            } catch (error) {
+                errorMsg.textContent = translations[currentLang].errorMsg;
+                errorMsg.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = translations[currentLang].submitBtn;
+            }
+        });
+    </script>
+</body>
+</html>
