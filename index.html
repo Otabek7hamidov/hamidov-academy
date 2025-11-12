@@ -461,7 +461,7 @@
                     </div>
                     <div class="form-group">
                         <label id="phoneLabel">Telefon raqam *</label>
-                        <input type="tel" id="phone" placeholder="+998 90 123 45 67" required>
+                        <input type="tel" id="phone" placeholder="90 123 45 67" maxlength="12" required>
                     </div>
                     <div class="form-group">
                         <label id="emailLabel">Email</label>
@@ -634,7 +634,7 @@
             };
 
             // Google Sheets URL (Bu yerga o'zingizning Google Sheets Web App URL'ni qo'ying)
-            const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwcCBAPfO0HcHgTeG-fkcwXDaqShOxQxWVNVphX-1E6e1LZDDgUreBGhzq0kl8-1I2I/exec';
+            const GOOGLE_SHEET_URL = 'YOUR_GOOGLE_SHEETS_WEB_APP_URL_HERE';
 
             try {
                 const response = await fetch(GOOGLE_SHEET_URL, {
