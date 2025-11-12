@@ -16,6 +16,41 @@
             background: #f5f6fa;
         }
 
+        /* Login Styles */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .login-box h2 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .login-logo {
+            text-align: center;
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        #main-content {
+            display: none;
+        }
+
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -273,15 +308,6 @@
     </style>
 </head>
 <body>
-    <script>
-  const correctPassword = 'hamidov2024'; // Parolni o'zgartiring
-  const enteredPassword = prompt('Admin Panel - Parolni kiriting:');
-  
-  if (enteredPassword !== correctPassword) {
-    alert('Noto\'g\'ri parol!');
-    window.location.href = 'index.html';
-  }
-</script>
     <div class="header">
         <div class="container">
             <h1>🎓 Hamidov Academy - Admin Panel</h1>
@@ -783,5 +809,4 @@ Iltimos, tez orada o'quvchi bilan bog'laning!
         }
     </script>
 </body>
-
 </html>
