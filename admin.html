@@ -16,7 +16,7 @@
             background: #f5f6fa;
         }
 
-        /* Login Styles */
+        /* Login Screen */
         .login-container {
             display: flex;
             justify-content: center;
@@ -27,24 +27,36 @@
 
         .login-box {
             background: white;
-            padding: 40px;
+            padding: 50px;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             width: 90%;
-            max-width: 400px;
+            max-width: 450px;
+            animation: slideIn 0.5s;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .login-logo {
+            text-align: center;
+            font-size: 70px;
+            margin-bottom: 20px;
         }
 
         .login-box h2 {
             color: #667eea;
             text-align: center;
             margin-bottom: 30px;
-            font-size: 28px;
-        }
-
-        .login-logo {
-            text-align: center;
-            font-size: 60px;
-            margin-bottom: 20px;
+            font-size: 32px;
         }
 
         #main-content {
@@ -92,6 +104,10 @@
             color: white;
         }
 
+        .tab-btn:hover {
+            transform: translateY(-2px);
+        }
+
         .tab-content {
             display: none;
         }
@@ -132,6 +148,7 @@
             border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 16px;
+            transition: border-color 0.3s;
         }
 
         .form-group input:focus,
@@ -158,6 +175,8 @@
 
         .btn-danger {
             background: linear-gradient(135deg, #f44336 0%, #e91e63 100%);
+            padding: 8px 20px;
+            font-size: 14px;
         }
 
         .btn-success {
@@ -168,8 +187,6 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            overflow-x: auto;
-            display: block;
         }
 
         table thead {
@@ -205,22 +222,21 @@
             color: white;
         }
 
-        .success-message {
-            background: #4caf50;
-            color: white;
+        .success-message, .error-message {
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
             display: none;
         }
 
+        .success-message {
+            background: #4caf50;
+            color: white;
+        }
+
         .error-message {
             background: #f44336;
             color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
         }
 
         .stats {
@@ -232,55 +248,28 @@
 
         .stat-card {
             background: white;
-            padding: 25px;
+            padding: 30px;
             border-radius: 15px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
         }
 
         .stat-card h3 {
             color: #667eea;
-            font-size: 36px;
+            font-size: 48px;
             margin-bottom: 10px;
         }
 
         .stat-card p {
             color: #666;
-            font-size: 16px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-        }
-
-        .modal-content {
-            background: white;
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .close-btn {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close-btn:hover {
-            color: #667eea;
+            font-size: 18px;
         }
 
         @media (max-width: 768px) {
@@ -302,259 +291,296 @@
             
             table th,
             table td {
-                padding: 10px;
+                padding: 10px 5px;
+            }
+
+            .login-box {
+                padding: 30px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="container">
-            <h1>🎓 Hamidov Academy - Admin Panel</h1>
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-container">
+        <div class="login-box">
+            <div class="login-logo">🎓</div>
+            <h2>Admin Panel</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Login</label>
+                    <input type="text" id="loginUsername" required placeholder="Login kiriting" autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label>Parol</label>
+                    <input type="password" id="loginPassword" required placeholder="Parol kiriting" autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">KIRISH</button>
+            </form>
+            <div class="error-message" id="loginError" style="margin-top: 15px;"></div>
         </div>
     </div>
 
-    <div class="container">
-        <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('dashboard')">📊 Dashboard</button>
-            <button class="tab-btn" onclick="showTab('students')">👨‍🎓 O'quvchilar</button>
-            <button class="tab-btn" onclick="showTab('teachers')">👨‍🏫 O'qituvchilar</button>
-            <button class="tab-btn" onclick="showTab('courses')">📚 Kurslar</button>
-            <button class="tab-btn" onclick="showTab('assign')">🔗 Biriktirish</button>
-        </div>
-
-        <!-- Dashboard Tab -->
-        <div id="dashboard" class="tab-content active">
-            <div class="stats">
-                <div class="stat-card">
-                    <h3 id="totalStudents">0</h3>
-                    <p>Jami O'quvchilar</p>
-                </div>
-                <div class="stat-card">
-                    <h3 id="totalTeachers">0</h3>
-                    <p>Jami O'qituvchilar</p>
-                </div>
-                <div class="stat-card">
-                    <h3 id="totalCourses">3</h3>
-                    <p>Jami Kurslar</p>
-                </div>
-                <div class="stat-card">
-                    <h3 id="newStudents">0</h3>
-                    <p>Yangi O'quvchilar</p>
-                </div>
+    <!-- Main Content -->
+    <div id="main-content">
+        <div class="header">
+            <div class="container">
+                <h1>🎓 Hamidov Academy - Admin Panel</h1>
             </div>
         </div>
 
-        <!-- Students Tab -->
-        <div id="students" class="tab-content">
-            <div class="card">
-                <h2>👨‍🎓 Ro'yxatdan O'tgan O'quvchilar</h2>
-                <div class="success-message" id="studentSuccess"></div>
-                <div style="overflow-x: auto;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Ism Familiya</th>
-                                <th>Telefon</th>
-                                <th>Email</th>
-                                <th>Kurs</th>
-                                <th>O'qituvchi</th>
-                                <th>Status</th>
-                                <th>Sana</th>
-                            </tr>
-                        </thead>
-                        <tbody id="studentsTable">
-                            <tr>
-                                <td colspan="8" style="text-align: center; padding: 30px;">Ma'lumotlar yuklanmoqda...</td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <div class="container">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('dashboard')">📊 Dashboard</button>
+                <button class="tab-btn" onclick="showTab('students')">👨‍🎓 O'quvchilar</button>
+                <button class="tab-btn" onclick="showTab('teachers')">👨‍🏫 O'qituvchilar</button>
+                <button class="tab-btn" onclick="showTab('courses')">📚 Kurslar</button>
+                <button class="tab-btn" onclick="showTab('assign')">🔗 Biriktirish</button>
+            </div>
+
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <div class="stats">
+                    <div class="stat-card" onclick="showTab('students')">
+                        <h3 id="totalStudents">0</h3>
+                        <p>Jami O'quvchilar</p>
+                    </div>
+                    <div class="stat-card" onclick="showTab('teachers')">
+                        <h3 id="totalTeachers">0</h3>
+                        <p>Jami O'qituvchilar</p>
+                    </div>
+                    <div class="stat-card" onclick="showTab('courses')">
+                        <h3 id="totalCourses">3</h3>
+                        <p>Jami Kurslar</p>
+                    </div>
+                    <div class="stat-card" onclick="showTab('students')">
+                        <h3 id="newStudents">0</h3>
+                        <p>Yangi O'quvchilar</p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Teachers Tab -->
-        <div id="teachers" class="tab-content">
-            <div class="card">
-                <h2>👨‍🏫 O'qituvchi Qo'shish</h2>
-                <div class="success-message" id="teacherSuccess"></div>
-                <div class="error-message" id="teacherError"></div>
-                <form id="teacherForm">
-                    <div class="form-group">
-                        <label>Ism Familiya *</label>
-                        <input type="text" id="teacherName" required>
+            <!-- Students Tab -->
+            <div id="students" class="tab-content">
+                <div class="card">
+                    <h2>👨‍🎓 Ro'yxatdan O'tgan O'quvchilar</h2>
+                    <div class="success-message" id="studentSuccess"></div>
+                    <div style="overflow-x: auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ism Familiya</th>
+                                    <th>Telefon</th>
+                                    <th>Email</th>
+                                    <th>Kurs</th>
+                                    <th>O'qituvchi</th>
+                                    <th>Status</th>
+                                    <th>Sana</th>
+                                    <th>Amallar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentsTable">
+                                <tr>
+                                    <td colspan="9" style="text-align: center; padding: 30px;">Ma'lumotlar yuklanmoqda...</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="form-group">
-                        <label>Telefon *</label>
-                        <input type="tel" id="teacherPhone" placeholder="+998 90 123 45 67" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="teacherEmail">
-                    </div>
-                    <div class="form-group">
-                        <label>Telegram ID *</label>
-                        <input type="text" id="teacherTelegramId" placeholder="123456789" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Mutaxassislik *</label>
-                        <select id="teacherSubject" required>
-                            <option value="">Tanlang</option>
-                            <option value="Matematika">Matematika</option>
-                            <option value="Ingliz tili">Ingliz Tili</option>
-                            <option value="Fizika">Fizika</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn">O'QITUVCHI QO'SHISH</button>
-                </form>
-            </div>
-
-            <div class="card">
-                <h2>📋 O'qituvchilar Ro'yxati</h2>
-                <div style="overflow-x: auto;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Ism Familiya</th>
-                                <th>Telefon</th>
-                                <th>Telegram ID</th>
-                                <th>Fan</th>
-                                <th>O'quvchilar</th>
-                                <th>Amallar</th>
-                            </tr>
-                        </thead>
-                        <tbody id="teachersTable">
-                            <tr>
-                                <td colspan="7" style="text-align: center; padding: 30px;">O'qituvchilar yo'q</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
-        </div>
 
-        <!-- Courses Tab -->
-        <div id="courses" class="tab-content">
-            <div class="card">
-                <h2>📚 Yangi Kurs Qo'shish</h2>
-                <div class="success-message" id="courseSuccess"></div>
-                <form id="courseForm">
-                    <div class="form-group">
-                        <label>Kurs Nomi *</label>
-                        <input type="text" id="courseName" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Tavsif *</label>
-                        <input type="text" id="courseDesc" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Narxi (so'm) *</label>
-                        <input type="number" id="coursePrice" required>
-                    </div>
-                    <button type="submit" class="btn">KURS QO'SHISH</button>
-                </form>
-            </div>
+            <!-- Teachers Tab -->
+            <div id="teachers" class="tab-content">
+                <div class="card">
+                    <h2>👨‍🏫 O'qituvchi Qo'shish</h2>
+                    <div class="success-message" id="teacherSuccess"></div>
+                    <div class="error-message" id="teacherError"></div>
+                    <form id="teacherForm">
+                        <div class="form-group">
+                            <label>Ism Familiya *</label>
+                            <input type="text" id="teacherName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Telefon *</label>
+                            <input type="tel" id="teacherPhone" placeholder="+998 90 123 45 67" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="teacherEmail">
+                        </div>
+                        <div class="form-group">
+                            <label>Telegram ID *</label>
+                            <input type="text" id="teacherTelegramId" placeholder="123456789" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Mutaxassislik *</label>
+                            <select id="teacherSubject" required>
+                                <option value="">Tanlang</option>
+                                <option value="Matematika">Matematika</option>
+                                <option value="Ingliz tili">Ingliz Tili</option>
+                                <option value="Fizika">Fizika</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn">O'QITUVCHI QO'SHISH</button>
+                    </form>
+                </div>
 
-            <div class="card">
-                <h2>📋 Mavjud Kurslar</h2>
-                <div style="overflow-x: auto;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Kurs Nomi</th>
-                                <th>Tavsif</th>
-                                <th>Narxi</th>
-                                <th>Amallar</th>
-                            </tr>
-                        </thead>
-                        <tbody id="coursesTable">
-                            <tr>
-                                <td>1</td>
-                                <td>Matematika</td>
-                                <td>Algebra, Geometriya. 5-11 sinflar</td>
-                                <td>400,000 so'm/oy</td>
-                                <td><button class="btn btn-danger" onclick="deleteCourse(1)">O'chirish</button></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Ingliz Tili</td>
-                                <td>IELTS tayyorgarlik</td>
-                                <td>350,000 so'm/oy</td>
-                                <td><button class="btn btn-danger" onclick="deleteCourse(2)">O'chirish</button></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Fizika</td>
-                                <td>Mexanika, Elektrodinamika</td>
-                                <td>400,000 so'm/oy</td>
-                                <td><button class="btn btn-danger" onclick="deleteCourse(3)">O'chirish</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="card">
+                    <h2>📋 O'qituvchilar Ro'yxati</h2>
+                    <div style="overflow-x: auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ism Familiya</th>
+                                    <th>Telefon</th>
+                                    <th>Telegram ID</th>
+                                    <th>Fan</th>
+                                    <th>O'quvchilar</th>
+                                    <th>Amallar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="teachersTable">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 30px;">O'qituvchilar yo'q</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Assign Tab -->
-        <div id="assign" class="tab-content">
-            <div class="card">
-                <h2>🔗 O'quvchini O'qituvchiga Biriktirish</h2>
-                <div class="success-message" id="assignSuccess"></div>
-                <div class="error-message" id="assignError"></div>
-                <form id="assignForm">
-                    <div class="form-group">
-                        <label>O'quvchi *</label>
-                        <select id="assignStudent" required>
-                            <option value="">O'quvchini tanlang</option>
-                        </select>
+            <!-- Courses Tab -->
+            <div id="courses" class="tab-content">
+                <div class="card">
+                    <h2>📚 Yangi Kurs Qo'shish</h2>
+                    <div class="success-message" id="courseSuccess"></div>
+                    <form id="courseForm">
+                        <div class="form-group">
+                            <label>Kurs Nomi *</label>
+                            <input type="text" id="courseName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tavsif *</label>
+                            <input type="text" id="courseDesc" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Narxi (so'm) *</label>
+                            <input type="number" id="coursePrice" required>
+                        </div>
+                        <button type="submit" class="btn">KURS QO'SHISH</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2>📋 Mavjud Kurslar</h2>
+                    <div style="overflow-x: auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Kurs Nomi</th>
+                                    <th>Tavsif</th>
+                                    <th>Narxi</th>
+                                    <th>Amallar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="coursesTable"></tbody>
+                        </table>
                     </div>
-                    <div class="form-group">
-                        <label>O'qituvchi *</label>
-                        <select id="assignTeacher" required>
-                            <option value="">O'qituvchini tanlang</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-success">BIRIKTIRISH</button>
-                </form>
+                </div>
+            </div>
+
+            <!-- Assign Tab -->
+            <div id="assign" class="tab-content">
+                <div class="card">
+                    <h2>🔗 O'quvchini O'qituvchiga Biriktirish</h2>
+                    <div class="success-message" id="assignSuccess"></div>
+                    <div class="error-message" id="assignError"></div>
+                    <form id="assignForm">
+                        <div class="form-group">
+                            <label>O'quvchi *</label>
+                            <select id="assignStudent" required>
+                                <option value="">O'quvchini tanlang</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>O'qituvchi *</label>
+                            <select id="assignTeacher" required>
+                                <option value="">O'qituvchini tanlang</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success">BIRIKTIRISH</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Ma'lumotlar saqlash (localStorage)
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (username === 'Admin' && password === 'Hamidov2025') {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                sessionStorage.setItem('isLoggedIn', 'true');
+                initializeAdmin();
+            } else {
+                const errorEl = document.getElementById('loginError');
+                errorEl.textContent = 'Login yoki parol noto\'g\'ri!';
+                errorEl.style.display = 'block';
+                setTimeout(() => errorEl.style.display = 'none', 3000);
+            }
+        });
+
+        // Session tekshirish
+        window.addEventListener('load', function() {
+            if (sessionStorage.getItem('isLoggedIn') === 'true') {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                initializeAdmin();
+            }
+        });
+
+        // Ma'lumotlar
         let students = JSON.parse(localStorage.getItem('students')) || [];
         let teachers = JSON.parse(localStorage.getItem('teachers')) || [];
         let courses = JSON.parse(localStorage.getItem('courses')) || [
-            {id: 1, name: 'Matematika', desc: 'Algebra, Geometriya. 5-11 sinflar', price: '400,000'},
-            {id: 2, name: 'Ingliz Tili', desc: 'IELTS tayyorgarlik', price: '350,000'},
-            {id: 3, name: 'Fizika', desc: 'Mexanika, Elektrodinamika', price: '400,000'}
+            {id: 1, name: 'Matematika', desc: 'Algebra, Geometriya. 5-11 sinflar', price: '400000'},
+            {id: 2, name: 'Ingliz tili', desc: 'IELTS tayyorgarlik', price: '350000'},
+            {id: 3, name: 'Fizika', desc: 'Mexanika, Elektrodinamika', price: '400000'}
         ];
 
-        // Telegram Bot konfiguratsiyasi
         const TELEGRAM_BOT_TOKEN = '8046041742:AAH2alhHXbOOg7PLW3yM6j8LkNBxyXT9IhM';
         const TELEGRAM_API = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
+        function initializeAdmin() {
+            updateStats();
+            loadStudents();
+            loadTeachers();
+            loadCourses();
+        }
+
         // Tab management
         function showTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
 
             if (tabName === 'students') loadStudents();
             if (tabName === 'teachers') loadTeachers();
+            if (tabName === 'courses') loadCourses();
             if (tabName === 'assign') loadAssignSelects();
             updateStats();
         }
 
-        // Statistics
         function updateStats() {
             document.getElementById('totalStudents').textContent = students.length;
             document.getElementById('totalTeachers').textContent = teachers.length;
@@ -562,11 +588,10 @@
             document.getElementById('newStudents').textContent = students.filter(s => !s.teacher).length;
         }
 
-        // Load students
         function loadStudents() {
             const tbody = document.getElementById('studentsTable');
             if (students.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 30px;">Hozircha o\'quvchilar yo\'q</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 30px;">Hozircha o\'quvchilar yo\'q</td></tr>';
                 return;
             }
 
@@ -580,8 +605,19 @@
                     <td>${student.teacherName || 'Biriktirilmagan'}</td>
                     <td><span class="status-badge ${student.teacher ? 'status-assigned' : 'status-new'}">${student.teacher ? 'Biriktirilgan' : 'Yangi'}</span></td>
                     <td>${student.date}</td>
+                    <td><button class="btn btn-danger" onclick="deleteStudent(${student.id})">O'chirish</button></td>
                 </tr>
             `).join('');
+        }
+
+        function deleteStudent(id) {
+            if (confirm('O\'quvchini o\'chirishga ishonchingiz komilmi?')) {
+                students = students.filter(s => s.id !== id);
+                localStorage.setItem('students', JSON.stringify(students));
+                loadStudents();
+                updateStats();
+                showMessage('studentSuccess', 'O\'quvchi muvaffaqiyatli o\'chirildi!');
+            }
         }
 
         // Teacher form
@@ -607,7 +643,6 @@
             updateStats();
         });
 
-        // Load teachers
         function loadTeachers() {
             const tbody = document.getElementById('teachersTable');
             if (teachers.length === 0) {
@@ -628,13 +663,13 @@
             `).join('');
         }
 
-        // Delete teacher
         function deleteTeacher(id) {
             if (confirm('O\'qituvchini o\'chirishga ishonchingiz komilmi?')) {
                 teachers = teachers.filter(t => t.id !== id);
                 localStorage.setItem('teachers', JSON.stringify(teachers));
                 loadTeachers();
                 updateStats();
+                showMessage('teacherSuccess', 'O\'qituvchi muvaffaqiyatli o\'chirildi!');
             }
         }
 
@@ -651,14 +686,14 @@
 
             courses.push(course);
             localStorage.setItem('courses', JSON.stringify(courses));
+            localStorage.setItem('coursesUpdated', Date.now());
 
-            showMessage('courseSuccess', 'Kurs muvaffaqiyatli qo\'shildi!');
+            showMessage('courseSuccess', 'Kurs muvaffaqiyatli qo\'shildi! Sayt avtomatik yangilanadi.');
             document.getElementById('courseForm').reset();
             loadCourses();
             updateStats();
         });
 
-        // Load courses
         function loadCourses() {
             const tbody = document.getElementById('coursesTable');
             tbody.innerHTML = courses.map((course, index) => `
@@ -672,17 +707,18 @@
             `).join('');
         }
 
-        // Delete course
         function deleteCourse(id) {
             if (confirm('Kursni o\'chirishga ishonchingiz komilmi?')) {
                 courses = courses.filter(c => c.id !== id);
                 localStorage.setItem('courses', JSON.stringify(courses));
+                localStorage.setItem('coursesUpdated', Date.now());
                 loadCourses();
                 updateStats();
+                showMessage('courseSuccess', 'Kurs muvaffaqiyatli o\'chirildi!');
             }
         }
 
-        // Load assign selects
+        // Assign
         function loadAssignSelects() {
             const studentSelect = document.getElementById('assignStudent');
             const teacherSelect = document.getElementById('assignTeacher');
@@ -698,52 +734,44 @@
                 ).join('');
         }
 
-        // Assign form
         document.getElementById('assignForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const studentId = document.getElementById('assignStudent').value;
-            const teacherId = document.getElementById('assignTeacher').value;
+            const studentId = parseInt(document.getElementById('assignStudent').value);
+            const teacherId = parseInt(document.getElementById('assignTeacher').value);
 
-            const student = students.find(s => s.id == studentId);
-            const teacher = teachers.find(t => t.id == teacherId);
+            const student = students.find(s => s.id === studentId);
+            const teacher = teachers.find(t => t.id === teacherId);
 
             if (!student || !teacher) {
                 showMessage('assignError', 'Xatolik yuz berdi!');
                 return;
             }
 
-            // Update student
             student.teacher = teacherId;
             student.teacherName = teacher.name;
-            
-            // Update teacher
             teacher.students.push(studentId);
 
             localStorage.setItem('students', JSON.stringify(students));
             localStorage.setItem('teachers', JSON.stringify(teachers));
 
-            // Send Telegram notification
             await sendTelegramNotification(teacher, student);
 
-            showMessage('assignSuccess', 'O\'quvchi muvaffaqiyatli biriktirildi va o\'qituvchiga xabar yuborildi!');
+            showMessage('assignSuccess', 'O\'quvchi muvaffaqiyatli biriktirildi va o\'qituvchiga Telegram orqali xabar yuborildi!');
             document.getElementById('assignForm').reset();
             loadAssignSelects();
             updateStats();
         });
 
-        // Send Telegram notification
         async function sendTelegramNotification(teacher, student) {
-            const message = `
-🎓 YANGI O'QUVCHI BIRIKTIRILDI
+            const message = `🎓 YANGI O'QUVCHI BIRIKTIRILDI
 
 👨‍🎓 O'quvchi: ${student.fullName}
 📱 Telefon: ${student.phone}
 📚 Kurs: ${student.course}
 📧 Email: ${student.email || 'Ko\'rsatilmagan'}
 
-Iltimos, tez orada o'quvchi bilan bog'laning!
-            `;
+Iltimos, tez orada o'quvchi bilan bog'laning!`;
 
             try {
                 await fetch(TELEGRAM_API, {
@@ -759,53 +787,11 @@ Iltimos, tez orada o'quvchi bilan bog'laning!
             }
         }
 
-        // Show message
         function showMessage(elementId, message) {
             const el = document.getElementById(elementId);
             el.textContent = message;
             el.style.display = 'block';
-            setTimeout(() => {
-                el.style.display = 'none';
-            }, 5000);
-        }
-
-        // Google Sheets dan ma'lumot olish
-        async function fetchStudentsFromSheets() {
-            // Bu yerda Google Sheets API bilan integratsiya qilish mumkin
-            // Hozircha localStorage dan foydalanamiz
-        }
-
-        // Initialize
-        updateStats();
-        loadStudents();
-        loadTeachers();
-        loadCourses();
-
-        // Demo ma'lumot qo'shish
-        if (students.length === 0) {
-            students = [
-                {
-                    id: 1,
-                    fullName: 'Ali Valiyev',
-                    phone: '+998901234567',
-                    email: 'ali@example.com',
-                    course: 'Matematika',
-                    teacher: null,
-                    teacherName: null,
-                    date: new Date().toLocaleString('uz-UZ')
-                },
-                {
-                    id: 2,
-                    fullName: 'Laylo Karimova',
-                    phone: '+998912345678',
-                    email: 'laylo@example.com',
-                    course: 'Ingliz tili',
-                    teacher: null,
-                    teacherName: null,
-                    date: new Date().toLocaleString('uz-UZ')
-                }
-            ];
-            localStorage.setItem('students', JSON.stringify(students));
+            setTimeout(() => el.style.display = 'none', 5000);
         }
     </script>
 </body>
