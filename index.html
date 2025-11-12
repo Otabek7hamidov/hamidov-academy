@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zamonaviy O'quv Markazi</title>
+    <title>Hamidov Academy</title>
     <style>
         * {
             margin: 0;
@@ -35,6 +35,7 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
+            gap: 15px;
         }
 
         .logo h1 {
@@ -143,43 +144,6 @@
             gap: 30px;
         }
 
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .hero h2 {
-                font-size: 28px;
-            }
-            
-            .hero p {
-                font-size: 16px;
-            }
-            
-            .section-title {
-                font-size: 28px;
-            }
-            
-            .courses-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .cta-button {
-                font-size: 18px;
-                padding: 15px 35px;
-            }
-            
-            .modal-content {
-                width: 95%;
-                margin: 10% auto;
-            }
-        }
-
         .info-card {
             background: white;
             padding: 30px;
@@ -203,66 +167,6 @@
             color: white;
         }
 
-        .register-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            color: #333;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .submit-btn:hover {
-            transform: scale(1.02);
-        }
-
-        .footer {
-            background: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-        }
-
         .cta-button {
             background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
             color: #333;
@@ -281,11 +185,6 @@
         .cta-button:hover {
             transform: translateY(-5px) scale(1.05);
             box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
-            background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
-        }
-
-        .cta-button:active {
-            transform: translateY(-2px) scale(1.02);
         }
 
         .modal {
@@ -343,6 +242,54 @@
             color: #667eea;
         }
 
+        .register-form {
+            padding: 20px 40px 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+        }
+
         .success-message {
             display: none;
             background: #4caf50;
@@ -362,6 +309,53 @@
             margin-bottom: 20px;
             text-align: center;
         }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            .hero h2 {
+                font-size: 28px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-button {
+                font-size: 18px;
+                padding: 15px 35px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+
+            .register-form {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -379,32 +373,32 @@
 
     <section class="hero">
         <div class="container">
-            <h2 id="heroTitle">Kelajakka Birgalikda Qadam Qo'yamiz!</h2>
-            <p id="heroSubtitle">Professional o'qituvchilar va zamonaviy o'quv dasturlari bilan bilim oling</p>
+            <h2 id="heroTitle">Bilim Sari Birinchi Qadam!</h2>
+            <p id="heroSubtitle">Matematika, Fizika va Ingliz tilini chuqur o'rganing</p>
         </div>
     </section>
 
     <section class="section">
         <div class="container">
             <h2 class="section-title" id="coursesTitle">Bizning Kurslar</h2>
-            <div class="courses-grid">
+            <div class="courses-grid" id="coursesGrid">
                 <div class="course-card">
                     <div class="course-icon">📐</div>
-                    <h3 id="course1Title">Matematika</h3>
-                    <p id="course1Desc">Algebra, Geometriya va Matematika asoslari. 5-11 sinflar uchun</p>
-                    <div class="course-price" id="course1Price">400,000 so'm/oy</div>
+                    <h3>Matematika</h3>
+                    <p>Algebra, Geometriya va Matematika asoslari. 5-11 sinflar uchun</p>
+                    <div class="course-price">400,000 so'm/oy</div>
                 </div>
                 <div class="course-card">
                     <div class="course-icon">🌐</div>
-                    <h3 id="course2Title">Ingliz Tili</h3>
-                    <p id="course2Desc">Boshlang'ich, o'rta va yuqori darajalar. IELTS tayyorgarlik</p>
-                    <div class="course-price" id="course2Price">350,000 so'm/oy</div>
+                    <h3>Ingliz Tili</h3>
+                    <p>Boshlang'ich, o'rta va yuqori darajalar. IELTS tayyorgarlik</p>
+                    <div class="course-price">350,000 so'm/oy</div>
                 </div>
                 <div class="course-card">
                     <div class="course-icon">⚛️</div>
-                    <h3 id="course3Title">Fizika</h3>
-                    <p id="course3Desc">Mexanika, Elektrodinamika va Optika. 7-11 sinflar uchun</p>
-                    <div class="course-price" id="course3Price">400,000 so'm/oy</div>
+                    <h3>Fizika</h3>
+                    <p>Mexanika, Elektrodinamika va Optika. 7-11 sinflar uchun</p>
+                    <div class="course-price">400,000 so'm/oy</div>
                 </div>
             </div>
         </div>
@@ -446,12 +440,11 @@
         </div>
     </section>
 
-    <!-- Registration Modal -->
     <div id="registrationModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeRegistrationModal()">&times;</span>
-            <h2 style="color: #667eea; text-align: center; margin-bottom: 30px;" id="modalTitle">Ro'yxatdan O'tish</h2>
-            <div class="register-form" style="padding: 20px;">
+            <h2 style="color: #667eea; text-align: center; margin: 30px 0;" id="modalTitle">Ro'yxatdan O'tish</h2>
+            <div class="register-form">
                 <div class="success-message" id="successMessage"></div>
                 <div class="error-message" id="errorMessage"></div>
                 <form id="registrationForm">
@@ -461,7 +454,7 @@
                     </div>
                     <div class="form-group">
                         <label id="phoneLabel">Telefon raqam *</label>
-                        <input type="tel" id="phone" placeholder="90 123 45 67" maxlength="12" required>
+                        <input type="tel" id="phone" placeholder="90 123 45 67" required>
                     </div>
                     <div class="form-group">
                         <label id="emailLabel">Email</label>
@@ -470,10 +463,7 @@
                     <div class="form-group">
                         <label id="courseLabel">Kurs tanlang *</label>
                         <select id="course" required>
-                            <option value="" id="selectOption">Kursni tanlang</option>
-                            <option value="Matematika" id="option1">Matematika</option>
-                            <option value="Ingliz tili" id="option2">Ingliz Tili</option>
-                            <option value="Fizika" id="option3">Fizika</option>
+                            <option value="">Kursni tanlang</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -499,22 +489,12 @@
                 heroTitle: "Bilim Sari Birinchi Qadam!",
                 heroSubtitle: "Matematika, Fizika va Ingliz tilini chuqur o'rganing",
                 coursesTitle: "Bizning Kurslar",
-                course1Title: "Matematika",
-                course1Desc: "Algebra, Geometriya va Matematika asoslari. 5-11 sinflar uchun",
-                course1Price: "400,000 so'm/oy",
-                course2Title: "Ingliz Tili",
-                course2Desc: "Boshlang'ich, o'rta va yuqori darajalar. IELTS tayyorgarlik",
-                course2Price: "350,000 so'm/oy",
-                course3Title: "Fizika",
-                course3Desc: "Mexanika, Elektrodinamika va Optika. 7-11 sinflar uchun",
-                course3Price: "400,000 so'm/oy",
                 infoTitle: "Biz Haqimizda",
                 addressTitle: "Manzil",
                 addressText: "Toshkent sh., Yunusobod tumani, Abdulla Qodiriy ko'chasi, 15-uy",
                 phoneTitle: "Telefon",
                 scheduleTitle: "Ish Vaqti",
                 scheduleText: "Dushanba-Shanba: 09:00-20:00<br>Yakshanba: Dam olish",
-                emailTitle: "Email",
                 registerTitle: "Ro'yxatdan O'ting!",
                 registerSubtitle: "Bepul sinov darsiga yoziling va o'z imkoniyatlaringizni kashf qiling!",
                 ctaText: "🎓 RO'YXATDAN O'TISH",
@@ -525,10 +505,6 @@
                 courseLabel: "Kurs tanlang *",
                 commentLabel: "Qo'shimcha izoh",
                 submitBtn: "YUBORISH",
-                selectOption: "Kursni tanlang",
-                option1: "Matematika",
-                option2: "Ingliz Tili",
-                option3: "Fizika",
                 footerText: "© 2024 Hamidov Academy. Barcha huquqlar himoyalangan.",
                 successMsg: "Ma'lumotlaringiz muvaffaqiyatli yuborildi! Tez orada siz bilan bog'lanamiz.",
                 errorMsg: "Xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring."
@@ -538,22 +514,12 @@
                 heroTitle: "Первый Шаг к Знаниям!",
                 heroSubtitle: "Углубленное изучение Математики, Физики и Английского языка",
                 coursesTitle: "Наши Курсы",
-                course1Title: "Математика",
-                course1Desc: "Алгебра, Геометрия и основы Математики. Для 5-11 классов",
-                course1Price: "400,000 сум/мес",
-                course2Title: "Английский Язык",
-                course2Desc: "Начальный, средний и продвинутый уровни. Подготовка к IELTS",
-                course2Price: "350,000 сум/мес",
-                course3Title: "Физика",
-                course3Desc: "Механика, Электродинамика и Оптика. Для 7-11 классов",
-                course3Price: "400,000 сум/мес",
                 infoTitle: "О Нас",
                 addressTitle: "Адрес",
                 addressText: "г. Ташкент, Юнусабадский район, ул. Абдуллы Кадыри, д. 15",
                 phoneTitle: "Телефон",
                 scheduleTitle: "Время Работы",
                 scheduleText: "Понедельник-Суббота: 09:00-20:00<br>Воскресенье: Выходной",
-                emailTitle: "Email",
                 registerTitle: "Зарегистрируйтесь!",
                 registerSubtitle: "Запишитесь на бесплатный пробный урок и откройте свои возможности!",
                 ctaText: "🎓 ЗАРЕГИСТРИРОВАТЬСЯ",
@@ -564,10 +530,6 @@
                 courseLabel: "Выберите курс *",
                 commentLabel: "Дополнительный комментарий",
                 submitBtn: "ОТПРАВИТЬ",
-                selectOption: "Выберите курс",
-                option1: "Математика",
-                option2: "Английский Язык",
-                option3: "Физика",
                 footerText: "© 2024 Hamidov Academy. Все права защищены.",
                 successMsg: "Ваши данные успешно отправлены! Мы свяжемся с вами в ближайшее время.",
                 errorMsg: "Произошла ошибка. Пожалуйста, попробуйте снова."
@@ -593,11 +555,74 @@
                     }
                 }
             }
+            
+            loadDynamicCourses();
         }
+
+        function loadDynamicCourses() {
+            const courses = JSON.parse(localStorage.getItem('courses')) || [];
+            const courseSelect = document.getElementById('course');
+            
+            const baseCourses = [
+                { value: 'Matematika', uz: 'Matematika', ru: 'Математика' },
+                { value: 'Ingliz tili', uz: 'Ingliz Tili', ru: 'Английский Язык' },
+                { value: 'Fizika', uz: 'Fizika', ru: 'Физика' }
+            ];
+
+            courseSelect.innerHTML = `<option value="">${currentLang === 'uz' ? 'Kursni tanlang' : 'Выберите курс'}</option>`;
+            
+            baseCourses.forEach(course => {
+                courseSelect.innerHTML += `<option value="${course.value}">${course[currentLang]}</option>`;
+            });
+
+            courses.forEach(course => {
+                if (!baseCourses.find(c => c.value === course.name)) {
+                    courseSelect.innerHTML += `<option value="${course.name}">${course.name}</option>`;
+                }
+            });
+        }
+
+        // Telefon formatlash
+        const phoneInput = document.getElementById('phone');
+        
+        phoneInput.addEventListener('focus', function() {
+            if (!this.value) {
+                this.value = '+998 ';
+            }
+        });
+        
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            
+            if (!value.startsWith('998')) {
+                value = '998';
+            }
+            
+            if (value.length > 12) {
+                value = value.substring(0, 12);
+            }
+            
+            let formatted = '+998 ';
+            if (value.length > 3) formatted += value.substring(3, 5);
+            if (value.length > 5) formatted += ' ' + value.substring(5, 8);
+            if (value.length > 8) formatted += ' ' + value.substring(8, 10);
+            if (value.length > 10) formatted += ' ' + value.substring(10, 12);
+            
+            e.target.value = formatted.trim();
+        });
+
+        phoneInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' && e.target.value.length <= 6) {
+                e.preventDefault();
+                e.target.value = '+998 ';
+            }
+        });
 
         function openRegistrationModal() {
             document.getElementById('registrationModal').style.display = 'block';
             document.body.style.overflow = 'hidden';
+            loadDynamicCourses();
+            phoneInput.value = '+998 ';
         }
 
         function closeRegistrationModal() {
@@ -633,11 +658,10 @@
                 date: new Date().toLocaleString('uz-UZ')
             };
 
-            // Google Sheets URL (Bu yerga o'zingizning Google Sheets Web App URL'ni qo'ying)
-            const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwcCBAPfO0HcHgTeG-fkcwXDaqShOxQxWVNVphX-1E6e1LZDDgUreBGhzq0kl8-1I2I/exec';
+            const GOOGLE_SHEET_URL = 'YOUR_GOOGLE_SHEETS_WEB_APP_URL_HERE';
 
             try {
-                const response = await fetch(GOOGLE_SHEET_URL, {
+                await fetch(GOOGLE_SHEET_URL, {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: {
@@ -646,7 +670,6 @@
                     body: JSON.stringify(formData)
                 });
 
-                // LocalStorage ga ham saqlash (Admin Panel uchun)
                 const students = JSON.parse(localStorage.getItem('students')) || [];
                 students.push({
                     id: Date.now(),
@@ -659,11 +682,12 @@
                 successMsg.textContent = translations[currentLang].successMsg;
                 successMsg.style.display = 'block';
                 document.getElementById('registrationForm').reset();
-                closeRegistrationModal();
+                phoneInput.value = '+998 ';
                 
                 setTimeout(() => {
                     successMsg.style.display = 'none';
-                }, 5000);
+                    closeRegistrationModal();
+                }, 3000);
 
             } catch (error) {
                 errorMsg.textContent = translations[currentLang].errorMsg;
@@ -672,6 +696,17 @@
                 submitBtn.disabled = false;
                 submitBtn.textContent = translations[currentLang].submitBtn;
             }
+        });
+
+        setInterval(() => {
+            const lastUpdate = localStorage.getItem('coursesUpdated');
+            if (lastUpdate) {
+                loadDynamicCourses();
+            }
+        }, 2000);
+
+        window.addEventListener('load', () => {
+            loadDynamicCourses();
         });
     </script>
 </body>
