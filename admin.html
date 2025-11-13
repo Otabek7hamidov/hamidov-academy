@@ -217,9 +217,43 @@
             color: #333;
         }
 
-        .status-assigned {
-            background: #4caf50;
-            color: white;
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            z-index: 1;
+        }
+
+        .close-btn:hover {
+            color: #667eea;
         }
 
         .success-message, .error-message {
@@ -444,7 +478,7 @@
                                     <th>Telegram ID</th>
                                     <th>Fan</th>
                                     <th>O'quvchilar</th>
-                                    <th>Amallar</th>
+                                    <th style="min-width: 200px;">Amallar</th>
                                 </tr>
                             </thead>
                             <tbody id="teachersTable">
@@ -489,7 +523,7 @@
                                     <th>Kurs Nomi</th>
                                     <th>Tavsif</th>
                                     <th>Narxi</th>
-                                    <th>Amallar</th>
+                                    <th style="min-width: 200px;">Amallar</th>
                                 </tr>
                             </thead>
                             <tbody id="coursesTable"></tbody>
@@ -711,9 +745,9 @@
                     <td>${student.teacherName || 'Biriktirilmagan'}</td>
                     <td><span class="status-badge ${student.teacher ? 'status-assigned' : 'status-new'}">${student.teacher ? 'Biriktirilgan' : 'Yangi'}</span></td>
                     <td>${student.date}</td>
-                    <td>
-                        <button class="btn" onclick="editStudent(${student.id})" style="padding: 8px 15px; font-size: 14px; margin-right: 5px;">✏️ Tahrirlash</button>
-                        <button class="btn btn-danger" onclick="deleteStudent(${student.id})">🗑️ O'chirish</button>
+                    <td style="white-space: nowrap;">
+                        <button class="btn" onclick="editStudent(${student.id})" style="padding: 8px 15px; font-size: 14px; margin-bottom: 5px; width: 100%;">✏️ Tahrirlash</button>
+                        <button class="btn btn-danger" onclick="deleteStudent(${student.id})" style="width: 100%;">🗑️ O'chirish</button>
                     </td>
                 </tr>
             `).join('');
@@ -818,9 +852,9 @@
                     <td>${teacher.telegramId}</td>
                     <td>${teacher.subject}</td>
                     <td>${teacher.students.length}</td>
-                    <td>
-                        <button class="btn" onclick="editTeacher(${teacher.id})" style="padding: 8px 15px; font-size: 14px; margin-right: 5px;">✏️ Tahrirlash</button>
-                        <button class="btn btn-danger" onclick="deleteTeacher(${teacher.id})">🗑️ O'chirish</button>
+                    <td style="white-space: nowrap;">
+                        <button class="btn" onclick="editTeacher(${teacher.id})" style="padding: 8px 15px; font-size: 14px; margin-bottom: 5px; width: 100%;">✏️ Tahrirlash</button>
+                        <button class="btn btn-danger" onclick="deleteTeacher(${teacher.id})" style="width: 100%;">🗑️ O'chirish</button>
                     </td>
                 </tr>
             `).join('');
@@ -905,15 +939,48 @@
 
         function loadCourses() {
             const tbody = document.getElementById('coursesTable');
+            if (courses.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 30px;">Kurslar yo\'q</td></tr>';
+                return;
+            }
+            
             tbody.innerHTML = courses.map((course, index) => `
                 <tr>
                     <td>${index + 1}</td>
                     <td>${course.name}</td>
                     <td>${course.desc}</td>
-                    <td>${course.price} so'm/oy</td>
-                    <td><button class="btn btn-danger" onclick="deleteCourse(${course.id})">O'chirish</button></td>
+                    <td>${parseInt(course.price).toLocaleString()} so'm/oy</td>
+                    <td style="white-space: nowrap;">
+                        <button class="btn" onclick="editCourse(${course.id})" style="padding: 8px 15px; font-size: 14px; margin-bottom: 5px; width: 100%;">✏️ Tahrirlash</button>
+                        <button class="btn btn-danger" onclick="deleteCourse(${course.id})" style="width: 100%;">🗑️ O'chirish</button>
+                    </td>
                 </tr>
             `).join('');
+        }
+
+        function editCourse(id) {
+            const course = courses.find(c => c.id === id);
+            if (!course) return;
+
+            const newName = prompt('Kurs nomi:', course.name);
+            if (!newName) return;
+
+            const newDesc = prompt('Tavsif:', course.desc);
+            if (!newDesc) return;
+
+            const newPrice = prompt('Narxi (so\'m):', course.price);
+            if (!newPrice) return;
+
+            course.name = newName;
+            course.desc = newDesc;
+            course.price = newPrice;
+
+            localStorage.setItem('courses', JSON.stringify(courses));
+            localStorage.setItem('coursesUpdated', Date.now());
+
+            loadCourses();
+            updateStats();
+            showMessage('courseSuccess', 'Kurs muvaffaqiyatli yangilandi!');
         }
 
         function deleteCourse(id) {
