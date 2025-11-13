@@ -16,7 +16,6 @@
             background: #f5f6fa;
         }
 
-        /* Login Screen */
         .login-container {
             display: flex;
             justify-content: center;
@@ -173,10 +172,15 @@
             transform: scale(1.05);
         }
 
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 16px;
+            border-radius: 5px;
+            min-width: 35px;
+        }
+
         .btn-danger {
             background: linear-gradient(135deg, #f44336 0%, #e91e63 100%);
-            padding: 8px 20px;
-            font-size: 14px;
         }
 
         .btn-success {
@@ -196,13 +200,20 @@
 
         table th,
         table td {
-            padding: 15px;
+            padding: 12px 8px;
             text-align: left;
             border-bottom: 1px solid #ddd;
+            font-size: 14px;
         }
 
         table tbody tr:hover {
             background: #f5f6fa;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
         }
 
         .status-badge {
@@ -217,43 +228,9 @@
             color: #333;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-        }
-
-        .modal-content {
-            background: white;
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .close-btn {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            position: absolute;
-            right: 20px;
-            top: 10px;
-            z-index: 1;
-        }
-
-        .close-btn:hover {
-            color: #667eea;
+        .status-assigned {
+            background: #4caf50;
+            color: white;
         }
 
         .success-message, .error-message {
@@ -306,6 +283,45 @@
             font-size: 18px;
         }
 
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            z-index: 1;
+        }
+
+        .close-btn:hover {
+            color: #667eea;
+        }
+
         @media (max-width: 768px) {
             .tabs {
                 flex-direction: column;
@@ -320,22 +336,27 @@
             }
             
             table {
-                font-size: 14px;
+                font-size: 12px;
             }
             
             table th,
             table td {
-                padding: 10px 5px;
+                padding: 8px 4px;
             }
 
             .login-box {
                 padding: 30px;
             }
+
+            .btn-small {
+                padding: 3px 6px;
+                font-size: 14px;
+                min-width: 30px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Login Screen -->
     <div id="login-screen" class="login-container">
         <div class="login-box">
             <div class="login-logo">🎓</div>
@@ -358,7 +379,6 @@
         </div>
     </div>
 
-    <!-- Main Content -->
     <div id="main-content">
         <div class="header">
             <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
@@ -378,7 +398,6 @@
                 <button class="tab-btn" onclick="showTab('assign')">🔗 Biriktirish</button>
             </div>
 
-            <!-- Dashboard Tab -->
             <div id="dashboard" class="tab-content active">
                 <div class="stats">
                     <div class="stat-card" onclick="showTab('students')">
@@ -400,7 +419,6 @@
                 </div>
             </div>
 
-            <!-- Students Tab -->
             <div id="students" class="tab-content">
                 <div class="card">
                     <h2>👨‍🎓 Ro'yxatdan O'tgan O'quvchilar</h2>
@@ -410,27 +428,24 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Ism Familiya</th>
+                                    <th>Ism</th>
                                     <th>Telefon</th>
                                     <th>Email</th>
                                     <th>Kurs</th>
                                     <th>O'qituvchi</th>
                                     <th>Status</th>
                                     <th>Sana</th>
-                                    <th style="min-width: 120px;">Amallar</th>
+                                    <th style="width: 80px;">Amallar</th>
                                 </tr>
                             </thead>
                             <tbody id="studentsTable">
-                                <tr>
-                                    <td colspan="10" style="text-align: center; padding: 30px;">Ma'lumotlar yuklanmoqda...</td>
-                                </tr>
+                                <tr><td colspan="9" style="text-align: center; padding: 30px;">Ma'lumotlar yuklanmoqda...</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Teachers Tab -->
             <div id="teachers" class="tab-content">
                 <div class="card">
                     <h2>👨‍🏫 O'qituvchi Qo'shish</h2>
@@ -473,25 +488,22 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Ism Familiya</th>
+                                    <th>Ism</th>
                                     <th>Telefon</th>
-                                    <th>Telegram ID</th>
+                                    <th>Telegram</th>
                                     <th>Fan</th>
                                     <th>O'quvchilar</th>
-                                    <th style="min-width: 120px;">Amallar</th>
+                                    <th style="width: 80px;">Amallar</th>
                                 </tr>
                             </thead>
                             <tbody id="teachersTable">
-                                <tr>
-                                    <td colspan="7" style="text-align: center; padding: 30px;">O'qituvchilar yo'q</td>
-                                </tr>
+                                <tr><td colspan="7" style="text-align: center; padding: 30px;">O'qituvchilar yo'q</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Courses Tab -->
             <div id="courses" class="tab-content">
                 <div class="card">
                     <h2>📚 Yangi Kurs Qo'shish</h2>
@@ -520,10 +532,10 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Kurs Nomi</th>
+                                    <th>Kurs</th>
                                     <th>Tavsif</th>
                                     <th>Narxi</th>
-                                    <th style="min-width: 120px;">Amallar</th>
+                                    <th style="width: 80px;">Amallar</th>
                                 </tr>
                             </thead>
                             <tbody id="coursesTable"></tbody>
@@ -532,7 +544,6 @@
                 </div>
             </div>
 
-            <!-- Assign Tab -->
             <div id="assign" class="tab-content">
                 <div class="card">
                     <h2>🔗 O'quvchini O'qituvchiga Biriktirish</h2>
@@ -558,7 +569,6 @@
         </div>
     </div>
 
-    <!-- Edit Student Modal -->
     <div id="editStudentModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close-btn" onclick="closeEditStudentModal()">&times;</span>
@@ -592,7 +602,6 @@
         </div>
     </div>
 
-    <!-- Edit Teacher Modal -->
     <div id="editTeacherModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close-btn" onclick="closeEditTeacherModal()">&times;</span>
@@ -627,7 +636,6 @@
     </div>
 
     <script>
-        // Login
         function togglePassword() {
             const passwordInput = document.getElementById('loginPassword');
             const toggleIcon = document.querySelector('.password-toggle');
@@ -669,7 +677,6 @@
             }
         });
 
-        // Session tekshirish
         window.addEventListener('load', function() {
             if (sessionStorage.getItem('isLoggedIn') === 'true') {
                 document.getElementById('login-screen').style.display = 'none';
@@ -678,12 +685,10 @@
             }
         });
 
-        // Ma'lumotlar
         let students = JSON.parse(localStorage.getItem('students')) || [];
         let teachers = JSON.parse(localStorage.getItem('teachers')) || [];
         let courses = JSON.parse(localStorage.getItem('courses')) || [];
 
-        // Agar kurslar bo'sh bo'lsa, boshlang'ich kurslarni qo'shish
         if (courses.length === 0) {
             courses = [
                 {id: Date.now() + 1, name: 'Matematika', desc: 'Algebra, Geometriya. 5-11 sinflar', price: '400000'},
@@ -703,7 +708,6 @@
             loadCourses();
         }
 
-        // Tab management
         function showTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -727,7 +731,7 @@
         function loadStudents() {
             const tbody = document.getElementById('studentsTable');
             if (students.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 30px;">Hozircha o\'quvchilar yo\'q</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 30px;">Hozircha o\'quvchilar yo\'q</td></tr>';
                 return;
             }
 
@@ -738,12 +742,14 @@
                     <td>${student.phone}</td>
                     <td>${student.email || '-'}</td>
                     <td>${student.course}</td>
-                    <td>${student.teacherName || 'Biriktirilmagan'}</td>
+                    <td>${student.teacherName || 'Yoq'}</td>
                     <td><span class="status-badge ${student.teacher ? 'status-assigned' : 'status-new'}">${student.teacher ? 'Biriktirilgan' : 'Yangi'}</span></td>
                     <td>${student.date}</td>
                     <td>
-                        <button class="btn" onclick="editStudent(${student.id})" style="padding: 5px 10px; font-size: 12px; margin-right: 3px;">✏️</button>
-                        <button class="btn btn-danger" onclick="deleteStudent(${student.id})" style="padding: 5px 10px; font-size: 12px;">🗑️</button>
+                        <div class="action-btns">
+                            <button class="btn btn-small" onclick="editStudent(${student.id})" title="Tahrirlash">✏️</button>
+                            <button class="btn btn-small btn-danger" onclick="deleteStudent(${student.id})" title="O'chirish">🗑️</button>
+                        </div>
                     </td>
                 </tr>
             `).join('');
@@ -772,15 +778,6 @@
             document.body.style.overflow = 'auto';
         }
 
-        window.onclick = function(event) {
-            if (event.target.id === 'editStudentModal') {
-                closeEditStudentModal();
-            }
-            if (event.target.id === 'editTeacherModal') {
-                closeEditTeacherModal();
-            }
-        }
-
         document.getElementById('editStudentForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -797,7 +794,6 @@
 
             localStorage.setItem('students', JSON.stringify(students));
 
-            // Agar o'qituvchi biriktirilgan bo'lsa, xabar yuborish
             if (student.teacher) {
                 const teacher = teachers.find(t => t.id === student.teacher);
                 if (teacher) {
@@ -811,335 +807,4 @@
         });
 
         function deleteStudent(id) {
-            if (confirm('O\'quvchini o\'chirishga ishonchingiz komilmi?')) {
-                students = students.filter(s => s.id !== id);
-                localStorage.setItem('students', JSON.stringify(students));
-                loadStudents();
-                updateStats();
-                showMessage('studentSuccess', 'O\'quvchi muvaffaqiyatli o\'chirildi!');
-            }
-        }
-
-        // Teacher form
-        document.getElementById('teacherForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const teacher = {
-                id: Date.now(),
-                name: document.getElementById('teacherName').value,
-                phone: document.getElementById('teacherPhone').value,
-                email: document.getElementById('teacherEmail').value,
-                telegramId: document.getElementById('teacherTelegramId').value,
-                subject: document.getElementById('teacherSubject').value,
-                students: []
-            };
-
-            teachers.push(teacher);
-            localStorage.setItem('teachers', JSON.stringify(teachers));
-
-            showMessage('teacherSuccess', 'O\'qituvchi muvaffaqiyatli qo\'shildi!');
-            document.getElementById('teacherForm').reset();
-            loadTeachers();
-            updateStats();
-        });
-
-        function loadTeachers() {
-            const tbody = document.getElementById('teachersTable');
-            if (teachers.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 30px;">O\'qituvchilar yo\'q</td></tr>';
-                return;
-            }
-
-            tbody.innerHTML = teachers.map((teacher, index) => `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${teacher.name}</td>
-                    <td>${teacher.phone}</td>
-                    <td>${teacher.telegramId}</td>
-                    <td>${teacher.subject}</td>
-                    <td>${teacher.students.length}</td>
-                    <td style="white-space: nowrap;">
-                        <button class="btn" onclick="editTeacher(${teacher.id})" style="padding: 6px 12px; font-size: 13px; margin-right: 5px; display: inline-block;">✏️</button>
-                        <button class="btn btn-danger" onclick="deleteTeacher(${teacher.id})" style="padding: 6px 12px; font-size: 13px; display: inline-block;">🗑️</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function editTeacher(id) {
-            const teacher = teachers.find(t => t.id === id);
-            if (!teacher) return;
-
-            document.getElementById('editTeacherId').value = teacher.id;
-            document.getElementById('editTeacherName').value = teacher.name;
-            document.getElementById('editTeacherPhone').value = teacher.phone;
-            document.getElementById('editTeacherEmail').value = teacher.email || '';
-            document.getElementById('editTeacherTelegramId').value = teacher.telegramId;
-            
-            const subjectSelect = document.getElementById('editTeacherSubject');
-            subjectSelect.innerHTML = '<option value="">Tanlang</option>' + 
-                courses.map(c => `<option value="${c.name}" ${c.name === teacher.subject ? 'selected' : ''}>${c.name}</option>`).join('');
-            
-            document.getElementById('editTeacherModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeEditTeacherModal() {
-            document.getElementById('editTeacherModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        document.getElementById('editTeacherForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const id = parseInt(document.getElementById('editTeacherId').value);
-            const teacher = teachers.find(t => t.id === id);
-            
-            if (!teacher) return;
-
-            teacher.name = document.getElementById('editTeacherName').value;
-            teacher.phone = document.getElementById('editTeacherPhone').value;
-            teacher.email = document.getElementById('editTeacherEmail').value;
-            teacher.telegramId = document.getElementById('editTeacherTelegramId').value;
-            teacher.subject = document.getElementById('editTeacherSubject').value;
-
-            localStorage.setItem('teachers', JSON.stringify(teachers));
-
-            // O'qituvchiga xabar yuborish
-            await sendTeacherUpdateNotification(teacher);
-
-            closeEditTeacherModal();
-            loadTeachers();
-            showMessage('teacherSuccess', 'O\'qituvchi ma\'lumotlari yangilandi va Telegramga xabar yuborildi!');
-        });
-
-        function deleteTeacher(id) {
-            if (confirm('O\'qituvchini o\'chirishga ishonchingiz komilmi?')) {
-                teachers = teachers.filter(t => t.id !== id);
-                localStorage.setItem('teachers', JSON.stringify(teachers));
-                loadTeachers();
-                updateStats();
-                showMessage('teacherSuccess', 'O\'qituvchi muvaffaqiyatli o\'chirildi!');
-            }
-        }
-
-        // Course form
-        document.getElementById('courseForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const course = {
-                id: Date.now(),
-                name: document.getElementById('courseName').value,
-                desc: document.getElementById('courseDesc').value,
-                price: document.getElementById('coursePrice').value
-            };
-
-            courses.push(course);
-            localStorage.setItem('courses', JSON.stringify(courses));
-            localStorage.setItem('coursesUpdated', Date.now());
-
-            showMessage('courseSuccess', 'Kurs muvaffaqiyatli qo\'shildi! Sayt avtomatik yangilanadi.');
-            document.getElementById('courseForm').reset();
-            loadCourses();
-            updateStats();
-        });
-
-        function loadCourses() {
-            const tbody = document.getElementById('coursesTable');
-            if (courses.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 30px;">Kurslar yo\'q</td></tr>';
-                return;
-            }
-            
-            tbody.innerHTML = courses.map((course, index) => `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${course.name}</td>
-                    <td>${course.desc}</td>
-                    <td>${parseInt(course.price).toLocaleString()} so'm/oy</td>
-                    <td style="white-space: nowrap;">
-                        <button class="btn" onclick="editCourse(${course.id})" style="padding: 6px 12px; font-size: 13px; margin-right: 5px; display: inline-block;">✏️</button>
-                        <button class="btn btn-danger" onclick="deleteCourse(${course.id})" style="padding: 6px 12px; font-size: 13px; display: inline-block;">🗑️</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function editCourse(id) {
-            const course = courses.find(c => c.id === id);
-            if (!course) return;
-
-            const newName = prompt('Kurs nomi:', course.name);
-            if (newName === null) return;
-            if (!newName.trim()) {
-                alert('Kurs nomi bo\'sh bo\'lishi mumkin emas!');
-                return;
-            }
-
-            const newDesc = prompt('Tavsif:', course.desc);
-            if (newDesc === null) return;
-            if (!newDesc.trim()) {
-                alert('Tavsif bo\'sh bo\'lishi mumkin emas!');
-                return;
-            }
-
-            const newPrice = prompt('Narxi (so\'m):', course.price);
-            if (newPrice === null) return;
-            if (!newPrice.trim() || isNaN(newPrice)) {
-                alert('Noto\'g\'ri narx kiritildi!');
-                return;
-            }
-
-            course.name = newName.trim();
-            course.desc = newDesc.trim();
-            course.price = newPrice.trim();
-
-            localStorage.setItem('courses', JSON.stringify(courses));
-            localStorage.setItem('coursesUpdated', Date.now());
-
-            loadCourses();
-            updateStats();
-            showMessage('courseSuccess', 'Kurs muvaffaqiyatli yangilandi!');
-        }
-
-        function deleteCourse(id) {
-            if (confirm('Kursni o\'chirishga ishonchingiz komilmi?')) {
-                courses = courses.filter(c => c.id !== id);
-                localStorage.setItem('courses', JSON.stringify(courses));
-                localStorage.setItem('coursesUpdated', Date.now());
-                loadCourses();
-                updateStats();
-                showMessage('courseSuccess', 'Kurs muvaffaqiyatli o\'chirildi!');
-            }
-        }
-
-        // Assign
-        function loadAssignSelects() {
-            const studentSelect = document.getElementById('assignStudent');
-            const teacherSelect = document.getElementById('assignTeacher');
-
-            studentSelect.innerHTML = '<option value="">O\'quvchini tanlang</option>' + 
-                students.filter(s => !s.teacher).map(s => 
-                    `<option value="${s.id}">${s.fullName} - ${s.course}</option>`
-                ).join('');
-
-            teacherSelect.innerHTML = '<option value="">O\'qituvchini tanlang</option>' + 
-                teachers.map(t => 
-                    `<option value="${t.id}">${t.name} - ${t.subject}</option>`
-                ).join('');
-        }
-
-        document.getElementById('assignForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const studentId = parseInt(document.getElementById('assignStudent').value);
-            const teacherId = parseInt(document.getElementById('assignTeacher').value);
-
-            const student = students.find(s => s.id === studentId);
-            const teacher = teachers.find(t => t.id === teacherId);
-
-            if (!student || !teacher) {
-                showMessage('assignError', 'Xatolik yuz berdi!');
-                return;
-            }
-
-            student.teacher = teacherId;
-            student.teacherName = teacher.name;
-            teacher.students.push(studentId);
-
-            localStorage.setItem('students', JSON.stringify(students));
-            localStorage.setItem('teachers', JSON.stringify(teachers));
-
-            await sendTelegramNotification(teacher, student);
-
-            showMessage('assignSuccess', 'O\'quvchi muvaffaqiyatli biriktirildi va o\'qituvchiga Telegram orqali xabar yuborildi!');
-            document.getElementById('assignForm').reset();
-            loadAssignSelects();
-            updateStats();
-        });
-
-        async function sendTelegramNotification(teacher, student) {
-            const message = `🎓 YANGI O'QUVCHI BIRIKTIRILDI
-
-👨‍🎓 O'quvchi: ${student.fullName}
-📱 Telefon: ${student.phone}
-📚 Kurs: ${student.course}
-📧 Email: ${student.email || 'Ko\'rsatilmagan'}
-
-Iltimos, tez orada o'quvchi bilan bog'laning!`;
-
-            try {
-                await fetch(TELEGRAM_API, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        chat_id: teacher.telegramId,
-                        text: message
-                    })
-                });
-            } catch (error) {
-                console.error('Telegram xabar yuborishda xatolik:', error);
-            }
-        }
-
-        async function sendEditNotification(teacher, student) {
-            const message = `✏️ O'QUVCHI MA'LUMOTLARI YANGILANDI
-
-👨‍🎓 O'quvchi: ${student.fullName}
-📱 Telefon: ${student.phone}
-📚 Kurs: ${student.course}
-📧 Email: ${student.email || 'Ko\'rsatilmagan'}
-💬 Izoh: ${student.comment || 'Yo\'q'}
-
-O'quvchi ma'lumotlari admin tomonidan yangilandi.`;
-
-            try {
-                await fetch(TELEGRAM_API, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        chat_id: teacher.telegramId,
-                        text: message
-                    })
-                });
-            } catch (error) {
-                console.error('Telegram xabar yuborishda xatolik:', error);
-            }
-        }
-
-        async function sendTeacherUpdateNotification(teacher) {
-            const message = `🔔 MA'LUMOTLARINGIZ YANGILANDI
-
-Hurmatli ${teacher.name}!
-
-Sizning ma'lumotlaringiz admin tomonidan yangilandi:
-👤 Ism: ${teacher.name}
-📱 Telefon: ${teacher.phone}
-📚 Fan: ${teacher.subject}
-📧 Email: ${teacher.email || 'Ko\'rsatilmagan'}
-
-Agar bu sizning xabardorligingiz bo'lmasa, iltimos admin bilan bog'laning.`;
-
-            try {
-                await fetch(TELEGRAM_API, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        chat_id: teacher.telegramId,
-                        text: message
-                    })
-                });
-            } catch (error) {
-                console.error('Telegram xabar yuborishda xatolik:', error);
-            }
-        }
-
-        function showMessage(elementId, message) {
-            const el = document.getElementById(elementId);
-            el.textContent = message;
-            el.style.display = 'block';
-            setTimeout(() => el.style.display = 'none', 5000);
-        }
-    </script>
-</body>
-</html>
+            if (confirm('O
