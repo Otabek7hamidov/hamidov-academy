@@ -313,7 +313,10 @@
                 </div>
                 <div class="form-group">
                     <label>Parol</label>
-                    <input type="password" id="loginPassword" required placeholder="Parol kiriting" autocomplete="current-password">
+                    <div style="position: relative;">
+                        <input type="password" id="loginPassword" required placeholder="Parol kiriting" autocomplete="current-password">
+                        <span class="password-toggle" onclick="togglePassword()" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 20px;">👁️</span>
+                    </div>
                 </div>
                 <button type="submit" class="btn" style="width: 100%;">KIRISH</button>
             </form>
