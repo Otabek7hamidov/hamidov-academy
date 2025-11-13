@@ -327,8 +327,11 @@
     <!-- Main Content -->
     <div id="main-content">
         <div class="header">
-            <div class="container">
+            <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
                 <h1>🎓 Hamidov Academy - Admin Panel</h1>
+                <button class="btn" onclick="logout()" style="background: rgba(255,255,255,0.2); padding: 10px 25px;">
+                    🚪 Chiqish
+                </button>
             </div>
         </div>
 
@@ -380,12 +383,12 @@
                                     <th>O'qituvchi</th>
                                     <th>Status</th>
                                     <th>Sana</th>
-                                    <th>Amallar</th>
+                                    <th style="min-width: 200px;">Amallar</th>
                                 </tr>
                             </thead>
                             <tbody id="studentsTable">
                                 <tr>
-                                    <td colspan="9" style="text-align: center; padding: 30px;">Ma'lumotlar yuklanmoqda...</td>
+                                    <td colspan="10" style="text-align: center; padding: 30px;">Ma'lumotlar yuklanmoqda...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -521,8 +524,102 @@
         </div>
     </div>
 
+    <!-- Edit Student Modal -->
+    <div id="editStudentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeEditStudentModal()">&times;</span>
+            <h2 style="color: #667eea; text-align: center; margin: 30px 0;">O'quvchini Tahrirlash</h2>
+            <div style="padding: 20px;">
+                <form id="editStudentForm">
+                    <input type="hidden" id="editStudentId">
+                    <div class="form-group">
+                        <label>Ism Familiya *</label>
+                        <input type="text" id="editStudentName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Telefon *</label>
+                        <input type="tel" id="editStudentPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="editStudentEmail">
+                    </div>
+                    <div class="form-group">
+                        <label>Kurs *</label>
+                        <select id="editStudentCourse" required>
+                            <option value="">Tanlang</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Izoh</label>
+                        <input type="text" id="editStudentComment">
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">SAQLASH</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Teacher Modal -->
+    <div id="editTeacherModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeEditTeacherModal()">&times;</span>
+            <h2 style="color: #667eea; text-align: center; margin: 30px 0;">O'qituvchini Tahrirlash</h2>
+            <div style="padding: 20px;">
+                <form id="editTeacherForm">
+                    <input type="hidden" id="editTeacherId">
+                    <div class="form-group">
+                        <label>Ism Familiya *</label>
+                        <input type="text" id="editTeacherName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Telefon *</label>
+                        <input type="tel" id="editTeacherPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="editTeacherEmail">
+                    </div>
+                    <div class="form-group">
+                        <label>Telegram ID *</label>
+                        <input type="text" id="editTeacherTelegramId" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mutaxassislik *</label>
+                        <select id="editTeacherSubject" required>
+                            <option value="">Tanlang</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">SAQLASH</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Login
+        function togglePassword() {
+            const passwordInput = document.getElementById('loginPassword');
+            const toggleIcon = document.querySelector('.password-toggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = '👁️‍🗨️';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = '👁️';
+            }
+        }
+
+        function logout() {
+            if (confirm('Admin paneldan chiqishni xohlaysizmi?')) {
+                sessionStorage.removeItem('isLoggedIn');
+                document.getElementById('main-content').style.display = 'none';
+                document.getElementById('login-screen').style.display = 'flex';
+                document.getElementById('loginForm').reset();
+            }
+        }
+
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -554,11 +651,17 @@
         // Ma'lumotlar
         let students = JSON.parse(localStorage.getItem('students')) || [];
         let teachers = JSON.parse(localStorage.getItem('teachers')) || [];
-        let courses = JSON.parse(localStorage.getItem('courses')) || [
-            {id: 1, name: 'Matematika', desc: 'Algebra, Geometriya. 5-11 sinflar', price: '400000'},
-            {id: 2, name: 'Ingliz tili', desc: 'IELTS tayyorgarlik', price: '350000'},
-            {id: 3, name: 'Fizika', desc: 'Mexanika, Elektrodinamika', price: '400000'}
-        ];
+        let courses = JSON.parse(localStorage.getItem('courses')) || [];
+
+        // Agar kurslar bo'sh bo'lsa, boshlang'ich kurslarni qo'shish
+        if (courses.length === 0) {
+            courses = [
+                {id: Date.now() + 1, name: 'Matematika', desc: 'Algebra, Geometriya. 5-11 sinflar', price: '400000'},
+                {id: Date.now() + 2, name: 'Ingliz tili', desc: 'IELTS tayyorgarlik', price: '350000'},
+                {id: Date.now() + 3, name: 'Fizika', desc: 'Mexanika, Elektrodinamika', price: '400000'}
+            ];
+            localStorage.setItem('courses', JSON.stringify(courses));
+        }
 
         const TELEGRAM_BOT_TOKEN = '8046041742:AAH2alhHXbOOg7PLW3yM6j8LkNBxyXT9IhM';
         const TELEGRAM_API = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
@@ -594,7 +697,7 @@
         function loadStudents() {
             const tbody = document.getElementById('studentsTable');
             if (students.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 30px;">Hozircha o\'quvchilar yo\'q</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 30px;">Hozircha o\'quvchilar yo\'q</td></tr>';
                 return;
             }
 
@@ -608,10 +711,64 @@
                     <td>${student.teacherName || 'Biriktirilmagan'}</td>
                     <td><span class="status-badge ${student.teacher ? 'status-assigned' : 'status-new'}">${student.teacher ? 'Biriktirilgan' : 'Yangi'}</span></td>
                     <td>${student.date}</td>
-                    <td><button class="btn btn-danger" onclick="deleteStudent(${student.id})">O'chirish</button></td>
+                    <td>
+                        <button class="btn" onclick="editStudent(${student.id})" style="padding: 8px 15px; font-size: 14px; margin-right: 5px;">✏️ Tahrirlash</button>
+                        <button class="btn btn-danger" onclick="deleteStudent(${student.id})">🗑️ O'chirish</button>
+                    </td>
                 </tr>
             `).join('');
         }
+
+        function editStudent(id) {
+            const student = students.find(s => s.id === id);
+            if (!student) return;
+
+            document.getElementById('editStudentId').value = student.id;
+            document.getElementById('editStudentName').value = student.fullName;
+            document.getElementById('editStudentPhone').value = student.phone;
+            document.getElementById('editStudentEmail').value = student.email || '';
+            document.getElementById('editStudentComment').value = student.comment || '';
+            
+            // Kurslar ro'yxatini yuklash
+            const courseSelect = document.getElementById('editStudentCourse');
+            courseSelect.innerHTML = '<option value="">Tanlang</option>' + 
+                courses.map(c => `<option value="${c.name}" ${c.name === student.course ? 'selected' : ''}>${c.name}</option>`).join('');
+            
+            document.getElementById('editStudentModal').style.display = 'block';
+        }
+
+        function closeEditStudentModal() {
+            document.getElementById('editStudentModal').style.display = 'none';
+        }
+
+        document.getElementById('editStudentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const id = parseInt(document.getElementById('editStudentId').value);
+            const student = students.find(s => s.id === id);
+            
+            if (!student) return;
+
+            student.fullName = document.getElementById('editStudentName').value;
+            student.phone = document.getElementById('editStudentPhone').value;
+            student.email = document.getElementById('editStudentEmail').value;
+            student.course = document.getElementById('editStudentCourse').value;
+            student.comment = document.getElementById('editStudentComment').value;
+
+            localStorage.setItem('students', JSON.stringify(students));
+
+            // Agar o'qituvchi biriktirilgan bo'lsa, xabar yuborish
+            if (student.teacher) {
+                const teacher = teachers.find(t => t.id === student.teacher);
+                if (teacher) {
+                    await sendEditNotification(teacher, student);
+                }
+            }
+
+            closeEditStudentModal();
+            loadStudents();
+            showMessage('studentSuccess', 'O\'quvchi ma\'lumotlari yangilandi!');
+        });
 
         function deleteStudent(id) {
             if (confirm('O\'quvchini o\'chirishga ishonchingiz komilmi?')) {
@@ -661,10 +818,59 @@
                     <td>${teacher.telegramId}</td>
                     <td>${teacher.subject}</td>
                     <td>${teacher.students.length}</td>
-                    <td><button class="btn btn-danger" onclick="deleteTeacher(${teacher.id})">O'chirish</button></td>
+                    <td>
+                        <button class="btn" onclick="editTeacher(${teacher.id})" style="padding: 8px 15px; font-size: 14px; margin-right: 5px;">✏️ Tahrirlash</button>
+                        <button class="btn btn-danger" onclick="deleteTeacher(${teacher.id})">🗑️ O'chirish</button>
+                    </td>
                 </tr>
             `).join('');
         }
+
+        function editTeacher(id) {
+            const teacher = teachers.find(t => t.id === id);
+            if (!teacher) return;
+
+            document.getElementById('editTeacherId').value = teacher.id;
+            document.getElementById('editTeacherName').value = teacher.name;
+            document.getElementById('editTeacherPhone').value = teacher.phone;
+            document.getElementById('editTeacherEmail').value = teacher.email || '';
+            document.getElementById('editTeacherTelegramId').value = teacher.telegramId;
+            
+            // Fanlar ro'yxatini yuklash
+            const subjectSelect = document.getElementById('editTeacherSubject');
+            subjectSelect.innerHTML = '<option value="">Tanlang</option>' + 
+                courses.map(c => `<option value="${c.name}" ${c.name === teacher.subject ? 'selected' : ''}>${c.name}</option>`).join('');
+            
+            document.getElementById('editTeacherModal').style.display = 'block';
+        }
+
+        function closeEditTeacherModal() {
+            document.getElementById('editTeacherModal').style.display = 'none';
+        }
+
+        document.getElementById('editTeacherForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const id = parseInt(document.getElementById('editTeacherId').value);
+            const teacher = teachers.find(t => t.id === id);
+            
+            if (!teacher) return;
+
+            teacher.name = document.getElementById('editTeacherName').value;
+            teacher.phone = document.getElementById('editTeacherPhone').value;
+            teacher.email = document.getElementById('editTeacherEmail').value;
+            teacher.telegramId = document.getElementById('editTeacherTelegramId').value;
+            teacher.subject = document.getElementById('editTeacherSubject').value;
+
+            localStorage.setItem('teachers', JSON.stringify(teachers));
+
+            // O'qituvchiga xabar yuborish
+            await sendTeacherUpdateNotification(teacher);
+
+            closeEditTeacherModal();
+            loadTeachers();
+            showMessage('teacherSuccess', 'O\'qituvchi ma\'lumotlari yangilandi va Telegramga xabar yuborildi!');
+        });
 
         function deleteTeacher(id) {
             if (confirm('O\'qituvchini o\'chirishga ishonchingiz komilmi?')) {
@@ -775,6 +981,58 @@
 📧 Email: ${student.email || 'Ko\'rsatilmagan'}
 
 Iltimos, tez orada o'quvchi bilan bog'laning!`;
+
+            try {
+                await fetch(TELEGRAM_API, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        chat_id: teacher.telegramId,
+                        text: message
+                    })
+                });
+            } catch (error) {
+                console.error('Telegram xabar yuborishda xatolik:', error);
+            }
+        }
+
+        async function sendEditNotification(teacher, student) {
+            const message = `✏️ O'QUVCHI MA'LUMOTLARI YANGILANDI
+
+👨‍🎓 O'quvchi: ${student.fullName}
+📱 Telefon: ${student.phone}
+📚 Kurs: ${student.course}
+📧 Email: ${student.email || 'Ko\'rsatilmagan'}
+💬 Izoh: ${student.comment || 'Yo\'q'}
+
+O'quvchi ma'lumotlari admin tomonidan yangilandi.`;
+
+            try {
+                await fetch(TELEGRAM_API, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        chat_id: teacher.telegramId,
+                        text: message
+                    })
+                });
+            } catch (error) {
+                console.error('Telegram xabar yuborishda xatolik:', error);
+            }
+        }
+
+        async function sendTeacherUpdateNotification(teacher) {
+            const message = `🔔 MA'LUMOTLARINGIZ YANGILANDI
+
+Hurmatli ${teacher.name}!
+
+Sizning ma'lumotlaringiz admin tomonidan yangilandi:
+👤 Ism: ${teacher.name}
+📱 Telefon: ${teacher.phone}
+📚 Fan: ${teacher.subject}
+📧 Email: ${teacher.email || 'Ko\'rsatilmagan'}
+
+Agar bu sizning xabardorligingiz bo'lmasa, iltimos admin bilan bog'laning.`;
 
             try {
                 await fetch(TELEGRAM_API, {
