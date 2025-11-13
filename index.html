@@ -246,6 +246,16 @@
 
         .register-form {
             padding: 20px 40px 40px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .form-buttons {
+            padding: 20px 40px;
+            background: white;
+            border-top: 1px solid #eee;
+            position: sticky;
+            bottom: 0;
         }
 
         .form-group {
@@ -351,11 +361,16 @@
             
             .modal-content {
                 width: 95%;
-                margin: 10% auto;
+                margin: 5% auto;
+                max-height: 90vh;
             }
 
             .register-form {
                 padding: 20px;
+            }
+
+            .form-buttons {
+                padding: 15px 20px;
             }
         }
     </style>
@@ -367,8 +382,12 @@
                 <h1 id="logoText">HAMIDOV ACADEMY</h1>
             </div>
             <div class="lang-switch">
-                <button class="lang-btn active" onclick="changeLang('uz')">O'zbek</button>
-                <button class="lang-btn" onclick="changeLang('ru')">Русский</button>
+                <button class="lang-btn active" onclick="changeLang('uz')" title="O'zbek tili">
+                    <span style="font-size: 20px;">🇺🇿</span>
+                </button>
+                <button class="lang-btn" onclick="changeLang('ru')" title="Русский язык">
+                    <span style="font-size: 20px;">🇷🇺</span>
+                </button>
             </div>
         </div>
     </header>
@@ -455,8 +474,10 @@
                         <label id="commentLabel">Qo'shimcha izoh</label>
                         <input type="text" id="comment">
                     </div>
-                    <button type="submit" class="submit-btn" id="submitBtn">YUBORISH</button>
                 </form>
+            </div>
+            <div class="form-buttons">
+                <button type="submit" class="submit-btn" id="submitBtn" onclick="document.getElementById('registrationForm').requestSubmit()">YUBORISH</button>
             </div>
         </div>
     </div>
@@ -522,6 +543,14 @@
         };
 
         let currentLang = 'uz';
+        let siteSettings = JSON.parse(localStorage.getItem('siteSettings')) || {
+            addressUz: 'Toshkent sh., Yunusobod tumani, Abdulla Qodiriy ko\'chasi, 15-uy',
+            addressRu: 'г. Ташкент, Юнусабадский район, ул. Абдуллы Кадыри, д. 15',
+            phone1: '+998 90 123 45 67',
+            phone2: '+998 91 234 56 78',
+            scheduleUz: 'Dushanba-Shanba: 09:00-20:00<br>Yakshanba: Dam olish',
+            scheduleRu: 'Понедельник-Суббота: 09:00-20:00<br>Воскресенье: Выходной'
+        };
 
         // Kurslar ikonkalari
         const courseIcons = {
@@ -660,16 +689,26 @@
             submitBtn.disabled = true;
             submitBtn.textContent = currentLang === 'uz' ? 'Yuklanmoqda...' : 'Загрузка...';
 
+            const selectedCourse = document.getElementById('course').value;
+            
+            if (!selectedCourse) {
+                errorMsg.textContent = currentLang === 'uz' ? 'Iltimos, kursni tanlang!' : 'Пожалуйста, выберите курс!';
+                errorMsg.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = translations[currentLang].submitBtn;
+                return;
+            }
+
             const formData = {
                 fullName: document.getElementById('fullName').value,
                 phone: document.getElementById('phone').value,
                 email: document.getElementById('email').value,
-                course: document.getElementById('course').value,
+                course: selectedCourse,
                 comment: document.getElementById('comment').value,
                 date: new Date().toLocaleString('uz-UZ')
             };
 
-            const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwcCBAPfO0HcHgTeG-fkcwXDaqShOxQxWVNVphX-1E6e1LZDDgUreBGhzq0kl8-1I2I/exec';
+            const GOOGLE_SHEET_URL = 'YOUR_GOOGLE_SHEETS_WEB_APP_URL_HERE';
 
             try {
                 await fetch(GOOGLE_SHEET_URL, {
@@ -693,6 +732,7 @@
                 successMsg.textContent = translations[currentLang].successMsg;
                 successMsg.style.display = 'block';
                 document.getElementById('registrationForm').reset();
+                document.getElementById('course').value = '';
                 phoneInput.value = '+998 ';
                 
                 setTimeout(() => {
