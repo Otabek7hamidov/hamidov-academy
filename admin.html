@@ -396,6 +396,7 @@
                 <button class="tab-btn" onclick="showTab('teachers')">👨‍🏫 O'qituvchilar</button>
                 <button class="tab-btn" onclick="showTab('courses')">📚 Kurslar</button>
                 <button class="tab-btn" onclick="showTab('assign')">🔗 Biriktirish</button>
+                <button class="tab-btn" onclick="showTab('settings')">⚙️ Sozlamalar</button>
             </div>
 
             <div id="dashboard" class="tab-content active">
@@ -421,7 +422,37 @@
 
             <div id="students" class="tab-content">
                 <div class="card">
-                    <h2>👨‍🎓 Ro'yxatdan O'tgan O'quvchilar</h2>
+                    <h2>👨‍🎓 Yangi O'quvchi Qo'shish</h2>
+                    <div class="success-message" id="addStudentSuccess"></div>
+                    <form id="addStudentForm">
+                        <div class="form-group">
+                            <label>Ism Familiya *</label>
+                            <input type="text" id="newStudentName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Telefon *</label>
+                            <input type="tel" id="newStudentPhone" placeholder="+998 90 123 45 67" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="newStudentEmail">
+                        </div>
+                        <div class="form-group">
+                            <label>Kurs *</label>
+                            <select id="newStudentCourse" required>
+                                <option value="">Tanlang</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Izoh</label>
+                            <input type="text" id="newStudentComment">
+                        </div>
+                        <button type="submit" class="btn">O'QUVCHI QO'SHISH</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2>📋 Ro'yxatdan O'tgan O'quvchilar</h2>
                     <div class="success-message" id="studentSuccess"></div>
                     <div style="overflow-x: auto;">
                         <table>
@@ -566,6 +597,69 @@
                     </form>
                 </div>
             </div>
+
+            <div id="settings" class="tab-content">
+                <div class="card">
+                    <h2>⚙️ Sayt Sozlamalari</h2>
+                    <div class="success-message" id="settingsSuccess"></div>
+                    <form id="settingsForm">
+                        <h3 style="color: #667eea; margin-bottom: 20px;">Manzil</h3>
+                        <div class="form-group">
+                            <label>O'zbek tilida *</label>
+                            <input type="text" id="addressUz" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Rus tilida *</label>
+                            <input type="text" id="addressRu" required>
+                        </div>
+
+                        <h3 style="color: #667eea; margin: 30px 0 20px;">Telefon Raqamlar</h3>
+                        <div class="form-group">
+                            <label>Telefon 1 *</label>
+                            <input type="tel" id="phone1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Telefon 2</label>
+                            <input type="tel" id="phone2">
+                        </div>
+
+                        <h3 style="color: #667eea; margin: 30px 0 20px;">Ish Vaqti</h3>
+                        <div class="form-group">
+                            <label>O'zbek tilida *</label>
+                            <input type="text" id="scheduleUz" required placeholder="Dushanba-Shanba: 09:00-20:00">
+                        </div>
+                        <div class="form-group">
+                            <label>Rus tilida *</label>
+                            <input type="text" id="scheduleRu" required placeholder="Понедельник-Суббота: 09:00-20:00">
+                        </div>
+
+                        <button type="submit" class="btn">SAQLASH</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editCourseModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeEditCourseModal()">&times;</span>
+            <h2 style="color: #667eea; text-align: center; margin-bottom: 30px;">Kursni Tahrirlash</h2>
+            <form id="editCourseForm">
+                <input type="hidden" id="editCourseId">
+                <div class="form-group">
+                    <label>Kurs Nomi *</label>
+                    <input type="text" id="editCourseName" required>
+                </div>
+                <div class="form-group">
+                    <label>Tavsif (O'zbek) *</label>
+                    <input type="text" id="editCourseDesc" required>
+                </div>
+                <div class="form-group">
+                    <label>Narxi (so'm) *</label>
+                    <input type="number" id="editCoursePrice" required>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">SAQLASH</button>
+            </form>
         </div>
     </div>
 
@@ -688,6 +782,14 @@
         let students = JSON.parse(localStorage.getItem('students')) || [];
         let teachers = JSON.parse(localStorage.getItem('teachers')) || [];
         let courses = JSON.parse(localStorage.getItem('courses')) || [];
+        let siteSettings = JSON.parse(localStorage.getItem('siteSettings')) || {
+            addressUz: 'Toshkent sh., Yunusobod tumani, Abdulla Qodiriy ko\'chasi, 15-uy',
+            addressRu: 'г. Ташкент, Юнусабадский район, ул. Абдуллы Кадыри, д. 15',
+            phone1: '+998 90 123 45 67',
+            phone2: '+998 91 234 56 78',
+            scheduleUz: 'Dushanba-Shanba: 09:00-20:00<br>Yakshanba: Dam olish',
+            scheduleRu: 'Понедельник-Суббота: 09:00-20:00<br>Воскресенье: Выходной'
+        };
 
         if (courses.length === 0) {
             courses = [
@@ -706,6 +808,8 @@
             loadStudents();
             loadTeachers();
             loadCourses();
+            loadSettings();
+            loadCourseSelectsForNewStudent();
         }
 
         function showTab(tabName) {
@@ -714,10 +818,14 @@
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
 
-            if (tabName === 'students') loadStudents();
+            if (tabName === 'students') {
+                loadStudents();
+                loadCourseSelectsForNewStudent();
+            }
             if (tabName === 'teachers') loadTeachers();
             if (tabName === 'courses') loadCourses();
             if (tabName === 'assign') loadAssignSelects();
+            if (tabName === 'settings') loadSettings();
             updateStats();
         }
 
