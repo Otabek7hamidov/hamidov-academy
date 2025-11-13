@@ -213,8 +213,10 @@
             max-width: 600px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             animation: slideIn 0.3s;
-            max-height: 90vh;
+            max-height: 85vh;
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         @keyframes slideIn {
@@ -521,6 +523,44 @@
 
         let currentLang = 'uz';
 
+        // Kurslar ikonkalari
+        const courseIcons = {
+            'Matematika': '📐',
+            'Ingliz tili': '🌐',
+            'Fizika': '⚛️',
+            'Kimyo': '🧪',
+            'Biologiya': '🧬',
+            'Informatika': '💻',
+            'Tarix': '📜',
+            'Geografiya': '🌍',
+            'Adabiyot': '📚',
+            'default': '📖'
+        };
+
+        function getIcon(courseName) {
+            return courseIcons[courseName] || courseIcons['default'];
+        }
+
+        // Kurslarni dinamik yuklash
+        function loadCoursesGrid() {
+            const courses = JSON.parse(localStorage.getItem('courses')) || [];
+            const coursesGrid = document.getElementById('coursesGrid');
+            
+            if (courses.length === 0) {
+                coursesGrid.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">Hozircha kurslar mavjud emas</p>';
+                return;
+            }
+
+            coursesGrid.innerHTML = courses.map(course => `
+                <div class="course-card">
+                    <div class="course-icon">${getIcon(course.name)}</div>
+                    <h3>${course.name}</h3>
+                    <p>${course.desc}</p>
+                    <div class="course-price">${parseInt(course.price).toLocaleString()} so'm/oy</div>
+                </div>
+            `).join('');
+        }
+
         function changeLang(lang) {
             currentLang = lang;
             const btns = document.querySelectorAll('.lang-btn');
@@ -546,22 +586,10 @@
             const courses = JSON.parse(localStorage.getItem('courses')) || [];
             const courseSelect = document.getElementById('course');
             
-            const baseCourses = [
-                { value: 'Matematika', uz: 'Matematika', ru: 'Математика' },
-                { value: 'Ingliz tili', uz: 'Ingliz Tili', ru: 'Английский Язык' },
-                { value: 'Fizika', uz: 'Fizika', ru: 'Физика' }
-            ];
-
             courseSelect.innerHTML = `<option value="">${currentLang === 'uz' ? 'Kursni tanlang' : 'Выберите курс'}</option>`;
             
-            baseCourses.forEach(course => {
-                courseSelect.innerHTML += `<option value="${course.value}">${course[currentLang]}</option>`;
-            });
-
             courses.forEach(course => {
-                if (!baseCourses.find(c => c.value === course.name)) {
-                    courseSelect.innerHTML += `<option value="${course.name}">${course.name}</option>`;
-                }
+                courseSelect.innerHTML += `<option value="${course.name}">${course.name}</option>`;
             });
         }
 
@@ -685,11 +713,13 @@
             const lastUpdate = localStorage.getItem('coursesUpdated');
             if (lastUpdate) {
                 loadDynamicCourses();
+                loadCoursesGrid();
             }
         }, 2000);
 
         window.addEventListener('load', () => {
             loadDynamicCourses();
+            loadCoursesGrid();
         });
     </script>
 </body>
