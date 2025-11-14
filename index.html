@@ -45,23 +45,63 @@
 
         .lang-switch {
             display: flex;
-            gap: 10px;
+            gap: 5px;
+            position: relative;
         }
 
         .lang-btn {
             background: rgba(255,255,255,0.2);
             border: 2px solid white;
             color: white;
-            padding: 8px 20px;
+            padding: 8px 15px;
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s;
             font-weight: bold;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .lang-btn.active {
             background: white;
             color: #667eea;
+        }
+
+        .lang-dropdown {
+            display: none;
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .lang-dropdown.show {
+            display: block;
+        }
+
+        .lang-option {
+            padding: 12px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.3s;
+            color: #333;
+        }
+
+        .lang-option:hover {
+            background: #f5f6fa;
+        }
+
+        .lang-option.active {
+            background: #667eea;
+            color: white;
         }
 
         .hero {
@@ -780,4 +820,3 @@
     </script>
 </body>
 </html>
-
