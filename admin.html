@@ -15,7 +15,7 @@
         .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; }
         .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
         .tabs { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
-        .tab-btn { background: white; border: 2px solid #667eea; color: #667eea; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: all 0.3s; }
+        .tab-btn { background: white; border: 2px solid #667eea; color: #667eea; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: bold; transition: all 0.3s; }
         .tab-btn.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
@@ -27,24 +27,27 @@
         .form-group input:focus, .form-group select:focus { outline: none; border-color: #667eea; }
         .password-field { position: relative; }
         .password-toggle { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 20px; }
-        .btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        .btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .btn:hover { transform: scale(1.05); }
-        .btn-small { padding: 4px 8px; font-size: 16px; }
+        .btn-small { padding: 5px 10px; font-size: 14px; }
         .btn-danger { background: linear-gradient(135deg, #f44336 0%, #e91e63 100%); }
+        .btn-success { background: linear-gradient(135deg, #4caf50 0%, #8bc34a 100%); }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         table thead { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
-        table th, table td { padding: 12px 8px; text-align: left; border-bottom: 1px solid #ddd; font-size: 14px; }
-        .action-btns { display: flex; gap: 4px; }
+        table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; font-size: 14px; }
+        table tbody tr:hover { background: #f5f6fa; }
+        .action-btns { display: flex; gap: 5px; }
         .success-message, .error-message { padding: 15px; border-radius: 8px; margin-bottom: 20px; display: none; }
         .success-message { background: #4caf50; color: white; }
         .error-message { background: #f44336; color: white; }
         .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .stat-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align: center; cursor: pointer; transition: all 0.3s; }
         .stat-card:hover { transform: translateY(-10px); }
-        .stat-card h3 { color: #667eea; font-size: 48px; }
+        .stat-card h3 { color: #667eea; font-size: 48px; margin-bottom: 10px; }
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); }
         .modal-content { background: white; margin: 5% auto; padding: 30px; border-radius: 15px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; }
-        .close-btn { float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close-btn { float: right; font-size: 28px; font-weight: bold; cursor: pointer; color: #aaa; }
+        .close-btn:hover { color: #667eea; }
     </style>
 </head>
 <body>
@@ -70,9 +73,9 @@
 
     <div id="main-content">
         <div class="header">
-            <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
                 <h1>🎓 Hamidov Academy</h1>
-                <button class="btn" id="logoutBtn">🚪 Chiqish</button>
+                <button class="btn" id="logoutBtn" style="background: rgba(255,255,255,0.2);">🚪 Chiqish</button>
             </div>
         </div>
         <div class="container">
@@ -94,9 +97,22 @@
 
             <div id="students" class="tab-content">
                 <div class="card">
-                    <h2>📋 O'quvchilar</h2>
+                    <h2>👨‍🎓 Yangi O'quvchi Qo'shish</h2>
+                    <div class="success-message" id="addStudentMsg"></div>
+                    <div class="form-group"><label>Ism Familiya *</label><input type="text" id="newStudentName"></div>
+                    <div class="form-group"><label>Telefon *</label><input type="tel" id="newStudentPhone"></div>
+                    <div class="form-group"><label>Email</label><input type="email" id="newStudentEmail"></div>
+                    <div class="form-group"><label>Kurs *</label><select id="newStudentCourse"><option value="">Tanlang</option></select></div>
+                    <div class="form-group"><label>Izoh</label><input type="text" id="newStudentComment"></div>
+                    <button class="btn" id="addStudentBtn">QO'SHISH</button>
+                </div>
+                <div class="card">
+                    <h2>📋 O'quvchilar Ro'yxati</h2>
                     <div class="success-message" id="studentMsg"></div>
-                    <table><tbody id="studentsTable"></tbody></table>
+                    <table>
+                        <thead><tr><th>ID</th><th>Ism</th><th>Telefon</th><th>Kurs</th><th>Amallar</th></tr></thead>
+                        <tbody id="studentsTable"></tbody>
+                    </table>
                 </div>
             </div>
 
@@ -104,15 +120,18 @@
                 <div class="card">
                     <h2>👨‍🏫 Yangi O'qituvchi</h2>
                     <div class="success-message" id="teacherMsg"></div>
-                    <div class="form-group"><label>Ism *</label><input type="text" id="teacherName"></div>
+                    <div class="form-group"><label>Ism Familiya *</label><input type="text" id="teacherName"></div>
                     <div class="form-group"><label>Telefon *</label><input type="tel" id="teacherPhone"></div>
                     <div class="form-group"><label>Telegram ID *</label><input type="text" id="teacherTelegram"></div>
                     <div class="form-group"><label>Fan *</label><select id="teacherSubject"><option value="">Tanlang</option></select></div>
                     <button class="btn" id="addTeacherBtn">QO'SHISH</button>
                 </div>
                 <div class="card">
-                    <h2>📋 Ro'yxat</h2>
-                    <table><tbody id="teachersTable"></tbody></table>
+                    <h2>📋 O'qituvchilar Ro'yxati</h2>
+                    <table>
+                        <thead><tr><th>ID</th><th>Ism</th><th>Telefon</th><th>Fan</th><th>Amallar</th></tr></thead>
+                        <tbody id="teachersTable"></tbody>
+                    </table>
                 </div>
             </div>
 
@@ -120,28 +139,31 @@
                 <div class="card">
                     <h2>📚 Yangi Kurs</h2>
                     <div class="success-message" id="courseMsg"></div>
-                    <div class="form-group"><label>Nom *</label><input type="text" id="courseName"></div>
+                    <div class="form-group"><label>Kurs Nomi *</label><input type="text" id="courseName"></div>
                     <div class="form-group"><label>Tavsif *</label><input type="text" id="courseDesc"></div>
-                    <div class="form-group"><label>Narx *</label><input type="number" id="coursePrice"></div>
+                    <div class="form-group"><label>Narxi (so'm) *</label><input type="number" id="coursePrice"></div>
                     <button class="btn" id="addCourseBtn">QO'SHISH</button>
                 </div>
                 <div class="card">
                     <h2>📋 Kurslar</h2>
-                    <table><tbody id="coursesTable"></tbody></table>
+                    <table>
+                        <thead><tr><th>ID</th><th>Nom</th><th>Tavsif</th><th>Narx</th><th>Amallar</th></tr></thead>
+                        <tbody id="coursesTable"></tbody>
+                    </table>
                 </div>
             </div>
 
             <div id="settings" class="tab-content">
                 <div class="card">
-                    <h2>⚙️ Sozlamalar</h2>
+                    <h2>⚙️ Sayt Sozlamalari</h2>
                     <div class="success-message" id="settingsMsg"></div>
-                    <h3>Manzil</h3>
+                    <h3 style="color: #667eea; margin-bottom: 15px;">Manzil</h3>
                     <div class="form-group"><label>O'zbek *</label><input type="text" id="addressUz"></div>
                     <div class="form-group"><label>Rus *</label><input type="text" id="addressRu"></div>
-                    <h3>Telefon</h3>
+                    <h3 style="color: #667eea; margin: 20px 0 15px;">Telefon</h3>
                     <div class="form-group"><label>Tel 1 *</label><input type="tel" id="phone1"></div>
                     <div class="form-group"><label>Tel 2</label><input type="tel" id="phone2"></div>
-                    <h3>Ish Vaqti</h3>
+                    <h3 style="color: #667eea; margin: 20px 0 15px;">Ish Vaqti</h3>
                     <div class="form-group"><label>O'zbek *</label><input type="text" id="scheduleUz"></div>
                     <div class="form-group"><label>Rus *</label><input type="text" id="scheduleRu"></div>
                     <button class="btn" id="saveSettingsBtn">SAQLASH</button>
@@ -150,109 +172,169 @@
         </div>
     </div>
 
+    <!-- Edit Modals -->
+    <div id="editStudentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('editStudentModal')">&times;</span>
+            <h2 style="color: #667eea; margin-bottom: 20px;">O'quvchini Tahrirlash</h2>
+            <input type="hidden" id="editStudentId">
+            <div class="form-group"><label>Ism *</label><input type="text" id="editStudentName"></div>
+            <div class="form-group"><label>Telefon *</label><input type="tel" id="editStudentPhone"></div>
+            <div class="form-group"><label>Email</label><input type="email" id="editStudentEmail"></div>
+            <div class="form-group"><label>Kurs *</label><select id="editStudentCourse"></select></div>
+            <div class="form-group"><label>Izoh</label><input type="text" id="editStudentComment"></div>
+            <button class="btn" style="width: 100%;" onclick="saveStudent()">SAQLASH</button>
+        </div>
+    </div>
+
+    <div id="editTeacherModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('editTeacherModal')">&times;</span>
+            <h2 style="color: #667eea; margin-bottom: 20px;">O'qituvchini Tahrirlash</h2>
+            <input type="hidden" id="editTeacherId">
+            <div class="form-group"><label>Ism *</label><input type="text" id="editTeacherName"></div>
+            <div class="form-group"><label>Telefon *</label><input type="tel" id="editTeacherPhone"></div>
+            <div class="form-group"><label>Telegram ID *</label><input type="text" id="editTeacherTelegram"></div>
+            <div class="form-group"><label>Fan *</label><select id="editTeacherSubject"></select></div>
+            <button class="btn" style="width: 100%;" onclick="saveTeacher()">SAQLASH</button>
+        </div>
+    </div>
+
+    <div id="editCourseModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('editCourseModal')">&times;</span>
+            <h2 style="color: #667eea; margin-bottom: 20px;">Kursni Tahrirlash</h2>
+            <input type="hidden" id="editCourseId">
+            <div class="form-group"><label>Nom *</label><input type="text" id="editCourseName"></div>
+            <div class="form-group"><label>Tavsif *</label><input type="text" id="editCourseDesc"></div>
+            <div class="form-group"><label>Narx *</label><input type="number" id="editCoursePrice"></div>
+            <button class="btn" style="width: 100%;" onclick="saveCourse()">SAQLASH</button>
+        </div>
+    </div>
+
     <script>
         let students = JSON.parse(localStorage.getItem('students')) || [];
         let teachers = JSON.parse(localStorage.getItem('teachers')) || [];
         let courses = JSON.parse(localStorage.getItem('courses')) || [
-            {id: 1, name: 'Matematika', desc: 'Algebra', price: '400000'},
-            {id: 2, name: 'Ingliz tili', desc: 'IELTS', price: '350000'},
+            {id: 1, name: 'Matematika', desc: 'Algebra, Geometriya', price: '400000'},
+            {id: 2, name: 'Ingliz tili', desc: 'IELTS tayyorgarlik', price: '350000'},
             {id: 3, name: 'Fizika', desc: 'Mexanika', price: '400000'}
         ];
         let settings = JSON.parse(localStorage.getItem('siteSettings')) || {
-            addressUz: 'Toshkent', addressRu: 'Ташкент',
+            addressUz: 'Toshkent sh., Yunusobod', addressRu: 'г. Ташкент, Юнусабад',
             phone1: '+998901234567', phone2: '+998912345678',
-            scheduleUz: '09:00-20:00', scheduleRu: '09:00-20:00'
+            scheduleUz: 'Dushanba-Shanba: 09:00-20:00', scheduleRu: 'Понедельник-Суббота: 09:00-20:00'
         };
 
-        // Ko'zcha tugmasi
-        document.getElementById('toggleBtn').addEventListener('click', function() {
-            const pwdInput = document.getElementById('loginPassword');
-            if (pwdInput.type === 'password') {
-                pwdInput.type = 'text';
+        localStorage.setItem('courses', JSON.stringify(courses));
+
+        // Toggle password
+        document.getElementById('toggleBtn').onclick = function() {
+            const pwd = document.getElementById('loginPassword');
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
                 this.textContent = '👁️‍🗨️';
             } else {
-                pwdInput.type = 'password';
+                pwd.type = 'password';
                 this.textContent = '👁️';
             }
-        });
+        };
 
         // Login
-        document.getElementById('loginBtn').addEventListener('click', function() {
+        document.getElementById('loginBtn').onclick = function() {
             const user = document.getElementById('loginUsername').value;
             const pass = document.getElementById('loginPassword').value;
-            const errorDiv = document.getElementById('loginError');
-
             if (user === 'Admin' && pass === 'Hamidov2025') {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
                 sessionStorage.setItem('loggedIn', 'true');
                 loadAll();
             } else {
-                errorDiv.textContent = 'Login yoki parol noto\'g\'ri!';
-                errorDiv.style.display = 'block';
-                setTimeout(() => errorDiv.style.display = 'none', 3000);
+                showMsg('loginError', 'Login yoki parol noto\'g\'ri!', 'error');
             }
-        });
+        };
 
         // Logout
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            if (confirm('Chiqishni xohlaysizmi?')) {
-                sessionStorage.removeItem('loggedIn');
+        document.getElementById('logoutBtn').onclick = function() {
+            if (confirm('Chiqmoqchimisiz?')) {
+                sessionStorage.clear();
                 location.reload();
             }
-        });
+        };
 
         // Tabs
         document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const tabName = this.getAttribute('data-tab');
+            btn.onclick = function() {
+                const tab = this.getAttribute('data-tab');
                 document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                document.getElementById(tabName).classList.add('active');
+                document.getElementById(tab).classList.add('active');
                 this.classList.add('active');
-                if (tabName === 'teachers') loadTeacherSubjects();
-            });
+                if (tab === 'students') loadStudentCourses();
+                if (tab === 'teachers') loadTeacherSubjects();
+            }
         });
 
+        // Add Student
+        document.getElementById('addStudentBtn').onclick = function() {
+            const name = document.getElementById('newStudentName').value;
+            const phone = document.getElementById('newStudentPhone').value;
+            const email = document.getElementById('newStudentEmail').value;
+            const course = document.getElementById('newStudentCourse').value;
+            const comment = document.getElementById('newStudentComment').value;
+            if (name && phone && course) {
+                students.push({id: Date.now(), fullName: name, phone, email, course, comment, date: new Date().toLocaleString(), teacher: null});
+                localStorage.setItem('students', JSON.stringify(students));
+                showMsg('addStudentMsg', 'O\'quvchi qo\'shildi!');
+                loadStudents();
+                updateStats();
+                document.getElementById('newStudentName').value = '';
+                document.getElementById('newStudentPhone').value = '';
+                document.getElementById('newStudentEmail').value = '';
+                document.getElementById('newStudentCourse').value = '';
+                document.getElementById('newStudentComment').value = '';
+            }
+        };
+
+        // Add Teacher
+        document.getElementById('addTeacherBtn').onclick = function() {
+            const name = document.getElementById('teacherName').value;
+            const phone = document.getElementById('teacherPhone').value;
+            const telegram = document.getElementById('teacherTelegram').value;
+            const subject = document.getElementById('teacherSubject').value;
+            if (name && phone && telegram && subject) {
+                teachers.push({id: Date.now(), name, phone, telegram, subject, students: []});
+                localStorage.setItem('teachers', JSON.stringify(teachers));
+                showMsg('teacherMsg', 'O\'qituvchi qo\'shildi!');
+                loadTeachers();
+                updateStats();
+                document.getElementById('teacherName').value = '';
+                document.getElementById('teacherPhone').value = '';
+                document.getElementById('teacherTelegram').value = '';
+                document.getElementById('teacherSubject').value = '';
+            }
+        };
+
         // Add Course
-        document.getElementById('addCourseBtn').addEventListener('click', function() {
+        document.getElementById('addCourseBtn').onclick = function() {
             const name = document.getElementById('courseName').value;
             const desc = document.getElementById('courseDesc').value;
             const price = document.getElementById('coursePrice').value;
-
             if (name && desc && price) {
                 courses.push({id: Date.now(), name, desc, price});
                 localStorage.setItem('courses', JSON.stringify(courses));
                 localStorage.setItem('coursesUpdated', Date.now());
                 showMsg('courseMsg', 'Kurs qo\'shildi!');
                 loadCourses();
+                updateStats();
                 document.getElementById('courseName').value = '';
                 document.getElementById('courseDesc').value = '';
                 document.getElementById('coursePrice').value = '';
             }
-        });
-
-        // Add Teacher
-        document.getElementById('addTeacherBtn').addEventListener('click', function() {
-            const name = document.getElementById('teacherName').value;
-            const phone = document.getElementById('teacherPhone').value;
-            const telegram = document.getElementById('teacherTelegram').value;
-            const subject = document.getElementById('teacherSubject').value;
-
-            if (name && phone && telegram && subject) {
-                teachers.push({id: Date.now(), name, phone, telegram, subject, students: []});
-                localStorage.setItem('teachers', JSON.stringify(teachers));
-                showMsg('teacherMsg', 'O\'qituvchi qo\'shildi!');
-                loadTeachers();
-                document.getElementById('teacherName').value = '';
-                document.getElementById('teacherPhone').value = '';
-                document.getElementById('teacherTelegram').value = '';
-                document.getElementById('teacherSubject').value = '';
-            }
-        });
+        };
 
         // Save Settings
-        document.getElementById('saveSettingsBtn').addEventListener('click', function() {
+        document.getElementById('saveSettingsBtn').onclick = function() {
             settings = {
                 addressUz: document.getElementById('addressUz').value,
                 addressRu: document.getElementById('addressRu').value,
@@ -264,34 +346,166 @@
             localStorage.setItem('siteSettings', JSON.stringify(settings));
             localStorage.setItem('settingsUpdated', Date.now());
             showMsg('settingsMsg', 'Saqlandi!');
-        });
+        };
 
+        // Edit/Delete Functions
+        function editStudent(id) {
+            const s = students.find(x => x.id === id);
+            if (!s) return;
+            document.getElementById('editStudentId').value = s.id;
+            document.getElementById('editStudentName').value = s.fullName;
+            document.getElementById('editStudentPhone').value = s.phone;
+            document.getElementById('editStudentEmail').value = s.email || '';
+            document.getElementById('editStudentComment').value = s.comment || '';
+            const select = document.getElementById('editStudentCourse');
+            select.innerHTML = courses.map(c => `<option value="${c.name}" ${c.name === s.course ? 'selected' : ''}>${c.name}</option>`).join('');
+            document.getElementById('editStudentModal').style.display = 'block';
+        }
+
+        function saveStudent() {
+            const id = parseInt(document.getElementById('editStudentId').value);
+            const s = students.find(x => x.id === id);
+            if (s) {
+                s.fullName = document.getElementById('editStudentName').value;
+                s.phone = document.getElementById('editStudentPhone').value;
+                s.email = document.getElementById('editStudentEmail').value;
+                s.course = document.getElementById('editStudentCourse').value;
+                s.comment = document.getElementById('editStudentComment').value;
+                localStorage.setItem('students', JSON.stringify(students));
+                closeModal('editStudentModal');
+                loadStudents();
+                showMsg('studentMsg', 'O\'quvchi yangilandi!');
+            }
+        }
+
+        function deleteStudent(id) {
+            if (confirm('O\'chirishni xohlaysizmi?')) {
+                students = students.filter(x => x.id !== id);
+                localStorage.setItem('students', JSON.stringify(students));
+                loadStudents();
+                updateStats();
+                showMsg('studentMsg', 'O\'quvchi o\'chirildi!');
+            }
+        }
+
+        function editTeacher(id) {
+            const t = teachers.find(x => x.id === id);
+            if (!t) return;
+            document.getElementById('editTeacherId').value = t.id;
+            document.getElementById('editTeacherName').value = t.name;
+            document.getElementById('editTeacherPhone').value = t.phone;
+            document.getElementById('editTeacherTelegram').value = t.telegram;
+            const select = document.getElementById('editTeacherSubject');
+            select.innerHTML = courses.map(c => `<option value="${c.name}" ${c.name === t.subject ? 'selected' : ''}>${c.name}</option>`).join('');
+            document.getElementById('editTeacherModal').style.display = 'block';
+        }
+
+        function saveTeacher() {
+            const id = parseInt(document.getElementById('editTeacherId').value);
+            const t = teachers.find(x => x.id === id);
+            if (t) {
+                t.name = document.getElementById('editTeacherName').value;
+                t.phone = document.getElementById('editTeacherPhone').value;
+                t.telegram = document.getElementById('editTeacherTelegram').value;
+                t.subject = document.getElementById('editTeacherSubject').value;
+                localStorage.setItem('teachers', JSON.stringify(teachers));
+                closeModal('editTeacherModal');
+                loadTeachers();
+                showMsg('teacherMsg', 'O\'qituvchi yangilandi!');
+            }
+        }
+
+        function deleteTeacher(id) {
+            if (confirm('O\'chirishni xohlaysizmi?')) {
+                teachers = teachers.filter(x => x.id !== id);
+                localStorage.setItem('teachers', JSON.stringify(teachers));
+                loadTeachers();
+                updateStats();
+                showMsg('teacherMsg', 'O\'qituvchi o\'chirildi!');
+            }
+        }
+
+        function editCourse(id) {
+            const c = courses.find(x => x.id === id);
+            if (!c) return;
+            document.getElementById('editCourseId').value = c.id;
+            document.getElementById('editCourseName').value = c.name;
+            document.getElementById('editCourseDesc').value = c.desc;
+            document.getElementById('editCoursePrice').value = c.price;
+            document.getElementById('editCourseModal').style.display = 'block';
+        }
+
+        function saveCourse() {
+            const id = parseInt(document.getElementById('editCourseId').value);
+            const c = courses.find(x => x.id === id);
+            if (c) {
+                c.name = document.getElementById('editCourseName').value;
+                c.desc = document.getElementById('editCourseDesc').value;
+                c.price = document.getElementById('editCoursePrice').value;
+                localStorage.setItem('courses', JSON.stringify(courses));
+                localStorage.setItem('coursesUpdated', Date.now());
+                closeModal('editCourseModal');
+                loadCourses();
+                showMsg('courseMsg', 'Kurs yangilandi!');
+            }
+        }
+
+        function deleteCourse(id) {
+            if (confirm('O\'chirishni xohlaysizmi?')) {
+                courses = courses.filter(x => x.id !== id);
+                localStorage.setItem('courses', JSON.stringify(courses));
+                localStorage.setItem('coursesUpdated', Date.now());
+                loadCourses();
+                updateStats();
+                showMsg('courseMsg', 'Kurs o\'chirildi!');
+            }
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        // Load Functions
         function loadAll() {
             loadStudents();
             loadTeachers();
             loadCourses();
             loadSettings();
+            loadStudentCourses();
+            loadTeacherSubjects();
             updateStats();
         }
 
         function loadStudents() {
             const tbody = document.getElementById('studentsTable');
             tbody.innerHTML = students.length ? students.map((s, i) => 
-                `<tr><td>${i+1}</td><td>${s.fullName}</td><td>${s.phone}</td><td>${s.course}</td></tr>`
-            ).join('') : '<tr><td colspan="4">Ma\'lumot yo\'q</td></tr>';
+                `<tr><td>${i+1}</td><td>${s.fullName}</td><td>${s.phone}</td><td>${s.course}</td>
+                <td class="action-btns">
+                    <button class="btn btn-small" onclick="editStudent(${s.id})">✏️</button>
+                    <button class="btn btn-small btn-danger" onclick="deleteStudent(${s.id})">🗑️</button>
+                </td></tr>`
+            ).join('') : '<tr><td colspan="5">Ma\'lumot yo\'q</td></tr>';
         }
 
         function loadTeachers() {
             const tbody = document.getElementById('teachersTable');
             tbody.innerHTML = teachers.length ? teachers.map((t, i) => 
-                `<tr><td>${i+1}</td><td>${t.name}</td><td>${t.phone}</td><td>${t.subject}</td></tr>`
-            ).join('') : '<tr><td colspan="4">Ma\'lumot yo\'q</td></tr>';
+                `<tr><td>${i+1}</td><td>${t.name}</td><td>${t.phone}</td><td>${t.subject}</td>
+                <td class="action-btns">
+                    <button class="btn btn-small" onclick="editTeacher(${t.id})">✏️</button>
+                    <button class="btn btn-small btn-danger" onclick="deleteTeacher(${t.id})">🗑️</button>
+                </td></tr>`
+            ).join('') : '<tr><td colspan="5">Ma\'lumot yo\'q</td></tr>';
         }
 
         function loadCourses() {
             const tbody = document.getElementById('coursesTable');
             tbody.innerHTML = courses.map((c, i) => 
-                `<tr><td>${i+1}</td><td>${c.name}</td><td>${c.desc}</td><td>${parseInt(c.price).toLocaleString()} so'm</td></tr>`
+                `<tr><td>${i+1}</td><td>${c.name}</td><td>${c.desc}</td><td>${parseInt(c.price).toLocaleString()} so'm</td>
+                <td class="action-btns">
+                    <button class="btn btn-small" onclick="editCourse(${c.id})">✏️</button>
+                    <button class="btn btn-small btn-danger" onclick="deleteCourse(${c.id})">🗑️</button>
+                </td></tr>`
             ).join('');
         }
 
@@ -302,6 +516,12 @@
             document.getElementById('phone2').value = settings.phone2;
             document.getElementById('scheduleUz').value = settings.scheduleUz;
             document.getElementById('scheduleRu').value = settings.scheduleRu;
+        }
+
+        function loadStudentCourses() {
+            const select = document.getElementById('newStudentCourse');
+            select.innerHTML = '<option value="">Tanlang</option>' + 
+                courses.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
         }
 
         function loadTeacherSubjects() {
@@ -316,19 +536,27 @@
             document.getElementById('totalCourses').textContent = courses.length;
         }
 
-        function showMsg(id, text) {
+        function showMsg(id, text, type = 'success') {
             const el = document.getElementById(id);
             el.textContent = text;
+            el.className = type === 'success' ? 'success-message' : 'error-message';
             el.style.display = 'block';
             setTimeout(() => el.style.display = 'none', 3000);
         }
 
-        // Auto-login if session exists
+        // Auto-login
         if (sessionStorage.getItem('loggedIn')) {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
             loadAll();
         }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        };
     </script>
 </body>
 </html>
