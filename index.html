@@ -419,15 +419,7 @@
     <header class="header">
         <div class="container header-content">
             <div class="logo">
-                <h1 id="logoText">HAMIDOV ACADEMY</h1>
-            </div>
-            <div class="lang-switch">
-                <button class="lang-btn active" onclick="changeLang('uz')" title="O'zbek tili">
-                    <span style="font-size: 20px;">🇺🇿</span>
-                </button>
-                <button class="lang-btn" onclick="changeLang('ru')" title="Русский язык">
-                    <span style="font-size: 20px;">🇷🇺</span>
-                </button>
+                <h1>HAMIDOV ACADEMY</h1>
             </div>
         </div>
     </header>
@@ -600,6 +592,39 @@
             scheduleRu: 'Понедельник-Суббота: 09:00-20:00<br>Воскресенье: Выходной'
         };
 
+        function toggleLangMenu(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('langDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        function selectLang(lang) {
+            currentLang = lang;
+            const currentFlag = document.getElementById('currentFlag');
+            const options = document.querySelectorAll('.lang-option');
+            
+            if (lang === 'uz') {
+                currentFlag.textContent = '🇺🇿';
+            } else {
+                currentFlag.textContent = '🇷🇺';
+            }
+            
+            options.forEach(opt => opt.classList.remove('active'));
+            event.target.closest('.lang-option').classList.add('active');
+            
+            document.getElementById('langDropdown').classList.remove('show');
+            
+            changeLang(lang);
+        }
+
+        // Click outside to close
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('langDropdown');
+            if (dropdown && !event.target.closest('.lang-switch')) {
+                dropdown.classList.remove('show');
+            }
+        });
+
         // Kurslar ikonkalari
         const courseIcons = {
             'Matematika': '📐',
@@ -660,10 +685,15 @@
             const courses = JSON.parse(localStorage.getItem('courses')) || [];
             const courseSelect = document.getElementById('course');
             
+            if (!courseSelect) return;
+            
             courseSelect.innerHTML = `<option value="">${currentLang === 'uz' ? 'Kursni tanlang' : 'Выберите курс'}</option>`;
             
             courses.forEach(course => {
-                courseSelect.innerHTML += `<option value="${course.name}">${course.name}</option>`;
+                const option = document.createElement('option');
+                option.value = course.name;
+                option.textContent = course.name;
+                courseSelect.appendChild(option);
             });
         }
 
