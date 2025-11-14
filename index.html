@@ -415,17 +415,17 @@
                 <div class="info-card">
                     <div class="info-icon">📍</div>
                     <h3 id="addressTitle">Manzil</h3>
-                    <p id="addressText">Toshkent sh., Yunusobod tumani, Abdulla Qodiriy ko'chasi, 15-uy</p>
+                    <p id="addressText"></p>
                 </div>
                 <div class="info-card">
                     <div class="info-icon">📞</div>
                     <h3 id="phoneTitle">Telefon</h3>
-                    <p>+998 90 123 45 67<br>+998 91 234 56 78</p>
+                    <p id="phoneNumbers"></p>
                 </div>
                 <div class="info-card">
                     <div class="info-icon">⏰</div>
                     <h3 id="scheduleTitle">Ish Vaqti</h3>
-                    <p id="scheduleText">Dushanba-Shanba: 09:00-20:00<br>Yakshanba: Dam olish</p>
+                    <p id="scheduleText"></p>
                 </div>
             </div>
         </div>
@@ -497,10 +497,8 @@
                 coursesTitle: "Bizning Kurslar",
                 infoTitle: "Biz Haqimizda",
                 addressTitle: "Manzil",
-                addressText: "Toshkent sh., Yunusobod tumani, Abdulla Qodiriy ko'chasi, 15-uy",
                 phoneTitle: "Telefon",
                 scheduleTitle: "Ish Vaqti",
-                scheduleText: "Dushanba-Shanba: 09:00-20:00<br>Yakshanba: Dam olish",
                 registerTitle: "Ro'yxatdan O'ting!",
                 registerSubtitle: "Bepul sinov darsiga yoziling va o'z imkoniyatlaringizni kashf qiling!",
                 ctaText: "🎓 RO'YXATDAN O'TISH",
@@ -522,10 +520,8 @@
                 coursesTitle: "Наши Курсы",
                 infoTitle: "О Нас",
                 addressTitle: "Адрес",
-                addressText: "г. Ташкент, Юнусабадский район, ул. Абдуллы Кадыри, д. 15",
                 phoneTitle: "Телефон",
                 scheduleTitle: "Время Работы",
-                scheduleText: "Понедельник-Суббота: 09:00-20:00<br>Воскресенье: Выходной",
                 registerTitle: "Зарегистрируйтесь!",
                 registerSubtitle: "Запишитесь на бесплатный пробный урок и откройте свои возможности!",
                 ctaText: "🎓 ЗАРЕГИСТРИРОВАТЬСЯ",
@@ -541,6 +537,18 @@
                 errorMsg: "Произошла ошибка. Пожалуйста, попробуйте снова."
             }
         };
+
+        function updateSiteInfo() {
+            document.getElementById('addressText').textContent = currentLang === 'uz' ? siteSettings.addressUz : siteSettings.addressRu;
+            
+            let phoneHTML = siteSettings.phone1;
+            if (siteSettings.phone2) {
+                phoneHTML += '<br>' + siteSettings.phone2;
+            }
+            document.getElementById('phoneNumbers').innerHTML = phoneHTML;
+            
+            document.getElementById('scheduleText').innerHTML = currentLang === 'uz' ? siteSettings.scheduleUz : siteSettings.scheduleRu;
+        }
 
         let currentLang = 'uz';
         let siteSettings = JSON.parse(localStorage.getItem('siteSettings')) || {
@@ -600,14 +608,11 @@
             for (let key in trans) {
                 const el = document.getElementById(key);
                 if (el) {
-                    if (key.includes('Text') && key !== 'logoText') {
-                        el.innerHTML = trans[key];
-                    } else {
-                        el.textContent = trans[key];
-                    }
+                    el.textContent = trans[key];
                 }
             }
             
+            updateSiteInfo();
             loadDynamicCourses();
         }
 
@@ -663,6 +668,10 @@
             document.body.style.overflow = 'hidden';
             loadDynamicCourses();
             phoneInput.value = '+998 ';
+            
+            // Kurs select'ni reset qilish
+            const courseSelect = document.getElementById('course');
+            courseSelect.selectedIndex = 0;
         }
 
         function closeRegistrationModal() {
@@ -708,7 +717,7 @@
                 date: new Date().toLocaleString('uz-UZ')
             };
 
-            const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwcCBAPfO0HcHgTeG-fkcwXDaqShOxQxWVNVphX-1E6e1LZDDgUreBGhzq0kl8-1I2I/exec';
+            const GOOGLE_SHEET_URL = 'YOUR_GOOGLE_SHEETS_WEB_APP_URL_HERE';
 
             try {
                 await fetch(GOOGLE_SHEET_URL, {
@@ -755,11 +764,18 @@
                 loadDynamicCourses();
                 loadCoursesGrid();
             }
+            
+            const settingsUpdate = localStorage.getItem('settingsUpdated');
+            if (settingsUpdate) {
+                siteSettings = JSON.parse(localStorage.getItem('siteSettings'));
+                updateSiteInfo();
+            }
         }, 2000);
 
         window.addEventListener('load', () => {
             loadDynamicCourses();
             loadCoursesGrid();
+            updateSiteInfo();
         });
     </script>
 </body>
