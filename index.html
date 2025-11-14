@@ -5,458 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hamidov Academy</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .logo h1 {
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .lang-switch {
-            display: flex;
-            gap: 5px;
-            position: relative;
-        }
-
-        .lang-btn {
-            background: rgba(255,255,255,0.2);
-            border: 2px solid white;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .lang-btn.active {
-            background: white;
-            color: #667eea;
-        }
-
-        .lang-dropdown {
-            display: none;
-            position: absolute;
-            top: 45px;
-            right: 0;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            overflow: hidden;
-            z-index: 100;
-        }
-
-        .lang-dropdown.show {
-            display: block;
-        }
-
-        .lang-option {
-            padding: 12px 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: background 0.3s;
-            color: #333;
-        }
-
-        .lang-option:hover {
-            background: #f5f6fa;
-        }
-
-        .lang-option.active {
-            background: #667eea;
-            color: white;
-        }
-
-        .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 80px 20px;
-            text-align: center;
-        }
-
-        .hero h2 {
-            font-size: 42px;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 20px;
-            opacity: 0.9;
-        }
-
-        .section {
-            padding: 60px 20px;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 36px;
-            margin-bottom: 50px;
-            color: #667eea;
-        }
-
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .course-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .course-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-
-        .course-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
-        }
-
-        .course-card h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 24px;
-        }
-
-        .course-card p {
-            color: #666;
-            margin-bottom: 15px;
-        }
-
-        .course-price {
-            font-size: 24px;
-            font-weight: bold;
-            color: #764ba2;
-        }
-
-        .info-section {
-            background: #f8f9fa;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .info-card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-        }
-
-        .info-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
-        }
-
-        .info-card h3 {
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-
-        .register-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .cta-button {
-            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-            color: #333;
-            border: none;
-            padding: 20px 50px;
-            font-size: 24px;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background: white;
-            margin: 5% auto;
-            padding: 0;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 600px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: slideIn 0.3s;
-            max-height: 85vh;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .close-btn {
-            color: #aaa;
-            float: right;
-            font-size: 35px;
-            font-weight: bold;
-            cursor: pointer;
-            padding: 10px 20px;
-            transition: color 0.3s;
-        }
-
-        .close-btn:hover {
-            color: #667eea;
-        }
-
-        .register-form {
-            padding: 20px 40px 40px;
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .form-buttons {
-            padding: 20px 40px;
-            background: white;
-            border-top: 1px solid #eee;
-            position: sticky;
-            bottom: 0;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            color: #333;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .submit-btn:hover {
-            transform: scale(1.02);
-        }
-
-        .success-message {
-            display: none;
-            background: #4caf50;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .error-message {
-            display: none;
-            background: #f44336;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .footer {
-            background: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: #333; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .logo h1 { font-size: 28px; font-weight: bold; }
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 20px; text-align: center; }
+        .hero h2 { font-size: 42px; margin-bottom: 20px; }
+        .hero p { font-size: 20px; opacity: 0.9; }
+        .section { padding: 60px 20px; }
+        .section-title { text-align: center; font-size: 36px; margin-bottom: 50px; color: #667eea; }
+        .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 30px; }
+        .course-card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .course-card:hover { transform: translateY(-5px); }
+        .course-icon { font-size: 48px; margin-bottom: 15px; }
+        .course-card h3 { color: #667eea; margin-bottom: 15px; font-size: 24px; }
+        .course-card p { color: #666; margin-bottom: 15px; }
+        .course-price { font-size: 24px; font-weight: bold; color: #764ba2; }
+        .info-section { background: #f8f9fa; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .info-card { background: white; padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 3px 15px rgba(0,0,0,0.1); }
+        .info-icon { font-size: 48px; margin-bottom: 15px; }
+        .info-card h3 { color: #667eea; margin-bottom: 10px; }
+        .register-section { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .cta-button { background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); color: #333; border: none; padding: 20px 50px; font-size: 24px; font-weight: bold; border-radius: 50px; cursor: pointer; box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4); transition: all 0.3s; text-transform: uppercase; }
+        .cta-button:hover { transform: translateY(-5px) scale(1.05); }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); }
+        .modal-content { background: white; margin: 5% auto; padding: 0; border-radius: 20px; width: 90%; max-width: 600px; max-height: 85vh; overflow-y: auto; }
+        .close-btn { float: right; font-size: 35px; font-weight: bold; cursor: pointer; padding: 10px 20px; color: #aaa; }
+        .close-btn:hover { color: #667eea; }
+        .register-form { padding: 20px 40px 40px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; color: #333; font-weight: bold; margin-bottom: 8px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #667eea; }
+        .submit-btn { width: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; }
+        .submit-btn:hover { transform: scale(1.02); }
+        .success-message, .error-message { padding: 15px; border-radius: 8px; margin-bottom: 20px; display: none; text-align: center; }
+        .success-message { background: #4caf50; color: white; }
+        .error-message { background: #f44336; color: white; }
+        .footer { background: #2c3e50; color: white; text-align: center; padding: 30px 20px; }
         @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-            }
-            
-            .hero h2 {
-                font-size: 28px;
-            }
-            
-            .hero p {
-                font-size: 16px;
-            }
-            
-            .section-title {
-                font-size: 28px;
-            }
-            
-            .courses-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .cta-button {
-                font-size: 18px;
-                padding: 15px 35px;
-            }
-            
-            .modal-content {
-                width: 95%;
-                margin: 5% auto;
-                max-height: 90vh;
-            }
-
-            .register-form {
-                padding: 20px;
-            }
-
-            .form-buttons {
-                padding: 15px 20px;
-            }
+            .hero h2 { font-size: 28px; }
+            .section-title { font-size: 28px; }
+            .courses-grid { grid-template-columns: 1fr; }
+            .cta-button { font-size: 18px; padding: 15px 35px; }
         }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="container header-content">
-            <div class="logo">
-                <h1>HAMIDOV ACADEMY</h1>
-            </div>
+            <div class="logo"><h1>HAMIDOV ACADEMY</h1></div>
         </div>
     </header>
 
     <section class="hero">
         <div class="container">
-            <h2 id="heroTitle">Bilim Sari Birinchi Qadam!</h2>
-            <p id="heroSubtitle">Matematika, Fizika va Ingliz tilini chuqur o'rganing</p>
+            <h2>Bilim Sari Birinchi Qadam!</h2>
+            <p>Professional o'qituvchilar bilan bilim oling</p>
         </div>
     </section>
 
     <section class="section">
         <div class="container">
-            <h2 class="section-title" id="coursesTitle">Bizning Kurslar</h2>
-            <div class="courses-grid" id="coursesGrid">
-                <!-- Kurslar dinamik yuklanadi -->
-            </div>
+            <h2 class="section-title">Bizning Kurslar</h2>
+            <div class="courses-grid" id="coursesGrid"></div>
         </div>
     </section>
 
     <section class="section info-section">
         <div class="container">
-            <h2 class="section-title" id="infoTitle">Biz Haqimizda</h2>
+            <h2 class="section-title">Biz Haqimizda</h2>
             <div class="info-grid">
                 <div class="info-card">
                     <div class="info-icon">📍</div>
-                    <h3 id="addressTitle">Manzil</h3>
+                    <h3>Manzil</h3>
                     <p id="addressText"></p>
                 </div>
                 <div class="info-card">
                     <div class="info-icon">📞</div>
-                    <h3 id="phoneTitle">Telefon</h3>
+                    <h3>Telefon</h3>
                     <p id="phoneNumbers"></p>
                 </div>
                 <div class="info-card">
                     <div class="info-icon">⏰</div>
-                    <h3 id="scheduleTitle">Ish Vaqti</h3>
+                    <h3>Ish Vaqti</h3>
                     <p id="scheduleText"></p>
                 </div>
             </div>
@@ -465,387 +100,200 @@
 
     <section class="section register-section">
         <div class="container">
-            <h2 class="section-title" id="registerTitle" style="color: white;">Ro'yxatdan O'ting!</h2>
-            <p style="text-align: center; color: white; font-size: 18px; margin-bottom: 40px;" id="registerSubtitle">Bepul sinov darsiga yoziling va o'z imkoniyatlaringizni kashf qiling!</p>
-            
-            <div style="text-align: center; margin-bottom: 30px;">
-                <button class="cta-button" onclick="openRegistrationModal()">
-                    <span id="ctaText">🎓 RO'YXATDAN O'TISH</span>
-                </button>
+            <h2 class="section-title" style="color: white;">Ro'yxatdan O'ting!</h2>
+            <p style="text-align: center; color: white; font-size: 18px; margin-bottom: 40px;">Bepul sinov darsiga yoziling!</p>
+            <div style="text-align: center;">
+                <button class="cta-button" onclick="openModal()">🎓 RO'YXATDAN O'TISH</button>
             </div>
         </div>
     </section>
 
-    <div id="registrationModal" class="modal">
+    <div id="regModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeRegistrationModal()">&times;</span>
-            <h2 style="color: #667eea; text-align: center; margin: 30px 0;" id="modalTitle">Ro'yxatdan O'tish</h2>
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 style="color: #667eea; text-align: center; margin: 30px 0;">Ro'yxatdan O'tish</h2>
             <div class="register-form">
-                <div class="success-message" id="successMessage"></div>
-                <div class="error-message" id="errorMessage"></div>
-                <form id="registrationForm">
-                    <div class="form-group">
-                        <label id="nameLabel">Ism Familiya *</label>
-                        <input type="text" id="fullName" required>
-                    </div>
-                    <div class="form-group">
-                        <label id="phoneLabel">Telefon raqam *</label>
-                        <input type="tel" id="phone" placeholder="90 123 45 67" required>
-                    </div>
-                    <div class="form-group">
-                        <label id="emailLabel">Email</label>
-                        <input type="email" id="email" placeholder="example@gmail.com">
-                    </div>
-                    <div class="form-group">
-                        <label id="courseLabel">Kurs tanlang *</label>
-                        <select id="course" required>
-                            <option value="">Kursni tanlang</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label id="commentLabel">Qo'shimcha izoh</label>
-                        <input type="text" id="comment">
-                    </div>
-                </form>
-            </div>
-            <div class="form-buttons">
-                <button type="submit" class="submit-btn" id="submitBtn" onclick="document.getElementById('registrationForm').requestSubmit()">YUBORISH</button>
+                <div class="success-message" id="successMsg"></div>
+                <div class="error-message" id="errorMsg"></div>
+                <div class="form-group">
+                    <label>Ism Familiya *</label>
+                    <input type="text" id="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefon *</label>
+                    <input type="tel" id="phone" placeholder="90 123 45 67" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email">
+                </div>
+                <div class="form-group">
+                    <label>Kurs *</label>
+                    <select id="course" required>
+                        <option value="">Tanlang</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Izoh</label>
+                    <input type="text" id="comment">
+                </div>
+                <button class="submit-btn" onclick="submitForm()">YUBORISH</button>
             </div>
         </div>
     </div>
 
     <footer class="footer">
         <div class="container">
-            <p id="footerText">© 2024 Hamidov Academy. Barcha huquqlar himoyalangan.</p>
+            <p>© 2024 Hamidov Academy. Barcha huquqlar himoyalangan.</p>
         </div>
     </footer>
 
     <script>
-        const translations = {
-            uz: {
-                logoText: "HAMIDOV ACADEMY",
-                heroTitle: "Bilim Sari Birinchi Qadam!",
-                heroSubtitle: "Matematika, Fizika va Ingliz tilini chuqur o'rganing",
-                coursesTitle: "Bizning Kurslar",
-                infoTitle: "Biz Haqimizda",
-                addressTitle: "Manzil",
-                phoneTitle: "Telefon",
-                scheduleTitle: "Ish Vaqti",
-                registerTitle: "Ro'yxatdan O'ting!",
-                registerSubtitle: "Bepul sinov darsiga yoziling va o'z imkoniyatlaringizni kashf qiling!",
-                ctaText: "🎓 RO'YXATDAN O'TISH",
-                modalTitle: "Ro'yxatdan O'tish",
-                nameLabel: "Ism Familiya *",
-                phoneLabel: "Telefon raqam *",
-                emailLabel: "Email",
-                courseLabel: "Kurs tanlang *",
-                commentLabel: "Qo'shimcha izoh",
-                submitBtn: "YUBORISH",
-                footerText: "© 2024 Hamidov Academy. Barcha huquqlar himoyalangan.",
-                successMsg: "Ma'lumotlaringiz muvaffaqiyatli yuborildi! Tez orada siz bilan bog'lanamiz.",
-                errorMsg: "Xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring."
-            },
-            ru: {
-                logoText: "HAMIDOV ACADEMY",
-                heroTitle: "Первый Шаг к Знаниям!",
-                heroSubtitle: "Углубленное изучение Математики, Физики и Английского языка",
-                coursesTitle: "Наши Курсы",
-                infoTitle: "О Нас",
-                addressTitle: "Адрес",
-                phoneTitle: "Телефон",
-                scheduleTitle: "Время Работы",
-                registerTitle: "Зарегистрируйтесь!",
-                registerSubtitle: "Запишитесь на бесплатный пробный урок и откройте свои возможности!",
-                ctaText: "🎓 ЗАРЕГИСТРИРОВАТЬСЯ",
-                modalTitle: "Регистрация",
-                nameLabel: "Имя Фамилия *",
-                phoneLabel: "Номер телефона *",
-                emailLabel: "Email",
-                courseLabel: "Выберите курс *",
-                commentLabel: "Дополнительный комментарий",
-                submitBtn: "ОТПРАВИТЬ",
-                footerText: "© 2024 Hamidov Academy. Все права защищены.",
-                successMsg: "Ваши данные успешно отправлены! Мы свяжемся с вами в ближайшее время.",
-                errorMsg: "Произошла ошибка. Пожалуйста, попробуйте снова."
-            }
-        };
-
-        function updateSiteInfo() {
-            document.getElementById('addressText').textContent = currentLang === 'uz' ? siteSettings.addressUz : siteSettings.addressRu;
-            
-            let phoneHTML = siteSettings.phone1;
-            if (siteSettings.phone2) {
-                phoneHTML += '<br>' + siteSettings.phone2;
-            }
-            document.getElementById('phoneNumbers').innerHTML = phoneHTML;
-            
-            document.getElementById('scheduleText').innerHTML = currentLang === 'uz' ? siteSettings.scheduleUz : siteSettings.scheduleRu;
-        }
-
-        let currentLang = 'uz';
-        let siteSettings = JSON.parse(localStorage.getItem('siteSettings')) || {
-            addressUz: 'Toshkent sh., Yunusobod tumani, Abdulla Qodiriy ko\'chasi, 15-uy',
-            addressRu: 'г. Ташкент, Юнусабадский район, ул. Абдуллы Кадыри, д. 15',
+        let settings = JSON.parse(localStorage.getItem('siteSettings')) || {
+            addressUz: 'Toshkent sh., Yunusobod',
             phone1: '+998 90 123 45 67',
             phone2: '+998 91 234 56 78',
-            scheduleUz: 'Dushanba-Shanba: 09:00-20:00<br>Yakshanba: Dam olish',
-            scheduleRu: 'Понедельник-Суббота: 09:00-20:00<br>Воскресенье: Выходной'
+            scheduleUz: 'Dushanba-Shanba: 09:00-20:00'
         };
 
-        function toggleLangMenu(event) {
-            event.stopPropagation();
-            const dropdown = document.getElementById('langDropdown');
-            dropdown.classList.toggle('show');
-        }
-
-        function selectLang(lang) {
-            currentLang = lang;
-            const currentFlag = document.getElementById('currentFlag');
-            const options = document.querySelectorAll('.lang-option');
-            
-            if (lang === 'uz') {
-                currentFlag.textContent = '🇺🇿';
-            } else {
-                currentFlag.textContent = '🇷🇺';
-            }
-            
-            options.forEach(opt => opt.classList.remove('active'));
-            event.target.closest('.lang-option').classList.add('active');
-            
-            document.getElementById('langDropdown').classList.remove('show');
-            
-            changeLang(lang);
-        }
-
-        // Click outside to close
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('langDropdown');
-            if (dropdown && !event.target.closest('.lang-switch')) {
-                dropdown.classList.remove('show');
-            }
-        });
-
-        // Kurslar ikonkalari
-        const courseIcons = {
-            'Matematika': '📐',
-            'Ingliz tili': '🌐',
-            'Fizika': '⚛️',
-            'Kimyo': '🧪',
-            'Biologiya': '🧬',
-            'Informatika': '💻',
-            'Tarix': '📜',
-            'Geografiya': '🌍',
-            'Adabiyot': '📚',
-            'default': '📖'
+        const icons = {
+            'Matematika': '📐', 'Ingliz tili': '🌐', 'Fizika': '⚛️',
+            'Kimyo': '🧪', 'Biologiya': '🧬', 'Informatika': '💻', 'default': '📖'
         };
 
-        function getIcon(courseName) {
-            return courseIcons[courseName] || courseIcons['default'];
-        }
-
-        // Kurslarni dinamik yuklash
-        function loadCoursesGrid() {
+        function loadCourses() {
             const courses = JSON.parse(localStorage.getItem('courses')) || [];
-            const coursesGrid = document.getElementById('coursesGrid');
+            const grid = document.getElementById('coursesGrid');
+            const select = document.getElementById('course');
             
-            if (courses.length === 0) {
-                coursesGrid.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">Hozircha kurslar mavjud emas</p>';
-                return;
-            }
-
-            coursesGrid.innerHTML = courses.map(course => `
+            grid.innerHTML = courses.length ? courses.map(c => `
                 <div class="course-card">
-                    <div class="course-icon">${getIcon(course.name)}</div>
-                    <h3>${course.name}</h3>
-                    <p>${course.desc}</p>
-                    <div class="course-price">${parseInt(course.price).toLocaleString()} so'm/oy</div>
+                    <div class="course-icon">${icons[c.name] || icons.default}</div>
+                    <h3>${c.name}</h3>
+                    <p>${c.desc}</p>
+                    <div class="course-price">${parseInt(c.price).toLocaleString()} so'm/oy</div>
                 </div>
-            `).join('');
+            `).join('') : '<p>Kurslar yo\'q</p>';
+
+            select.innerHTML = '<option value="">Tanlang</option>' + 
+                courses.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
         }
 
-        function changeLang(lang) {
-            currentLang = lang;
-            const btns = document.querySelectorAll('.lang-btn');
-            btns.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            const trans = translations[lang];
-            for (let key in trans) {
-                const el = document.getElementById(key);
-                if (el) {
-                    el.textContent = trans[key];
-                }
-            }
-            
-            updateSiteInfo();
-            loadDynamicCourses();
+        function loadInfo() {
+            document.getElementById('addressText').textContent = settings.addressUz;
+            document.getElementById('phoneNumbers').innerHTML = settings.phone1 + 
+                (settings.phone2 ? '<br>' + settings.phone2 : '');
+            document.getElementById('scheduleText').innerHTML = settings.scheduleUz;
         }
 
-        function loadDynamicCourses() {
-            const courses = JSON.parse(localStorage.getItem('courses')) || [];
-            const courseSelect = document.getElementById('course');
-            
-            if (!courseSelect) return;
-            
-            courseSelect.innerHTML = `<option value="">${currentLang === 'uz' ? 'Kursni tanlang' : 'Выберите курс'}</option>`;
-            
-            courses.forEach(course => {
-                const option = document.createElement('option');
-                option.value = course.name;
-                option.textContent = course.name;
-                courseSelect.appendChild(option);
-            });
-        }
-
-        // Telefon formatlash
         const phoneInput = document.getElementById('phone');
-        
-        phoneInput.addEventListener('focus', function() {
-            if (!this.value) {
-                this.value = '+998 ';
-            }
+        phoneInput.addEventListener('focus', () => { if (!phoneInput.value) phoneInput.value = '+998 '; });
+        phoneInput.addEventListener('input', (e) => {
+            let v = e.target.value.replace(/\D/g, '');
+            if (!v.startsWith('998')) v = '998';
+            if (v.length > 12) v = v.substring(0, 12);
+            let f = '+998 ';
+            if (v.length > 3) f += v.substring(3, 5);
+            if (v.length > 5) f += ' ' + v.substring(5, 8);
+            if (v.length > 8) f += ' ' + v.substring(8, 10);
+            if (v.length > 10) f += ' ' + v.substring(10, 12);
+            e.target.value = f.trim();
         });
-        
-        phoneInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            
-            if (!value.startsWith('998')) {
-                value = '998';
-            }
-            
-            if (value.length > 12) {
-                value = value.substring(0, 12);
-            }
-            
-            let formatted = '+998 ';
-            if (value.length > 3) formatted += value.substring(3, 5);
-            if (value.length > 5) formatted += ' ' + value.substring(5, 8);
-            if (value.length > 8) formatted += ' ' + value.substring(8, 10);
-            if (value.length > 10) formatted += ' ' + value.substring(10, 12);
-            
-            e.target.value = formatted.trim();
-        });
-
-        phoneInput.addEventListener('keydown', function(e) {
+        phoneInput.addEventListener('keydown', (e) => {
             if (e.key === 'Backspace' && e.target.value.length <= 6) {
                 e.preventDefault();
                 e.target.value = '+998 ';
             }
         });
 
-        function openRegistrationModal() {
-            document.getElementById('registrationModal').style.display = 'block';
+        function openModal() {
+            document.getElementById('regModal').style.display = 'block';
             document.body.style.overflow = 'hidden';
-            loadDynamicCourses();
+            loadCourses();
             phoneInput.value = '+998 ';
-            
-            // Kurs select'ni reset qilish
-            const courseSelect = document.getElementById('course');
-            courseSelect.selectedIndex = 0;
         }
 
-        function closeRegistrationModal() {
-            document.getElementById('registrationModal').style.display = 'none';
+        function closeModal() {
+            document.getElementById('regModal').style.display = 'none';
             document.body.style.overflow = 'auto';
         }
 
-        window.onclick = function(event) {
-            const modal = document.getElementById('registrationModal');
-            if (event.target == modal) {
-                closeRegistrationModal();
-            }
-        }
+        window.onclick = (e) => { if (e.target.id === 'regModal') closeModal(); };
 
-        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const successMsg = document.getElementById('successMessage');
-            const errorMsg = document.getElementById('errorMessage');
-            const submitBtn = document.getElementById('submitBtn');
-            
-            successMsg.style.display = 'none';
-            errorMsg.style.display = 'none';
-            submitBtn.disabled = true;
-            submitBtn.textContent = currentLang === 'uz' ? 'Yuklanmoqda...' : 'Загрузка...';
+        function submitForm() {
+            const name = document.getElementById('fullName').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const course = document.getElementById('course').value;
+            const comment = document.getElementById('comment').value.trim();
+            const success = document.getElementById('successMsg');
+            const error = document.getElementById('errorMsg');
 
-            const selectedCourse = document.getElementById('course').value;
-            
-            if (!selectedCourse) {
-                errorMsg.textContent = currentLang === 'uz' ? 'Iltimos, kursni tanlang!' : 'Пожалуйста, выберите курс!';
-                errorMsg.style.display = 'block';
-                submitBtn.disabled = false;
-                submitBtn.textContent = translations[currentLang].submitBtn;
+            success.style.display = 'none';
+            error.style.display = 'none';
+
+            if (!name || !phone || !course) {
+                error.textContent = 'Iltimos, barcha majburiy maydonlarni to\'ldiring!';
+                error.style.display = 'block';
                 return;
             }
 
-            const formData = {
-                fullName: document.getElementById('fullName').value,
-                phone: document.getElementById('phone').value,
-                email: document.getElementById('email').value,
-                course: selectedCourse,
-                comment: document.getElementById('comment').value,
-                date: new Date().toLocaleString('uz-UZ')
+            if (phone.length < 17) {
+                error.textContent = 'Telefon raqamni to\'liq kiriting!';
+                error.style.display = 'block';
+                return;
+            }
+
+            const data = {
+                id: Date.now(),
+                fullName: name,
+                phone: phone,
+                email: email,
+                course: course,
+                comment: comment,
+                date: new Date().toLocaleString('uz-UZ'),
+                teacher: null,
+                teacherName: null
             };
 
-            const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwcCBAPfO0HcHgTeG-fkcwXDaqShOxQxWVNVphX-1E6e1LZDDgUreBGhzq0kl8-1I2I/exec';
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            students.push(data);
+            localStorage.setItem('students', JSON.stringify(students));
 
-            try {
-                await fetch(GOOGLE_SHEET_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
-                });
+            const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwcCBAPfO0HcHgTeG-fkcwXDaqShOxQxWVNVphX-1E6e1LZDDgUreBGhzq0kl8-1I2I/exec';
+            fetch(SHEET_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).catch(e => console.log(e));
 
-                const students = JSON.parse(localStorage.getItem('students')) || [];
-                students.push({
-                    id: Date.now(),
-                    ...formData,
-                    teacher: null,
-                    teacherName: null
-                });
-                localStorage.setItem('students', JSON.stringify(students));
+            success.textContent = 'Muvaffaqiyatli yuborildi! Tez orada siz bilan bog\'lanamiz.';
+            success.style.display = 'block';
 
-                successMsg.textContent = translations[currentLang].successMsg;
-                successMsg.style.display = 'block';
-                document.getElementById('registrationForm').reset();
-                document.getElementById('course').value = '';
-                phoneInput.value = '+998 ';
-                
-                setTimeout(() => {
-                    successMsg.style.display = 'none';
-                    closeRegistrationModal();
-                }, 3000);
+            document.getElementById('fullName').value = '';
+            document.getElementById('phone').value = '+998 ';
+            document.getElementById('email').value = '';
+            document.getElementById('course').value = '';
+            document.getElementById('comment').value = '';
 
-            } catch (error) {
-                errorMsg.textContent = translations[currentLang].errorMsg;
-                errorMsg.style.display = 'block';
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = translations[currentLang].submitBtn;
-            }
-        });
+            setTimeout(() => {
+                success.style.display = 'none';
+                closeModal();
+            }, 3000);
+        }
 
         setInterval(() => {
-            const lastUpdate = localStorage.getItem('coursesUpdated');
-            if (lastUpdate) {
-                loadDynamicCourses();
-                loadCoursesGrid();
-            }
-            
-            const settingsUpdate = localStorage.getItem('settingsUpdated');
-            if (settingsUpdate) {
-                siteSettings = JSON.parse(localStorage.getItem('siteSettings'));
-                updateSiteInfo();
+            if (localStorage.getItem('coursesUpdated')) loadCourses();
+            if (localStorage.getItem('settingsUpdated')) {
+                settings = JSON.parse(localStorage.getItem('siteSettings'));
+                loadInfo();
             }
         }, 2000);
 
         window.addEventListener('load', () => {
-            loadDynamicCourses();
-            loadCoursesGrid();
-            updateSiteInfo();
+            loadCourses();
+            loadInfo();
         });
     </script>
 </body>
