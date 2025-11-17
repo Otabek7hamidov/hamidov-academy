@@ -1,300 +1,581 @@
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hamidov Academy</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: #333; }
-        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-        .logo h1 { font-size: 28px; font-weight: bold; }
-        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 20px; text-align: center; }
-        .hero h2 { font-size: 42px; margin-bottom: 20px; }
-        .hero p { font-size: 20px; opacity: 0.9; }
-        .section { padding: 60px 20px; }
-        .section-title { text-align: center; font-size: 36px; margin-bottom: 50px; color: #667eea; }
-        .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 30px; }
-        .course-card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: transform 0.3s; }
-        .course-card:hover { transform: translateY(-5px); }
-        .course-icon { font-size: 48px; margin-bottom: 15px; }
-        .course-card h3 { color: #667eea; margin-bottom: 15px; font-size: 24px; }
-        .course-card p { color: #666; margin-bottom: 15px; }
-        .course-price { font-size: 24px; font-weight: bold; color: #764ba2; }
-        .info-section { background: #f8f9fa; }
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
-        .info-card { background: white; padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 3px 15px rgba(0,0,0,0.1); }
-        .info-icon { font-size: 48px; margin-bottom: 15px; }
-        .info-card h3 { color: #667eea; margin-bottom: 10px; }
-        .register-section { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
-        .cta-button { background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); color: #333; border: none; padding: 20px 50px; font-size: 24px; font-weight: bold; border-radius: 50px; cursor: pointer; box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4); transition: all 0.3s; text-transform: uppercase; }
-        .cta-button:hover { transform: translateY(-5px) scale(1.05); }
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); }
-        .modal-content { background: white; margin: 5% auto; padding: 0; border-radius: 20px; width: 90%; max-width: 600px; max-height: 85vh; overflow-y: auto; }
-        .close-btn { float: right; font-size: 35px; font-weight: bold; cursor: pointer; padding: 10px 20px; color: #aaa; }
-        .close-btn:hover { color: #667eea; }
-        .register-form { padding: 20px 40px 40px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; color: #333; font-weight: bold; margin-bottom: 8px; }
-        .form-group input, .form-group select { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; }
-        .form-group input:focus, .form-group select:focus { outline: none; border-color: #667eea; }
-        .submit-btn { width: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; }
-        .submit-btn:hover { transform: scale(1.02); }
-        .success-message, .error-message { padding: 15px; border-radius: 8px; margin-bottom: 20px; display: none; text-align: center; }
-        .success-message { background: #4caf50; color: white; }
-        .error-message { background: #f44336; color: white; }
-        .footer { background: #2c3e50; color: white; text-align: center; padding: 30px 20px; }
-        @media (max-width: 768px) {
-            .hero h2 { font-size: 28px; }
-            .section-title { font-size: 28px; }
-            .courses-grid { grid-template-columns: 1fr; }
-            .cta-button { font-size: 18px; padding: 15px 35px; }
+import React, { useState, useEffect } from 'react';
+import { Users, Building2, LogIn, LogOut, Plus, Edit2, Trash2, X, Phone, Calendar, User } from 'lucide-react';
+
+const UniconHRSystem = () => {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [loginData, setLoginData] = useState({ username: '', password: '' });
+  const [districts, setDistricts] = useState([]);
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [showAddDistrict, setShowAddDistrict] = useState(false);
+  const [showAddPerson, setShowAddPerson] = useState(false);
+  const [personType, setPersonType] = useState('');
+  const [editingPerson, setEditingPerson] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    district: '',
+    type: '',
+    photo: '',
+    birthDate: '',
+    phone: '',
+    position: ''
+  });
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      const result = await window.storage.get('hr-districts');
+      if (result && result.value) {
+        setDistricts(JSON.parse(result.value));
+      }
+    } catch (error) {
+      console.log('Malumotlar topilmadi, yangi tizim boshlanmoqda');
+    }
+  };
+
+  const saveData = async (newDistricts) => {
+    try {
+      await window.storage.set('hr-districts', JSON.stringify(newDistricts));
+      setDistricts(newDistricts);
+    } catch (error) {
+      console.error('Saqlashda xatolik:', error);
+    }
+  };
+
+  const handleLogin = () => {
+    if (loginData.username === 'admin' && loginData.password === 'admin123') {
+      setIsAdmin(true);
+      setShowLogin(false);
+      setLoginData({ username: '', password: '' });
+    } else {
+      alert('Login yoki parol noto\'g\'ri!');
+    }
+  };
+
+  const handleLogout = () => {
+    setIsAdmin(false);
+    setSelectedDistrict(null);
+  };
+
+  const handleAddDistrict = () => {
+    if (formData.name.trim()) {
+      const newDistrict = {
+        id: Date.now(),
+        name: formData.name,
+        manager: null,
+        employees: []
+      };
+      saveData([...districts, newDistrict]);
+      setFormData({ name: '', district: '', type: '', photo: '', birthDate: '', phone: '', position: '' });
+      setShowAddDistrict(false);
+    }
+  };
+
+  const handleDeleteDistrict = (id) => {
+    if (confirm('Rostdan ham o\'chirmoqchimisiz?')) {
+      saveData(districts.filter(d => d.id !== id));
+      if (selectedDistrict?.id === id) {
+        setSelectedDistrict(null);
+      }
+    }
+  };
+
+  const handleAddPerson = () => {
+    if (!formData.name.trim() || !formData.district) return;
+
+    const person = {
+      id: Date.now(),
+      name: formData.name,
+      photo: formData.photo,
+      birthDate: formData.birthDate,
+      phone: formData.phone,
+      position: formData.position
+    };
+
+    const updatedDistricts = districts.map(d => {
+      if (d.id === parseInt(formData.district)) {
+        if (personType === 'manager') {
+          return { ...d, manager: person };
+        } else {
+          return { ...d, employees: [...d.employees, person] };
         }
-    </style>
-</head>
-<body>
-    <header class="header">
-        <div class="container header-content">
-            <div class="logo"><h1>HAMIDOV ACADEMY</h1></div>
-        </div>
-    </header>
+      }
+      return d;
+    });
 
-    <section class="hero">
-        <div class="container">
-            <h2>Bilim Sari Birinchi Qadam!</h2>
-            <p>Professional o'qituvchilar bilan bilim oling</p>
-        </div>
-    </section>
+    saveData(updatedDistricts);
+    setFormData({ name: '', district: '', type: '', photo: '', birthDate: '', phone: '', position: '' });
+    setShowAddPerson(false);
+    setPersonType('');
+  };
 
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Bizning Kurslar</h2>
-            <div class="courses-grid" id="coursesGrid"></div>
-        </div>
-    </section>
+  const handleEditPerson = () => {
+    const updatedDistricts = districts.map(d => {
+      if (d.id === parseInt(formData.district)) {
+        if (editingPerson.type === 'manager') {
+          return { 
+            ...d, 
+            manager: {
+              ...d.manager,
+              name: formData.name,
+              photo: formData.photo,
+              birthDate: formData.birthDate,
+              phone: formData.phone,
+              position: formData.position
+            }
+          };
+        } else {
+          return {
+            ...d,
+            employees: d.employees.map(e => 
+              e.id === editingPerson.id ? {
+                ...e,
+                name: formData.name,
+                photo: formData.photo,
+                birthDate: formData.birthDate,
+                phone: formData.phone,
+                position: formData.position
+              } : e
+            )
+          };
+        }
+      }
+      return d;
+    });
 
-    <section class="section info-section">
-        <div class="container">
-            <h2 class="section-title">Biz Haqimizda</h2>
-            <div class="info-grid">
-                <div class="info-card">
-                    <div class="info-icon">📍</div>
-                    <h3>Manzil</h3>
-                    <p id="addressText"></p>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon">📞</div>
-                    <h3>Telefon</h3>
-                    <p id="phoneNumbers"></p>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon">⏰</div>
-                    <h3>Ish Vaqti</h3>
-                    <p id="scheduleText"></p>
-                </div>
+    saveData(updatedDistricts);
+    setFormData({ name: '', district: '', type: '', photo: '', birthDate: '', phone: '', position: '' });
+    setEditingPerson(null);
+  };
+
+  const handleDeletePerson = (districtId, personId, type) => {
+    if (confirm('Rostdan ham o\'chirmoqchimisiz?')) {
+      const updatedDistricts = districts.map(d => {
+        if (d.id === districtId) {
+          if (type === 'manager') {
+            return { ...d, manager: null };
+          } else {
+            return { ...d, employees: d.employees.filter(e => e.id !== personId) };
+          }
+        }
+        return d;
+      });
+      saveData(updatedDistricts);
+    }
+  };
+
+  const openEditPerson = (district, person, type) => {
+    setEditingPerson({ ...person, type, districtId: district.id });
+    setFormData({
+      name: person.name,
+      district: district.id.toString(),
+      photo: person.photo || '',
+      birthDate: person.birthDate || '',
+      phone: person.phone || '',
+      position: person.position || ''
+    });
+  };
+
+  const PersonCard = ({ person, district, type }) => (
+    <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
+      <div className="flex items-start gap-4">
+        {person.photo ? (
+          <img src={person.photo} alt={person.name} className="w-20 h-20 rounded-full object-cover" />
+        ) : (
+          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-900 to-red-600 flex items-center justify-center text-white text-2xl font-bold">
+            {person.name.charAt(0)}
+          </div>
+        )}
+        <div className="flex-1">
+          <h3 className="font-bold text-lg text-gray-800">{person.name}</h3>
+          {person.position && (
+            <p className="text-sm text-gray-600 mb-2">{person.position}</p>
+          )}
+          {person.birthDate && (
+            <div className="flex items-center gap-2 text-sm text-gray-600 mb-1">
+              <Calendar className="w-4 h-4" />
+              <span>{person.birthDate}</span>
             </div>
-        </div>
-    </section>
-
-    <section class="section register-section">
-        <div class="container">
-            <h2 class="section-title" style="color: white;">Ro'yxatdan O'ting!</h2>
-            <p style="text-align: center; color: white; font-size: 18px; margin-bottom: 40px;">Bepul sinov darsiga yoziling!</p>
-            <div style="text-align: center;">
-                <button class="cta-button" onclick="openModal()">🎓 RO'YXATDAN O'TISH</button>
+          )}
+          {person.phone && (
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <Phone className="w-4 h-4" />
+              <span>{person.phone}</span>
             </div>
+          )}
         </div>
-    </section>
-
-    <div id="regModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2 style="color: #667eea; text-align: center; margin: 30px 0;">Ro'yxatdan O'tish</h2>
-            <div class="register-form">
-                <div class="success-message" id="successMsg"></div>
-                <div class="error-message" id="errorMsg"></div>
-                <div class="form-group">
-                    <label>Ism Familiya *</label>
-                    <input type="text" id="fullName" required>
-                </div>
-                <div class="form-group">
-                    <label>Telefon *</label>
-                    <input type="tel" id="phone" placeholder="90 123 45 67" required>
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="email">
-                </div>
-                <div class="form-group">
-                    <label>Kurs *</label>
-                    <select id="course" required>
-                        <option value="">Tanlang</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Izoh</label>
-                    <input type="text" id="comment">
-                </div>
-                <button class="submit-btn" onclick="submitForm()">YUBORISH</button>
-            </div>
-        </div>
+        {isAdmin && (
+          <div className="flex gap-2">
+            <button
+              onClick={() => openEditPerson(district, person, type)}
+              className="p-2 text-blue-600 hover:bg-blue-50 rounded"
+            >
+              <Edit2 className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => handleDeletePerson(district.id, person.id, type)}
+              className="p-2 text-red-600 hover:bg-red-50 rounded"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+      </div>
     </div>
+  );
 
-    <footer class="footer">
-        <div class="container">
-            <p>© 2024 Hamidov Academy. Barcha huquqlar himoyalangan.</p>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      {/* Header */}
+      <header className="bg-gradient-to-r from-blue-900 to-blue-800 text-white shadow-lg">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-4">
+              <div className="text-3xl font-bold">
+                UNICON <span className="text-red-500">SOFT</span>
+              </div>
+              <div className="text-sm opacity-90">MCHJ</div>
+            </div>
+            <div className="flex items-center gap-4">
+              {isAdmin ? (
+                <>
+                  <span className="text-sm">Admin Panel</span>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-2 bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition-colors"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Chiqish
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => setShowLogin(true)}
+                  className="flex items-center gap-2 bg-white text-blue-900 hover:bg-gray-100 px-4 py-2 rounded-lg transition-colors font-semibold"
+                >
+                  <LogIn className="w-4 h-4" />
+                  Kirish
+                </button>
+              )}
+            </div>
+          </div>
         </div>
-    </footer>
+      </header>
 
-    <script>
-        let settings = JSON.parse(localStorage.getItem('siteSettings')) || {
-            addressUz: 'Toshkent sh., Yunusobod',
-            phone1: '+998 90 123 45 67',
-            phone2: '+998 91 234 56 78',
-            scheduleUz: 'Dushanba-Shanba: 09:00-20:00'
-        };
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">Viloyat HR Bo'limi</h1>
+          <p className="text-gray-600">Tuman va shahar bo'limlari boshqaruv tizimi</p>
+        </div>
 
-        const icons = {
-            'Matematika': '📐', 'Ingliz tili': '🌐', 'Fizika': '⚛️',
-            'Kimyo': '🧪', 'Biologiya': '🧬', 'Informatika': '💻', 'default': '📖'
-        };
+        {isAdmin && (
+          <div className="mb-6 flex gap-4">
+            <button
+              onClick={() => setShowAddDistrict(true)}
+              className="flex items-center gap-2 bg-gradient-to-r from-blue-900 to-blue-700 text-white px-6 py-3 rounded-lg hover:from-blue-800 hover:to-blue-600 transition-all shadow-md"
+            >
+              <Plus className="w-5 h-5" />
+              Tuman/Shahar Qo'shish
+            </button>
+          </div>
+        )}
 
-        function loadCourses() {
-            const courses = JSON.parse(localStorage.getItem('courses')) || [];
-            const grid = document.getElementById('coursesGrid');
-            const select = document.getElementById('course');
-            
-            grid.innerHTML = courses.length ? courses.map(c => `
-                <div class="course-card">
-                    <div class="course-icon">${icons[c.name] || icons.default}</div>
-                    <h3>${c.name}</h3>
-                    <p>${c.desc}</p>
-                    <div class="course-price">${parseInt(c.price).toLocaleString()} so'm/oy</div>
+        {/* Districts Grid */}
+        {!selectedDistrict ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {districts.map(district => (
+              <div
+                key={district.id}
+                className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all cursor-pointer overflow-hidden border-t-4 border-blue-900"
+              >
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <Building2 className="w-8 h-8 text-blue-900" />
+                      <h2 className="text-xl font-bold text-gray-800">{district.name}</h2>
+                    </div>
+                    {isAdmin && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteDistrict(district.id);
+                        }}
+                        className="text-red-600 hover:bg-red-50 p-2 rounded"
+                      >
+                        <Trash2 className="w-5 h-5" />
+                      </button>
+                    )}
+                  </div>
+                  <div className="space-y-2 text-sm text-gray-600 mb-4">
+                    <div className="flex items-center gap-2">
+                      <User className="w-4 h-4" />
+                      <span>Rahbar: {district.manager ? district.manager.name : 'Tayinlanmagan'}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Users className="w-4 h-4" />
+                      <span>Xodimlar: {district.employees.length} ta</span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setSelectedDistrict(district)}
+                    className="w-full bg-gradient-to-r from-blue-900 to-blue-700 text-white py-2 rounded-lg hover:from-blue-800 hover:to-blue-600 transition-all"
+                  >
+                    Batafsil ko'rish
+                  </button>
                 </div>
-            `).join('') : '<p>Kurslar yo\'q</p>';
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div>
+            <button
+              onClick={() => setSelectedDistrict(null)}
+              className="mb-6 text-blue-900 hover:text-blue-700 font-semibold flex items-center gap-2"
+            >
+              ← Orqaga
+            </button>
 
-            select.innerHTML = '<option value="">Tanlang</option>' + 
-                courses.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
-        }
+            <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
+              <h2 className="text-3xl font-bold text-gray-800 mb-6">{selectedDistrict.name}</h2>
 
-        function loadInfo() {
-            document.getElementById('addressText').textContent = settings.addressUz;
-            document.getElementById('phoneNumbers').innerHTML = settings.phone1 + 
-                (settings.phone2 ? '<br>' + settings.phone2 : '');
-            document.getElementById('scheduleText').innerHTML = settings.scheduleUz;
-        }
+              {isAdmin && (
+                <div className="flex gap-4 mb-6">
+                  <button
+                    onClick={() => {
+                      setPersonType('manager');
+                      setFormData({ ...formData, district: selectedDistrict.id.toString() });
+                      setShowAddPerson(true);
+                    }}
+                    className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Rahbar Qo'shish
+                  </button>
+                  <button
+                    onClick={() => {
+                      setPersonType('employee');
+                      setFormData({ ...formData, district: selectedDistrict.id.toString() });
+                      setShowAddPerson(true);
+                    }}
+                    className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Xodim Qo'shish
+                  </button>
+                </div>
+              )}
 
-        const phoneInput = document.getElementById('phone');
-        phoneInput.addEventListener('focus', () => { if (!phoneInput.value) phoneInput.value = '+998 '; });
-        phoneInput.addEventListener('input', (e) => {
-            let v = e.target.value.replace(/\D/g, '');
-            if (!v.startsWith('998')) v = '998';
-            if (v.length > 12) v = v.substring(0, 12);
-            let f = '+998 ';
-            if (v.length > 3) f += v.substring(3, 5);
-            if (v.length > 5) f += ' ' + v.substring(5, 8);
-            if (v.length > 8) f += ' ' + v.substring(8, 10);
-            if (v.length > 10) f += ' ' + v.substring(10, 12);
-            e.target.value = f.trim();
-        });
-        phoneInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Backspace' && e.target.value.length <= 6) {
-                e.preventDefault();
-                e.target.value = '+998 ';
-            }
-        });
+              {/* Manager Section */}
+              <div className="mb-8">
+                <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <User className="w-5 h-5" />
+                  Rahbar
+                </h3>
+                {selectedDistrict.manager ? (
+                  <PersonCard person={selectedDistrict.manager} district={selectedDistrict} type="manager" />
+                ) : (
+                  <p className="text-gray-500 italic">Rahbar tayinlanmagan</p>
+                )}
+              </div>
 
-        function openModal() {
-            document.getElementById('regModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            loadCourses();
-            phoneInput.value = '+998 ';
-        }
+              {/* Employees Section */}
+              <div>
+                <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <Users className="w-5 h-5" />
+                  Xodimlar ({selectedDistrict.employees.length})
+                </h3>
+                {selectedDistrict.employees.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {selectedDistrict.employees.map(employee => (
+                      <PersonCard key={employee.id} person={employee} district={selectedDistrict} type="employee" />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-500 italic">Xodimlar yo'q</p>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
 
-        function closeModal() {
-            document.getElementById('regModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
+      {/* Login Modal */}
+      {showLogin && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-8 max-w-md w-full mx-4">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-800">Admin Panel</h2>
+              <button onClick={() => setShowLogin(false)} className="text-gray-500 hover:text-gray-700">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Login</label>
+                <input
+                  type="text"
+                  value={loginData.username}
+                  onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="admin"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Parol</label>
+                <input
+                  type="password"
+                  value={loginData.password}
+                  onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                  onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="admin123"
+                />
+              </div>
+              <button
+                onClick={handleLogin}
+                className="w-full bg-gradient-to-r from-blue-900 to-blue-700 text-white py-3 rounded-lg hover:from-blue-800 hover:to-blue-600 transition-all font-semibold"
+              >
+                Kirish
+              </button>
+              <p className="text-xs text-gray-500 text-center">Login: admin | Parol: admin123</p>
+            </div>
+          </div>
+        </div>
+      )}
 
-        window.onclick = (e) => { if (e.target.id === 'regModal') closeModal(); };
+      {/* Add District Modal */}
+      {showAddDistrict && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-8 max-w-md w-full mx-4">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-800">Tuman/Shahar Qo'shish</h2>
+              <button onClick={() => setShowAddDistrict(false)} className="text-gray-500 hover:text-gray-700">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Nomi</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Tuman yoki shahar nomi"
+                />
+              </div>
+              <button
+                onClick={handleAddDistrict}
+                className="w-full bg-gradient-to-r from-blue-900 to-blue-700 text-white py-3 rounded-lg hover:from-blue-800 hover:to-blue-600 transition-all font-semibold"
+              >
+                Qo'shish
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
-        function submitForm() {
-            const name = document.getElementById('fullName').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const course = document.getElementById('course').value;
-            const comment = document.getElementById('comment').value.trim();
-            const success = document.getElementById('successMsg');
-            const error = document.getElementById('errorMsg');
+      {/* Add/Edit Person Modal */}
+      {(showAddPerson || editingPerson) && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
+          <div className="bg-white rounded-xl p-8 max-w-md w-full mx-4 my-8">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-800">
+                {editingPerson ? 'Tahrirlash' : personType === 'manager' ? 'Rahbar Qo\'shish' : 'Xodim Qo\'shish'}
+              </h2>
+              <button 
+                onClick={() => {
+                  setShowAddPerson(false);
+                  setEditingPerson(null);
+                  setFormData({ name: '', district: '', type: '', photo: '', birthDate: '', phone: '', position: '' });
+                }} 
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Ism Familiya *</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="To'liq ism"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Lavozim</label>
+                <input
+                  type="text"
+                  value={formData.position}
+                  onChange={(e) => setFormData({ ...formData, position: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Lavozimi"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Tug'ilgan sana</label>
+                <input
+                  type="date"
+                  value={formData.birthDate}
+                  onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Telefon raqami</label>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="+998 XX XXX XX XX"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Rasm URL</label>
+                <input
+                  type="url"
+                  value={formData.photo}
+                  onChange={(e) => setFormData({ ...formData, photo: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="https://example.com/photo.jpg"
+                />
+                <p className="text-xs text-gray-500 mt-1">Rasm havolasini kiriting</p>
+              </div>
+              {!editingPerson && (
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Tuman/Shahar *</label>
+                  <select
+                    value={formData.district}
+                    onChange={(e) => setFormData({ ...formData, district: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="">Tanlang</option>
+                    {districts.map(d => (
+                      <option key={d.id} value={d.id}>{d.name}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              <button
+                onClick={editingPerson ? handleEditPerson : handleAddPerson}
+                className="w-full bg-gradient-to-r from-blue-900 to-blue-700 text-white py-3 rounded-lg hover:from-blue-800 hover:to-blue-600 transition-all font-semibold"
+              >
+                {editingPerson ? 'Saqlash' : 'Qo\'shish'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
-            success.style.display = 'none';
-            error.style.display = 'none';
-
-            if (!name || !phone || !course) {
-                error.textContent = 'Iltimos, barcha majburiy maydonlarni to\'ldiring!';
-                error.style.display = 'block';
-                return;
-            }
-
-            if (phone.length < 17) {
-                error.textContent = 'Telefon raqamni to\'liq kiriting!';
-                error.style.display = 'block';
-                return;
-            }
-
-            const data = {
-                id: Date.now(),
-                fullName: name,
-                phone: phone,
-                email: email,
-                course: course,
-                comment: comment,
-                date: new Date().toLocaleString('uz-UZ'),
-                teacher: null,
-                teacherName: null
-            };
-
-            const students = JSON.parse(localStorage.getItem('students')) || [];
-            students.push(data);
-            localStorage.setItem('students', JSON.stringify(students));
-
-            const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwcCBAPfO0HcHgTeG-fkcwXDaqShOxQxWVNVphX-1E6e1LZDDgUreBGhzq0kl8-1I2I/exec';
-            fetch(SHEET_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            }).catch(e => console.log(e));
-
-            success.textContent = 'Muvaffaqiyatli yuborildi! Tez orada siz bilan bog\'lanamiz.';
-            success.style.display = 'block';
-
-            document.getElementById('fullName').value = '';
-            document.getElementById('phone').value = '+998 ';
-            document.getElementById('email').value = '';
-            document.getElementById('course').value = '';
-            document.getElementById('comment').value = '';
-
-            setTimeout(() => {
-                success.style.display = 'none';
-                closeModal();
-            }, 3000);
-        }
-
-        setInterval(() => {
-            if (localStorage.getItem('coursesUpdated')) loadCourses();
-            if (localStorage.getItem('settingsUpdated')) {
-                settings = JSON.parse(localStorage.getItem('siteSettings'));
-                loadInfo();
-            }
-        }, 2000);
-
-        window.addEventListener('load', () => {
-            loadCourses();
-            loadInfo();
-        });
-    </script>
-</body>
-</html>
+export default UniconHRSystem;
