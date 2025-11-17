@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unicon-Soft HR Tizimi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .company-name {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .company-name .unicon {
+            color: white;
+        }
+
+        .company-name .soft {
+            color: #e74c3c;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .login-btn, .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover, .logout-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .admin-panel {
+            display: none;
+        }
+
+        .admin-header {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-header h1 {
+            color: #1e3c72;
+            font-size: 32px;
+        }
+
+        .admin-controls {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .control-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            color: #1e3c72;
+            border-bottom-color: #e74c3c;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .region-title {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .region-title h1 {
+            color: #1e3c72;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .region-title p {
+            color: #666;
+            font-size: 18px;
+        }
+
+        .departments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .department-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .department-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-color: #1e3c72;
+        }
+
+        .department-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .department-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .department-info {
+            color: #666;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .staff-count {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .count-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .count-number {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 18px;
+        }
+
+        .delete-dept-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .admin-panel .delete-dept-btn {
+            display: flex;
+        }
+
+        .delete-dept-btn:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1e3c72;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #1e3c72;
+        }
+
+        .photo-upload {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .photo-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e74c3c;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            background: #1e3c72;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .file-input-label:hover {
+            background: #2a5298;
+        }
+
+        .submit-btn, .add-btn {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover, .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .add-btn {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .staff-list-admin {
+            display: grid;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .staff-item-admin {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .staff-item-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .staff-item-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e74c3c;
+        }
+
+        .staff-item-details h4 {
+            color: #1e3c72;
+            margin-bottom: 5px;
+        }
+
+        .staff-item-details p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 50px auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { 
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close {
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            line-height: 1;
+        }
+
+        .close:hover {
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .staff-section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            color: #1e3c72;
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #e74c3c;
+            display: inline-block;
+        }
+
+        .staff-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .staff-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            transition: all 0.3s ease;
+            border-left: 4px solid #1e3c72;
+        }
+
+        .staff-card:hover {
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateX(5px);
+        }
+
+        .staff-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e74c3c;
+        }
+
+        .staff-details {
+            flex: 1;
+        }
+
+        .staff-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 8px;
+        }
+
+        .staff-info-item {
+            color: #666;
+            font-size: 14px;
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #1e3c72;
+            min-width: 120px;
+        }
+
+        .login-modal .modal-content {
+            max-width: 400px;
+        }
+
+        .login-form {
+            padding: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .departments-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .staff-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo-text">
+                    <div class="company-name">
+                        <span class="unicon">UNICON</span> <span class="soft">SOFT</span>
+                    </div>
+                    <div class="subtitle">Kadrlar boshqaruvi tizimi</div>
+                </div>
+            </div>
+            <button class="login-btn" id="loginBtn" onclick="openLoginModal()">Kirish</button>
+            <button class="logout-btn" id="logoutBtn" style="display:none;" onclick="logout()">Chiqish</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Public View -->
+        <div id="publicView">
+            <div class="region-title">
+                <h1>🏛️ Samarqand viloyati</h1>
+                <p>Bo'limlar va xodimlar ma'lumotlari</p>
+            </div>
+            <div class="departments-grid" id="departmentsGrid"></div>
+        </div>
+
+        <!-- Admin Panel -->
+        <div id="adminPanel" class="admin-panel">
+            <div class="admin-header">
+                <h1>🔧 Admin Panel</h1>
+            </div>
+
+            <div class="admin-controls">
+                <div class="control-tabs">
+                    <button class="tab-btn active" onclick="switchTab('departments')">Bo'limlar</button>
+                    <button class="tab-btn" onclick="switchTab('directors')">Rahbarlar</button>
+                    <button class="tab-btn" onclick="switchTab('employees')">Xodimlar</button>
+                </div>
+
+                <!-- Departments Tab -->
+                <div id="departmentsTab" class="tab-content active">
+                    <button class="add-btn" onclick="openAddDepartmentModal()">➕ Yangi bo'lim qo'shish</button>
+                    <div class="departments-grid" id="adminDepartmentsGrid"></div>
+                </div>
+
+                <!-- Directors Tab -->
+                <div id="directorsTab" class="tab-content">
+                    <button class="add-btn" onclick="openAddDirectorModal()">➕ Yangi rahbar qo'shish</button>
+                    <div class="staff-list-admin" id="directorsListAdmin"></div>
+                </div>
+
+                <!-- Employees Tab -->
+                <div id="employeesTab" class="tab-content">
+                    <button class="add-btn" onclick="openAddEmployeeModal()">➕ Yangi xodim qo'shish</button>
+                    <div class="staff-list-admin" id="employeesListAdmin"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Department Modal -->
+    <div id="departmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalDepartmentName"></h2>
+                <span class="close" onclick="closeModal('departmentModal')">&times;</span>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal login-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Admin Panel</h2>
+                <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            </div>
+            <div class="login-form">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>Login</label>
+                        <input type="text" id="username" required placeholder="Loginni kiriting">
+                    </div>
+                    <div class="form-group">
+                        <label>Parol</label>
+                        <input type="password" id="password" required placeholder="Parolni kiriting">
+                    </div>
+                    <button type="submit" class="submit-btn">Kirish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Department Modal -->
+    <div id="addDepartmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Yangi bo'lim qo'shish</h2>
+                <span class="close" onclick="closeModal('addDepartmentModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="addDepartment(event)">
+                    <div class="form-group">
+                        <label>Bo'lim nomi</label>
+                        <input type="text" id="deptName" required placeholder="Masalan: Urgut tumani">
+                    </div>
+                    <button type="submit" class="submit-btn">Qo'shish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Director Modal -->
+    <div id="addDirectorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Yangi rahbar qo'shish</h2>
+                <span class="close" onclick="closeModal('addDirectorModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="addDirector(event)">
+                    <div class="form-group">
+                        <label>Bo'limni tanlang</label>
+                        <select id="directorDept" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label>F.I.O</label>
+                        <input type="text" id="directorName" required placeholder="To'liq ism">
+                    </div>
+                    <div class="form-group">
+                        <label>Telefon raqam</label>
+                        <input type="tel" id="directorPhone" required placeholder="+998 90 123 45 67" value="+998 " maxlength="17">
+                    </div>
+                    <div class="form-group">
+                        <label>Tug'ilgan sana</label>
+                        <input type="date" id="directorBirth" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Rasm</label>
+                        <div class="photo-upload">
+                            <img id="directorPhotoPreview" class="photo-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23e0e0e0' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' font-size='20' fill='%23999' text-anchor='middle' dy='.3em'%3ERasm%3C/text%3E%3C/svg%3E">
+                            <div class="file-input-wrapper">
+                                <label class="file-input-label" for="directorPhoto">Rasm tanlash</label>
+                                <input type="file" id="directorPhoto" accept="image/*" onchange="previewPhoto(event, 'directorPhotoPreview')">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">Qo'shish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Employee Modal -->
+    <div id="addEmployeeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Yangi xodim qo'shish</h2>
+                <span class="close" onclick="closeModal('addEmployeeModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="addEmployee(event)">
+                    <div class="form-group">
+                        <label>Bo'limni tanlang</label>
+                        <select id="employeeDept" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label>F.I.O</label>
+                        <input type="text" id="employeeName" required placeholder="To'liq ism">
+                    </div>
+                    <div class="form-group">
+                        <label>Lavozim</label>
+                        <input type="text" id="employeePosition" required placeholder="Masalan: Mutaxassis">
+                    </div>
+                    <div class="form-group">
+                        <label>Telefon raqam</label>
+                        <input type="tel" id="employeePhone" required placeholder="+998 90 123 45 67" value="+998 " maxlength="17">
+                    </div>
+                    <div class="form-group">
+                        <label>Tug'ilgan sana</label>
+                        <input type="date" id="employeeBirth" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Rasm</label>
+                        <div class="photo-upload">
+                            <img id="employeePhotoPreview" class="photo-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23e0e0e0' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' font-size='20' fill='%23999' text-anchor='middle' dy='.3em'%3ERasm%3C/text%3E%3C/svg%3E">
+                            <div class="file-input-wrapper">
+                                <label class="file-input-label" for="employeePhoto">Rasm tanlash</label>
+                                <input type="file" id="employeePhoto" accept="image/*" onchange="previewPhoto(event, 'employeePhotoPreview')">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">Qo'shish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let departments = [
+            {
+                id: 1,
+                name: "Samarqand shahar",
+                director: {
+                    name: "Abdullayev Javohir",
+                    phone: "+998 90 123 45 67",
+                    birthDate: "15.03.1985",
+                    photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%231e3c72' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3EAJ%3C/text%3E%3C/svg%3E"
+                },
+                employees: [
+                    {
+                        name: "Karimov Otabek",
+                        position: "Bosh mutaxassis",
+                        phone: "+998 98 789 01 23",
+                        birthDate: "05.04.1991",
+                        photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%232a5298' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3ENA%3C/text%3E%3C/svg%3E"
+                    },
+                    {
+                        name: "Hamidova Zarina",
+                        position: "Mutaxassis",
+                        phone: "+998 99 890 12 34",
+                        birthDate: "12.09.1994",
+                        photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%23e74c3c' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3EHZ%3C/text%3E%3C/svg%3E"
+                    }
+                ]
+            }
+        ];
+
+        let isAdmin = false;
+        let nextId = 4;
+
+        // Phone input formatting
+        function formatPhoneInput(input) {
+            input.addEventListener('input', function(e) {
+                let value = e.target.value;
+                
+                // Always keep +998
+                if (!value.startsWith('+998 ')) {
+                    value = '+998 ';
+                }
+                
+                // Remove all non-digits except the +
+                let cleaned = value.replace(/[^\d+]/g, '');
+                
+                // Keep only +998 and up to 9 more digits
+                if (cleaned.length > 12) {
+                    cleaned = cleaned.substring(0, 12);
+                }
+                
+                // Format as +998 XX XXX XX XX
+                let formatted = '+998 ';
+                let digits = cleaned.substring(4); // Get digits after +998
+                
+                if (digits.length > 0) {
+                    formatted += digits.substring(0, 2);
+                }
+                if (digits.length > 2) {
+                    formatted += ' ' + digits.substring(2, 5);
+                }
+                if (digits.length > 5) {
+                    formatted += ' ' + digits.substring(5, 7);
+                }
+                if (digits.length > 7) {
+                    formatted += ' ' + digits.substring(7, 9);
+                }
+                
+                e.target.value = formatted;
+            });
+
+            input.addEventListener('keydown', function(e) {
+                // Prevent deleting +998
+                if (e.target.selectionStart <= 5 && (e.key === 'Backspace' || e.key === 'Delete')) {
+                    e.preventDefault();
+                }
+            });
+        }
+
+        // Initialize phone inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneInputs = ['directorPhone', 'employeePhone'];
+            phoneInputs.forEach(id => {
+                const input = document.getElementById(id);
+                if (input) formatPhoneInput(input);
+            });
+        });
+
+        function renderDepartments() {
+            const grid = document.getElementById('departmentsGrid');
+            const adminGrid = document.getElementById('adminDepartmentsGrid');
+            
+            const html = departments.map(dept => `
+                <div class="department-card" onclick="openDepartment(${dept.id})">
+                    <button class="delete-dept-btn" onclick="event.stopPropagation(); deleteDepartment(${dept.id})" title="Bo'limni o'chirish">×</button>
+                    <div class="department-name">
+                        <div class="department-icon">🏢</div>
+                        <span>${dept.name}</span>
+                    </div>
+                    <div class="department-info">
+                        Bo'lim ma'lumotlarini ko'rish uchun bosing
+                    </div>
+                    <div class="staff-count">
+                        <div class="count-item">
+                            <span>👤 Rahbar:</span>
+                            <span class="count-number">${dept.director ? '1' : '0'}</span>
+                        </div>
+                        <div class="count-item">
+                            <span>👥 Xodimlar:</span>
+                            <span class="count-number">${dept.employees.length}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            grid.innerHTML = html;
+            if (adminGrid) adminGrid.innerHTML = html;
+        }
+
+        function updateDepartmentSelects() {
+            const directorSelect = document.getElementById('directorDept');
+            const employeeSelect = document.getElementById('employeeDept');
+            
+            const options = departments.map(dept => 
+                `<option value="${dept.id}">${dept.name}</option>`
+            ).join('');
+            
+            if (directorSelect) directorSelect.innerHTML = '<option value="">Tanlang...</option>' + options;
+            if (employeeSelect) employeeSelect.innerHTML = '<option value="">Tanlang...</option>' + options;
+        }
+
+        function renderDirectorsList() {
+            const list = document.getElementById('directorsListAdmin');
+            if (!list) return;
+
+            const html = departments.map(dept => {
+                if (!dept.director) return '';
+                return `
+                    <div class="staff-item-admin">
+                        <div class="staff-item-info">
+                            <img src="${dept.director.photo}" class="staff-item-photo">
+                            <div class="staff-item-details">
+                                <h4>${dept.director.name}</h4>
+                                <p>📍 ${dept.name}</p>
+                                <p>📞 ${dept.director.phone}</p>
+                                <p>🎂 ${dept.director.birthDate}</p>
+                            </div>
+                        </div>
+                        <button class="delete-btn" onclick="deleteDirector(${dept.id})">O'chirish</button>
+                    </div>
+                `;
+            }).join('');
+
+            list.innerHTML = html || '<p style="text-align:center; color:#666;">Hozircha rahbarlar yo\'q</p>';
+        }
+
+        function renderEmployeesList() {
+            const list = document.getElementById('employeesListAdmin');
+            if (!list) return;
+
+            let html = '';
+            departments.forEach(dept => {
+                dept.employees.forEach((emp, index) => {
+                    html += `
+                        <div class="staff-item-admin">
+                            <div class="staff-item-info">
+                                <img src="${emp.photo}" class="staff-item-photo">
+                                <div class="staff-item-details">
+                                    <h4>${emp.name}</h4>
+                                    <p>💼 ${emp.position}</p>
+                                    <p>📍 ${dept.name}</p>
+                                    <p>📞 ${emp.phone}</p>
+                                    <p>🎂 ${emp.birthDate}</p>
+                                </div>
+                            </div>
+                            <button class="delete-btn" onclick="deleteEmployee(${dept.id}, ${index})">O'chirish</button>
+                        </div>
+                    `;
+                });
+            });
+
+            list.innerHTML = html || '<p style="text-align:center; color:#666;">Hozircha xodimlar yo\'q</p>';
+        }
+
+        function openDepartment(deptId) {
+            const dept = departments.find(d => d.id === deptId);
+            if (!dept) return;
+
+            document.getElementById('modalDepartmentName').textContent = dept.name;
+            
+            const modalBody = document.getElementById('modalBody');
+            let html = '';
+
+            if (dept.director) {
+                html += `
+                    <div class="staff-section">
+                        <h3 class="section-title">👤 Bo'lim rahbari</h3>
+                        <div class="staff-list">
+                            <div class="staff-card">
+                                <img src="${dept.director.photo}" alt="${dept.director.name}" class="staff-photo">
+                                <div class="staff-details">
+                                    <div class="staff-name">${dept.director.name}</div>
+                                    <div class="staff-info-item">
+                                        <span class="info-label">📞 Telefon:</span>
+                                        <span>${dept.director.phone}</span>
+                                    </div>
+                                    <div class="staff-info-item">
+                                        <span class="info-label">🎂 Tug'ilgan sana:</span>
+                                        <span>${dept.director.birthDate}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (dept.employees.length > 0) {
+                html += `
+                    <div class="staff-section">
+                        <h3 class="section-title">👥 Xodimlar (${dept.employees.length})</h3>
+                        <div class="staff-list">
+                            ${dept.employees.map(emp => `
+                                <div class="staff-card">
+                                    <img src="${emp.photo}" alt="${emp.name}" class="staff-photo">
+                                    <div class="staff-details">
+                                        <div class="staff-name">${emp.name}</div>
+                                        <div class="staff-info-item">
+                                            <span class="info-label">💼 Lavozim:</span>
+                                            <span>${emp.position}</span>
+                                        </div>
+                                        <div class="staff-info-item">
+                                            <span class="info-label">📞 Telefon:</span>
+                                            <span>${emp.phone}</span>
+                                        </div>
+                                        <div class="staff-info-item">
+                                            <span class="info-label">🎂 Tug'ilgan sana:</span>
+                                            <span>${emp.birthDate}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (!dept.director && dept.employees.length === 0) {
+                html = '<p style="text-align:center; color:#666; padding:40px;">Bu bo\'limda hozircha xodimlar yo\'q</p>';
+            }
+
+            modalBody.innerHTML = html;
+            document.getElementById('departmentModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function openLoginModal() {
+            document.getElementById('loginModal').style.display = 'block';
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'admin' && password === 'admin123') {
+                isAdmin = true;
+                document.getElementById('publicView').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('loginBtn').style.display = 'none';
+                document.getElementById('logoutBtn').style.display = 'block';
+                closeModal('loginModal');
+                renderDepartments();
+                updateDepartmentSelects();
+                renderDirectorsList();
+                renderEmployeesList();
+            } else {
+                alert('Login yoki parol noto\'g\'ri!');
+            }
+        }
+
+        function logout() {
+            isAdmin = false;
+            document.getElementById('publicView').style.display = 'block';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('loginBtn').style.display = 'block';
+            document.getElementById('logoutBtn').style.display = 'none';
+            renderDepartments();
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tab + 'Tab').classList.add('active');
+        }
+
+        function openAddDepartmentModal() {
+            document.getElementById('addDepartmentModal').style.display = 'block';
+        }
+
+        function openAddDirectorModal() {
+            updateDepartmentSelects();
+            document.getElementById('addDirectorModal').style.display = 'block';
+        }
+
+        function openAddEmployeeModal() {
+            updateDepartmentSelects();
+            document.getElementById('addEmployeeModal').style.display = 'block';
+        }
+
+        function previewPhoto(event, previewId) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(previewId).src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function formatDateForDisplay(dateString) {
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}.${month}.${year}`;
+        }
+
+        function addDepartment(event) {
+            event.preventDefault();
+            const name = document.getElementById('deptName').value;
+            
+            departments.push({
+                id: nextId++,
+                name: name,
+                director: null,
+                employees: []
+            });
+            
+            renderDepartments();
+            updateDepartmentSelects();
+            closeModal('addDepartmentModal');
+            document.getElementById('deptName').value = '';
+            alert('Bo\'lim muvaffaqiyatli qo\'shildi!');
+        }
+
+        function deleteDepartment(deptId) {
+            if (confirm('Bu bo\'limni o\'chirmoqchimisiz?')) {
+                departments = departments.filter(d => d.id !== deptId);
+                renderDepartments();
+                updateDepartmentSelects();
+                renderDirectorsList();
+                renderEmployeesList();
+            }
+        }
+
+        function addDirector(event) {
+            event.preventDefault();
+            const deptId = parseInt(document.getElementById('directorDept').value);
+            const name = document.getElementById('directorName').value;
+            const phone = document.getElementById('directorPhone').value;
+            const birthDate = formatDateForDisplay(document.getElementById('directorBirth').value);
+            const photoFile = document.getElementById('directorPhoto').files[0];
+            
+            const dept = departments.find(d => d.id === deptId);
+            if (!dept) return;
+
+            if (dept.director) {
+                alert('Bu bo\'limda allaqachon rahbar mavjud!');
+                return;
+            }
+
+            if (photoFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    dept.director = {
+                        name: name,
+                        phone: phone,
+                        birthDate: birthDate,
+                        photo: e.target.result
+                    };
+                    renderDepartments();
+                    renderDirectorsList();
+                };
+                reader.readAsDataURL(photoFile);
+            } else {
+                const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2);
+                dept.director = {
+                    name: name,
+                    phone: phone,
+                    birthDate: birthDate,
+                    photo: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%231e3c72' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3E${initials}%3C/text%3E%3C/svg%3E`
+                };
+                renderDepartments();
+                renderDirectorsList();
+            }
+
+            closeModal('addDirectorModal');
+            event.target.reset();
+            document.getElementById('directorPhone').value = '+998 ';
+            document.getElementById('directorPhotoPreview').src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23e0e0e0' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' font-size='20' fill='%23999' text-anchor='middle' dy='.3em'%3ERasm%3C/text%3E%3C/svg%3E";
+            alert('Rahbar muvaffaqiyatli qo\'shildi!');
+        }
+
+        function deleteDirector(deptId) {
+            if (confirm('Bu rahbarni o\'chirmoqchimisiz?')) {
+                const dept = departments.find(d => d.id === deptId);
+                if (dept) {
+                    dept.director = null;
+                    renderDepartments();
+                    renderDirectorsList();
+                }
+            }
+        }
+
+        function addEmployee(event) {
+            event.preventDefault();
+            const deptId = parseInt(document.getElementById('employeeDept').value);
+            const name = document.getElementById('employeeName').value;
+            const position = document.getElementById('employeePosition').value;
+            const phone = document.getElementById('employeePhone').value;
+            const birthDate = formatDateForDisplay(document.getElementById('employeeBirth').value);
+            const photoFile = document.getElementById('employeePhoto').files[0];
+            
+            const dept = departments.find(d => d.id === deptId);
+            if (!dept) return;
+
+            if (photoFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    dept.employees.push({
+                        name: name,
+                        position: position,
+                        phone: phone,
+                        birthDate: birthDate,
+                        photo: e.target.result
+                    });
+                    renderDepartments();
+                    renderEmployeesList();
+                };
+                reader.readAsDataURL(photoFile);
+            } else {
+                const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2);
+                dept.employees.push({
+                    name: name,
+                    position: position,
+                    phone: phone,
+                    birthDate: birthDate,
+                    photo: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%232a5298' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3E${initials}%3C/text%3E%3C/svg%3E`
+                });
+                renderDepartments();
+                renderEmployeesList();
+            }
+
+            closeModal('addEmployeeModal');
+            event.target.reset();
+            document.getElementById('employeePhone').value = '+998 ';
+            document.getElementById('employeePhotoPreview').src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23e0e0e0' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' font-size='20' fill='%23999' text-anchor='middle' dy='.3em'%3ERasm%3C/text%3E%3C/svg%3E";
+            alert('Xodim muvaffaqiyatli qo\'shildi!');
+        }
+
+        function deleteEmployee(deptId, empIndex) {
+            if (confirm('Bu xodimni o\'chirmoqchimisiz?')) {
+                const dept = departments.find(d => d.id === deptId);
+                if (dept) {
+                    dept.employees.splice(empIndex, 1);
+                    renderDepartments();
+                    renderEmployeesList();
+                }
+            }
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        renderDepartments();
+    </script>
+</body>
+</html> "+998 91 234 56 78",
+                        birthDate: "20.05.1990",
+                        photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%232a5298' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3EKO%3C/text%3E%3C/svg%3E"
+                    },
+                    {
+                        name: "Rahimova Dilnoza",
+                        position: "Mutaxassis",
+                        phone: "+998 93 345 67 89",
+                        birthDate: "10.08.1995",
+                        photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%23e74c3c' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3ERD%3C/text%3E%3C/svg%3E"
+                    }
+                ]
+            },
+            {
+                id: 2,
+                name: "Kattaqo'rg'on tumani",
+                director: {
+                    name: "Tursunov Bobur",
+                    phone: "+998 94 456 78 90",
+                    birthDate: "25.07.1988",
+                    photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%231e3c72' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3ETB%3C/text%3E%3C/svg%3E"
+                },
+                employees: [
+                    {
+                        name: "Yusupova Malika",
+                        position: "Mutaxassis",
+                        phone: "+998 95 567 89 01",
+                        birthDate: "18.11.1992",
+                        photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%232a5298' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3EYM%3C/text%3E%3C/svg%3E"
+                    }
+                ]
+            },
+            {
+                id: 3,
+                name: "Bulung'ur tumani",
+                director: {
+                    name: "Ergashev Sardor",
+                    phone: "+998 97 678 90 12",
+                    birthDate: "30.01.1987",
+                    photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%231e3c72' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3EES%3C/text%3E%3C/svg%3E"
+                },
+                employees: [
+                    {
+                        name: "Normatov Aziz",
+                        position: "Bosh mutaxassis",
+                        phone:
