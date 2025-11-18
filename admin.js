@@ -24,12 +24,73 @@ let departments = JSON.parse(localStorage.getItem('departments')) || [
 let regionName = localStorage.getItem('regionName') || "Samarqand viloyati";
 let nextId = departments.length > 0 ? Math.max(...departments.map(d => d.id)) + 1 : 1;
 let confirmCallback = null;
-let editingItem = null; // Tahrirlash uchun
+let editingItem = null;
 
 // LocalStorage'ga saqlash
 function saveData() {
     localStorage.setItem('departments', JSON.stringify(departments));
     localStorage.setItem('regionName', regionName);
+}
+
+// Ma'lumotlarni JSON faylga eksport qilish
+function exportData() {
+    const data = {
+        departments: departments,
+        regionName: regionName,
+        telegramSettings: JSON.parse(localStorage.getItem('telegramSettings') || '{}'),
+        exportDate: new Date().toISOString()
+    };
+    
+    const dataStr = JSON.stringify(data, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `hr-data-backup-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    alert('Ma\'lumotlar yuklandi! Faylni xavfsiz joyda saqlang.');
+}
+
+// Ma'lumotlarni JSON fayldan import qilish
+function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            
+            if (data.departments && Array.isArray(data.departments)) {
+                departments = data.departments;
+                nextId = departments.length > 0 ? Math.max(...departments.map(d => d.id)) + 1 : 1;
+            }
+            
+            if (data.regionName) {
+                regionName = data.regionName;
+                document.getElementById('regionNameInput').value = regionName;
+            }
+            
+            if (data.telegramSettings) {
+                localStorage.setItem('telegramSettings', JSON.stringify(data.telegramSettings));
+            }
+            
+            saveData();
+            renderDepartments();
+            updateDepartmentSelects();
+            renderDirectorsList();
+            renderEmployeesList();
+            
+            alert('Ma\'lumotlar muvaffaqiyatli yuklandi!');
+        } catch (error) {
+            alert('Xatolik: Fayl noto\'g\'ri formatda!');
+            console.error(error);
+        }
+    };
+    reader.readAsText(file);
 }
 
 // Viloyat nomini yangilash
@@ -76,7 +137,7 @@ function loadTelegramSettings() {
     document.getElementById('chatIds').value = settings.chatIds ? settings.chatIds.join('\n') : '';
 }
 
-// Telefon raqam formatlash
+// Telefon raqam formatlash - 9 ta raqam (+998 bilan birga 13 ta belgi)
 function formatPhoneInput(input) {
     input.addEventListener('input', function(e) {
         let value = e.target.value;
@@ -85,14 +146,16 @@ function formatPhoneInput(input) {
             value = '+998 ';
         }
         
+        // Faqat raqamlar va + ni qoldirish
         let cleaned = value.replace(/[^\d+]/g, '');
         
-        if (cleaned.length > 12) {
-            cleaned = cleaned.substring(0, 12);
+        // +998 va 9 ta raqam = jami 12 ta belgi
+        if (cleaned.length > 13) {
+            cleaned = cleaned.substring(0, 13);
         }
         
         let formatted = '+998 ';
-        let digits = cleaned.substring(4);
+        let digits = cleaned.substring(4); // +998 dan keyingi raqamlar
         
         if (digits.length > 0) formatted += digits.substring(0, 2);
         if (digits.length > 2) formatted += ' ' + digits.substring(2, 5);
@@ -352,7 +415,6 @@ function openEditDirectorModal(deptId) {
     document.getElementById('directorName').value = dept.director.name;
     document.getElementById('directorPhone').value = dept.director.phone;
     
-    // Sanani to'g'ri formatga o'tkazish
     const [day, month, year] = dept.director.birthDate.split('.');
     document.getElementById('directorBirth').value = `${year}-${month}-${day}`;
     document.getElementById('directorPhotoPreview').src = dept.director.photo;
@@ -382,7 +444,6 @@ function openEditEmployeeModal(deptId, empIndex) {
     document.getElementById('employeePosition').value = emp.position;
     document.getElementById('employeePhone').value = emp.phone;
     
-    // Sanani to'g'ri formatga o'tkazish
     const [day, month, year] = emp.birthDate.split('.');
     document.getElementById('employeeBirth').value = `${year}-${month}-${day}`;
     document.getElementById('employeePhotoPreview').src = emp.photo;
@@ -428,13 +489,11 @@ function addDepartment(event) {
     const name = document.getElementById('deptName').value;
     
     if (editingItem && editingItem.type === 'department') {
-        // Tahrirlash
         const dept = departments.find(d => d.id === editingItem.id);
         if (dept) {
             dept.name = name;
         }
     } else {
-        // Yangi qo'shish
         departments.push({
             id: nextId++,
             name: name,
@@ -531,10 +590,8 @@ function addEmployee(event) {
 
     const updateEmployee = (photo) => {
         if (editingItem && editingItem.type === 'employee') {
-            // Tahrirlash
             dept.employees[editingItem.empIndex] = { name, position, phone, birthDate, photo };
         } else {
-            // Yangi qo'shish
             dept.employees.push({ name, position, phone, birthDate, photo });
         }
         
