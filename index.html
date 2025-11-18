@@ -567,120 +567,94 @@
     </div>
 
     <script>
-        let departments = [
-            {
-                id: 1,
-                name: "Samarqand shahar",
-                director: {
-                    name: "Abdullayev Javohir",
-                    phone: "+998 90 123 45 67",
-                    birthDate: "15.03.1985",
-                    photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%231e3c72' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3EAJ%3C/text%3E%3C/svg%3E"
-                },
-                employees: [
-                    {
-                        name: "Karimov Otabek",
-                        position: "Bosh mutaxassis",
-                        phone: "+998 91 234 56 78",
-                        birthDate: "18.11.1990",
-                        photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%232a5298' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3EKO%3C/text%3E%3C/svg%3E"
-                    },
-                    {
-                        name: "Rahimova Dilnoza",
-                        position: "Mutaxassis",
-                        phone: "+998 93 345 67 89",
-                        birthDate: "10.08.1995",
-                        photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%23e74c3c' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3ERD%3C/text%3E%3C/svg%3E"
-                    }
-                ]
-            },
-            {
-                id: 2,
-                name: "Kattaqo'rg'on tumani",
-                director: {
-                    name: "Tursunov Bobur",
-                    phone: "+998 94 456 78 90",
-                    birthDate: "25.07.1988",
-                    photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%231e3c72' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3ETB%3C/text%3E%3C/svg%3E"
-                },
-                employees: [
-                    {
-                        name: "Yusupova Malika",
-                        position: "Mutaxassis",
-                        phone: "+998 95 567 89 01",
-                        birthDate: "18.11.1992",
-                        photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%232a5298' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3EYM%3C/text%3E%3C/svg%3E"
-                    }
-                ]
-            },
-            {
-                id: 3,
-                name: "Bulung'ur tumani",
-                director: {
-                    name: "Ergashev Sardor",
-                    phone: "+998 97 678 90 12",
-                    birthDate: "30.01.1987",
-                    photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%231e3c72' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3EES%3C/text%3E%3C/svg%3E"
-                },
-                employees: [
-                    {
-                        name: "Normatov Aziz",
-                        position: "Bosh mutaxassis",
-                        phone: "+998 98 789 01 23",
-                        birthDate: "05.04.1991",
-                        photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%232a5298' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3ENA%3C/text%3E%3C/svg%3E"
-                    },
-                    {
-                        name: "Hamidova Zarina",
-                        position: "Mutaxassis",
-                        phone: "+998 99 890 12 34",
-                        birthDate: "12.09.1994",
-                        photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%23e74c3c' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3EHZ%3C/text%3E%3C/svg%3E"
-                    }
-                ]
-            }
-        ];
+        let departments = JSON.parse(localStorage.getItem('departments')) || [];
+        let regionName = localStorage.getItem('regionName') || "Samarqand viloyati";
+        let lastNotificationDate = localStorage.getItem('lastNotificationDate') || '';
 
-        let regionName = "Samarqand viloyati";
-        const TELEGRAM_BOT_TOKEN = "8046041742:AAH2alhHXbOOg7PLW3yM6j8LkNBxyXT9IhM";
-        const TELEGRAM_CHAT_ID = "766677061";
+        // Viloyat nomini yangilash
+        function updateRegionName() {
+            const storedRegionName = localStorage.getItem('regionName');
+            if (storedRegionName) {
+                regionName = storedRegionName;
+                document.getElementById('regionName').innerHTML = `🏛️ ${regionName}`;
+            }
+        }
 
         function checkBirthdays() {
             const today = new Date();
+            const todayString = today.toDateString();
             const todayDay = today.getDate();
             const todayMonth = today.getMonth() + 1;
+            const currentHour = today.getHours();
             
-            const birthdayPeople = [];
-            
-            departments.forEach(dept => {
-                if (dept.director) {
-                    const [day, month] = dept.director.birthDate.split('.').map(Number);
-                    if (day === todayDay && month === todayMonth) {
-                        birthdayPeople.push({
-                            name: dept.director.name,
-                            position: "Rahbar",
-                            department: dept.name,
-                            photo: dept.director.photo
-                        });
-                    }
-                }
+            // Soat 9 da va hali bugun xabar yuborilmagan bo'lsa
+            if (currentHour === 9 && lastNotificationDate !== todayString) {
+                const birthdayPeople = [];
                 
-                dept.employees.forEach(emp => {
-                    const [day, month] = emp.birthDate.split('.').map(Number);
-                    if (day === todayDay && month === todayMonth) {
-                        birthdayPeople.push({
-                            name: emp.name,
-                            position: emp.position,
-                            department: dept.name,
-                            photo: emp.photo
-                        });
+                departments.forEach(dept => {
+                    if (dept.director) {
+                        const [day, month] = dept.director.birthDate.split('.').map(Number);
+                        if (day === todayDay && month === todayMonth) {
+                            birthdayPeople.push({
+                                name: dept.director.name,
+                                position: "Rahbar",
+                                department: dept.name,
+                                photo: dept.director.photo
+                            });
+                        }
                     }
+                    
+                    dept.employees.forEach(emp => {
+                        const [day, month] = emp.birthDate.split('.').map(Number);
+                        if (day === todayDay && month === todayMonth) {
+                            birthdayPeople.push({
+                                name: emp.name,
+                                position: emp.position,
+                                department: dept.name,
+                                photo: emp.photo
+                            });
+                        }
+                    });
                 });
-            });
-            
-            if (birthdayPeople.length > 0) {
-                showBirthdayNotifications(birthdayPeople);
-                sendTelegramNotifications(birthdayPeople);
+                
+                if (birthdayPeople.length > 0) {
+                    showBirthdayNotifications(birthdayPeople);
+                    sendTelegramNotifications(birthdayPeople);
+                    localStorage.setItem('lastNotificationDate', todayString);
+                    lastNotificationDate = todayString;
+                }
+            } else {
+                // Har doim saytda ko'rsatish
+                const birthdayPeople = [];
+                departments.forEach(dept => {
+                    if (dept.director) {
+                        const [day, month] = dept.director.birthDate.split('.').map(Number);
+                        if (day === todayDay && month === todayMonth) {
+                            birthdayPeople.push({
+                                name: dept.director.name,
+                                position: "Rahbar",
+                                department: dept.name,
+                                photo: dept.director.photo
+                            });
+                        }
+                    }
+                    
+                    dept.employees.forEach(emp => {
+                        const [day, month] = emp.birthDate.split('.').map(Number);
+                        if (day === todayDay && month === todayMonth) {
+                            birthdayPeople.push({
+                                name: emp.name,
+                                position: emp.position,
+                                department: dept.name,
+                                photo: emp.photo
+                            });
+                        }
+                    });
+                });
+                
+                if (birthdayPeople.length > 0) {
+                    showBirthdayNotifications(birthdayPeople);
+                }
             }
         }
 
@@ -702,8 +676,10 @@
         }
 
         async function sendTelegramNotifications(people) {
-            if (!TELEGRAM_BOT_TOKEN || TELEGRAM_BOT_TOKEN === "YOUR_BOT_TOKEN_HERE") {
-                console.log("Telegram bot token sozlanmagan");
+            const telegramSettings = JSON.parse(localStorage.getItem('telegramSettings') || '{}');
+            
+            if (!telegramSettings.botToken || !telegramSettings.chatIds || telegramSettings.chatIds.length === 0) {
+                console.log("Telegram sozlamalari to'liq emas");
                 return;
             }
 
@@ -714,20 +690,22 @@
                     `📍 ${p.department}\n`
                 ).join('\n');
 
-            try {
-                await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        chat_id: TELEGRAM_CHAT_ID,
-                        text: message,
-                        parse_mode: 'Markdown'
-                    })
-                });
-            } catch (error) {
-                console.error('Telegram xabar yuborishda xatolik:', error);
+            for (const chatId of telegramSettings.chatIds) {
+                try {
+                    await fetch(`https://api.telegram.org/bot${telegramSettings.botToken}/sendMessage`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            chat_id: chatId.trim(),
+                            text: message,
+                            parse_mode: 'Markdown'
+                        })
+                    });
+                } catch (error) {
+                    console.error('Telegram xabar yuborishda xatolik:', error);
+                }
             }
         }
 
@@ -809,6 +787,10 @@
                                 <div class="staff-details">
                                     <div class="staff-name">${dept.director.name}</div>
                                     <div class="staff-info-item">
+                                        <span class="info-label">📞 Telefon:</span>
+                                        <span>${dept.director.phone}</span>
+                                    </div>
+                                    <div class="staff-info-item">
                                         <span class="info-label">🎂 Tug'ilgan sana:</span>
                                         <span>${dept.director.birthDate}</span>
                                     </div>
@@ -875,7 +857,6 @@
             const password = document.getElementById('password').value;
 
             if (username === 'admin' && password === 'admin123') {
-                // Admin panelga o'tish - admin.html faylini ochish
                 window.location.href = 'admin.html';
             } else {
                 alert('Login yoki parol noto\'g\'ri!');
@@ -888,20 +869,15 @@
             }
         }
 
-        // Sahifa yuklanganda tug'ilgan kunlarni tekshirish
-        checkBirthdays();
+        // Sahifa yuklanganda
+        updateRegionName();
         renderDepartments();
+        checkBirthdays();
 
-        // Har kuni soat 00:00 da tekshirish (real loyihada backend'da qilish kerak)
+        // Har daqiqada tekshirish (soat 9:00 ni kutish uchun)
         setInterval(() => {
-            const now = new Date();
-            if (now.getHours() === 0 && now.getMinutes() === 0) {
-                checkBirthdays();
-            }
-        }, 60000); // Har daqiqada tekshirish
+            checkBirthdays();
+        }, 60000);
     </script>
 </body>
-</html><span class="info-label">📞 Telefon:</span>
-                                        <span>${dept.director.phone}</span>
-                                    </div>
-                                    <div class="staff-info-item">
+</html>
