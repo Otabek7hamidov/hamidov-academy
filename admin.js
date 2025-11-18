@@ -21,7 +21,7 @@ let departments = JSON.parse(localStorage.getItem('departments')) || [
     }
 ];
 
-let regionName = localStorage.getItem('regionName') || "Samarqand viloyati";
+let regionName = localStorage.getItem('regionName') || "Buxoro viloyati";
 let nextId = departments.length > 0 ? Math.max(...departments.map(d => d.id)) + 1 : 1;
 let confirmCallback = null;
 let editingItem = null; // Tahrirlash uchun
