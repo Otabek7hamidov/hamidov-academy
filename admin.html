@@ -552,6 +552,7 @@
                 </div>
             </div>
             <div class="header-buttons">
+                <button class="btn telegram-btn" onclick="openTelegramModal()">📱 Telegram Sozlamalari</button>
                 <button class="btn btn-secondary" onclick="window.location.href='index.html'">🏠 Asosiy sahifa</button>
                 <button class="btn" onclick="logout()">Chiqish</button>
             </div>
@@ -561,6 +562,13 @@
     <div class="container">
         <div class="admin-header">
             <h1>🔧 Admin Panel</h1>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button class="btn" style="background: #27ae60;" onclick="exportData()">💾 Ma'lumotlarni Yuklash</button>
+                <label class="btn" style="background: #f39c12; cursor: pointer;">
+                    📂 Ma'lumotlarni Qaytarish
+                    <input type="file" id="importFile" accept=".json" onchange="importData(event)" style="display:none;">
+                </label>
+            </div>
             <div class="region-edit">
                 <label style="color: #1e3c72; font-weight: 600; white-space: nowrap;">Viloyat nomi:</label>
                 <input type="text" id="regionNameInput" placeholder="Viloyat nomini kiriting">
@@ -603,6 +611,29 @@
                 </div>
                 <div class="staff-list-admin" id="employeesListAdmin"></div>
                 <div id="noResultsEmp" class="no-results" style="display:none;">Hech narsa topilmadi</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Telegram Settings Modal -->
+    <div id="telegramModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📱 Telegram Bot Sozlamalari</h2>
+                <span class="close" onclick="closeModal('telegramModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Bot Token</label>
+                    <input type="text" id="botToken" placeholder="1234567890:ABCdefGHIjklMNOpqrsTUVwxyz" required>
+                    <p class="help-text">@BotFather'dan olingan bot token</p>
+                </div>
+                <div class="form-group">
+                    <label>Chat ID'lar</label>
+                    <textarea class="chat-ids-textarea" id="chatIds" placeholder="123456789&#10;987654321&#10;-1001234567890"></textarea>
+                    <p class="help-text">Har bir ID yangi qatordan. Shaxsiy chat yoki guruh ID'larini kiriting. ID olish uchun @userinfobot'ga murojaat qiling.</p>
+                </div>
+                <button onclick="saveTelegramSettings()" class="submit-btn">💾 Saqlash</button>
             </div>
         </div>
     </div>
