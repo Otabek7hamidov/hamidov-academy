@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Unicon-Soft</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .company-name {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .company-name .unicon {
+            color: white;
+        }
+
+        .company-name .soft {
+            color: #e74c3c;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .admin-header {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .admin-header h1 {
+            color: #1e3c72;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .region-edit {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .region-edit input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .region-edit input:focus {
+            outline: none;
+            border-color: #1e3c72;
+        }
+
+        .admin-controls {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .control-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            color: #1e3c72;
+            border-bottom-color: #e74c3c;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .search-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #1e3c72;
+        }
+
+        .departments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .department-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .department-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: #1e3c72;
+        }
+
+        .department-card.hidden {
+            display: none;
+        }
+
+        .department-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        .delete-dept-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .delete-dept-btn:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+
+        .staff-list-admin {
+            display: grid;
+            gap: 15px;
+        }
+
+        .staff-item-admin {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .staff-item-admin.hidden {
+            display: none;
+        }
+
+        .staff-item-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .staff-item-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e74c3c;
+        }
+
+        .staff-item-details h4 {
+            color: #1e3c72;
+            margin-bottom: 5px;
+        }
+
+        .staff-item-details p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+
+        .add-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 50px auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close {
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .close:hover {
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1e3c72;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #1e3c72;
+        }
+
+        .photo-upload {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .photo-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e74c3c;
+        }
+
+        .file-input-wrapper input[type=file] {
+            display: none;
+        }
+
+        .file-input-label {
+            background: #1e3c72;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .file-input-label:hover {
+            background: #2a5298;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .confirm-modal .modal-content {
+            max-width: 450px;
+        }
+
+        .confirm-body {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .confirm-body p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .confirm-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .confirm-btn, .cancel-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .confirm-btn {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="company-name">
+                    <span class="unicon">UNICON</span> <span class="soft">SOFT</span>
+                </div>
+            </div>
+            <div class="header-buttons">
+                <button class="btn btn-secondary" onclick="window.location.href='index.html'">🏠 Asosiy sahifa</button>
+                <button class="btn" onclick="logout()">Chiqish</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="admin-header">
+            <h1>🔧 Admin Panel</h1>
+            <div class="region-edit">
+                <label style="color: #1e3c72; font-weight: 600; white-space: nowrap;">Viloyat nomi:</label>
+                <input type="text" id="regionNameInput" placeholder="Viloyat nomini kiriting">
+                <button class="btn" onclick="updateRegionName()">💾 Saqlash</button>
+            </div>
+        </div>
+
+        <div class="admin-controls">
+            <div class="control-tabs">
+                <button class="tab-btn active" onclick="switchTab('departments')">Bo'limlar</button>
+                <button class="tab-btn" onclick="switchTab('directors')">Rahbarlar</button>
+                <button class="tab-btn" onclick="switchTab('employees')">Xodimlar</button>
+            </div>
+
+            <!-- Departments Tab -->
+            <div id="departmentsTab" class="tab-content active">
+                <button class="add-btn" onclick="openAddDepartmentModal()">➕ Yangi bo'lim qo'shish</button>
+                <div class="search-box">
+                    <input type="text" class="search-input" id="deptSearch" placeholder="🔍 Bo'lim nomi bo'yicha qidirish..." onkeyup="searchDepartments()">
+                </div>
+                <div class="departments-grid" id="adminDepartmentsGrid"></div>
+                <div id="noResultsDept" class="no-results" style="display:none;">Hech narsa topilmadi</div>
+            </div>
+
+            <!-- Directors Tab -->
+            <div id="directorsTab" class="tab-content">
+                <button class="add-btn" onclick="openAddDirectorModal()">➕ Yangi rahbar qo'shish</button>
+                <div class="search-box">
+                    <input type="text" class="search-input" id="dirSearch" placeholder="🔍 Rahbar ismi bo'yicha qidirish..." onkeyup="searchDirectors()">
+                </div>
+                <div class="staff-list-admin" id="directorsListAdmin"></div>
+                <div id="noResultsDir" class="no-results" style="display:none;">Hech narsa topilmadi</div>
+            </div>
+
+            <!-- Employees Tab -->
+            <div id="employeesTab" class="tab-content">
+                <button class="add-btn" onclick="openAddEmployeeModal()">➕ Yangi xodim qo'shish</button>
+                <div class="search-box">
+                    <input type="text" class="search-input" id="empSearch" placeholder="🔍 Xodim ismi bo'yicha qidirish..." onkeyup="searchEmployees()">
+                </div>
+                <div class="staff-list-admin" id="employeesListAdmin"></div>
+                <div id="noResultsEmp" class="no-results" style="display:none;">Hech narsa topilmadi</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div id="confirmModal" class="modal confirm-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Tasdiqlash</h2>
+                <span class="close" onclick="closeModal('confirmModal')">&times;</span>
+            </div>
+            <div class="confirm-body">
+                <p id="confirmMessage"></p>
+                <div class="confirm-buttons">
+                    <button class="confirm-btn" id="confirmYes">Ha</button>
+                    <button class="cancel-btn" onclick="closeModal('confirmModal')">Yo'q</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Department Modal -->
+    <div id="addDepartmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Yangi bo'lim qo'shish</h2>
+                <span class="close" onclick="closeModal('addDepartmentModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="addDepartment(event)">
+                    <div class="form-group">
+                        <label>Bo'lim nomi</label>
+                        <input type="text" id="deptName" required placeholder="Masalan: Urgut tumani">
+                    </div>
+                    <button type="submit" class="submit-btn">Qo'shish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Director Modal -->
+    <div id="addDirectorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Yangi rahbar qo'shish</h2>
+                <span class="close" onclick="closeModal('addDirectorModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="addDirector(event)">
+                    <div class="form-group">
+                        <label>Bo'limni tanlang</label>
+                        <select id="directorDept" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label>F.I.O</label>
+                        <input type="text" id="directorName" required placeholder="To'liq ism">
+                    </div>
+                    <div class="form-group">
+                        <label>Telefon raqam</label>
+                        <input type="tel" id="directorPhone" required placeholder="+998 90 123 45 67" value="+998 " maxlength="17">
+                    </div>
+                    <div class="form-group">
+                        <label>Tug'ilgan sana</label>
+                        <input type="date" id="directorBirth" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Rasm</label>
+                        <div class="photo-upload">
+                            <img id="directorPhotoPreview" class="photo-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23e0e0e0' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' font-size='20' fill='%23999' text-anchor='middle' dy='.3em'%3ERasm%3C/text%3E%3C/svg%3E">
+                            <div class="file-input-wrapper">
+                                <label class="file-input-label" for="directorPhoto">Rasm tanlash</label>
+                                <input type="file" id="directorPhoto" accept="image/*" onchange="previewPhoto(event, 'directorPhotoPreview')">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">Qo'shish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Employee Modal -->
+    <div id="addEmployeeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Yangi xodim qo'shish</h2>
+                <span class="close" onclick="closeModal('addEmployeeModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="addEmployee(event)">
+                    <div class="form-group">
+                        <label>Bo'limni tanlang</label>
+                        <select id="employeeDept" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label>F.I.O</label>
+                        <input type="text" id="employeeName" required placeholder="To'liq ism">
+                    </div>
+                    <div class="form-group">
+                        <label>Lavozim</label>
+                        <input type="text" id="employeePosition" required placeholder="Masalan: Mutaxassis">
+                    </div>
+                    <div class="form-group">
+                        <label>Telefon raqam</label>
+                        <input type="tel" id="employeePhone" required placeholder="+998 90 123 45 67" value="+998 " maxlength="17">
+                    </div>
+                    <div class="form-group">
+                        <label>Tug'ilgan sana</label>
+                        <input type="date" id="employeeBirth" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Rasm</label>
+                        <div class="photo-upload">
+                            <img id="employeePhotoPreview" class="photo-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23e0e0e0' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' font-size='20' fill='%23999' text-anchor='middle' dy='.3em'%3ERasm%3C/text%3E%3C/svg%3E">
+                            <div class="file-input-wrapper">
+                                <label class="file-input-label" for="employeePhoto">Rasm tanlash</label>
+                                <input type="file" id="employeePhoto" accept="image/*" onchange="previewPhoto(event, 'employeePhotoPreview')">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">Qo'shish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
