@@ -24,6 +24,7 @@ let departments = JSON.parse(localStorage.getItem('departments')) || [
 let regionName = localStorage.getItem('regionName') || "Samarqand viloyati";
 let nextId = departments.length > 0 ? Math.max(...departments.map(d => d.id)) + 1 : 1;
 let confirmCallback = null;
+let editingItem = null; // Tahrirlash uchun
 
 // LocalStorage'ga saqlash
 function saveData() {
@@ -39,6 +40,40 @@ function updateRegionName() {
         saveData();
         alert('Viloyat nomi yangilandi!');
     }
+}
+
+// Telegram sozlamalarini saqlash
+function saveTelegramSettings() {
+    const botToken = document.getElementById('botToken').value.trim();
+    const chatIdsText = document.getElementById('chatIds').value.trim();
+    
+    if (!botToken) {
+        alert('Bot Token kiritilishi shart!');
+        return;
+    }
+    
+    const chatIds = chatIdsText.split('\n').map(id => id.trim()).filter(id => id);
+    
+    if (chatIds.length === 0) {
+        alert('Kamida bitta Chat ID kiritilishi shart!');
+        return;
+    }
+    
+    const telegramSettings = {
+        botToken: botToken,
+        chatIds: chatIds
+    };
+    
+    localStorage.setItem('telegramSettings', JSON.stringify(telegramSettings));
+    alert('Telegram sozlamalari saqlandi!');
+    closeModal('telegramModal');
+}
+
+// Telegram sozlamalarini yuklash
+function loadTelegramSettings() {
+    const settings = JSON.parse(localStorage.getItem('telegramSettings') || '{}');
+    document.getElementById('botToken').value = settings.botToken || '';
+    document.getElementById('chatIds').value = settings.chatIds ? settings.chatIds.join('\n') : '';
 }
 
 // Telefon raqam formatlash
@@ -97,6 +132,7 @@ function renderDepartments() {
     const html = departments.map(dept => `
         <div class="department-card" data-dept-name="${dept.name.toLowerCase()}">
             <button class="delete-dept-btn" onclick="confirmDelete('department', ${dept.id})" title="Bo'limni o'chirish">×</button>
+            <button class="edit-dept-btn" onclick="openEditDepartmentModal(${dept.id})" title="Bo'limni tahrirlash">✏️</button>
             <div class="department-name">${dept.name}</div>
             <p style="color: #666; margin-top: 10px;">
                 👤 Rahbar: ${dept.director ? '1' : '0'} | 
@@ -139,7 +175,10 @@ function renderDirectorsList() {
                         <p>🎂 ${dept.director.birthDate}</p>
                     </div>
                 </div>
-                <button class="delete-btn" onclick="confirmDelete('director', ${dept.id})">O'chirish</button>
+                <div style="display: flex; gap: 10px;">
+                    <button class="edit-btn" onclick="openEditDirectorModal(${dept.id})">✏️ Tahrirlash</button>
+                    <button class="delete-btn" onclick="confirmDelete('director', ${dept.id})">O'chirish</button>
+                </div>
             </div>
         `;
     }).join('');
@@ -167,7 +206,10 @@ function renderEmployeesList() {
                             <p>🎂 ${emp.birthDate}</p>
                         </div>
                     </div>
-                    <button class="delete-btn" onclick="confirmDelete('employee', ${dept.id}, ${index})">O'chirish</button>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="edit-btn" onclick="openEditEmployeeModal(${dept.id}, ${index})">✏️ Tahrirlash</button>
+                        <button class="delete-btn" onclick="confirmDelete('employee', ${dept.id}, ${index})">O'chirish</button>
+                    </div>
                 </div>
             `;
         });
@@ -275,21 +317,88 @@ function switchTab(tab) {
 
 // Modal'larni ochish
 function openAddDepartmentModal() {
+    editingItem = null;
+    document.getElementById('deptName').value = '';
+    document.getElementById('addDepartmentModal').querySelector('h2').textContent = 'Yangi bo\'lim qo\'shish';
+    document.getElementById('addDepartmentModal').style.display = 'block';
+}
+
+function openEditDepartmentModal(deptId) {
+    const dept = departments.find(d => d.id === deptId);
+    if (!dept) return;
+    
+    editingItem = { type: 'department', id: deptId };
+    document.getElementById('deptName').value = dept.name;
+    document.getElementById('addDepartmentModal').querySelector('h2').textContent = 'Bo\'limni tahrirlash';
     document.getElementById('addDepartmentModal').style.display = 'block';
 }
 
 function openAddDirectorModal() {
+    editingItem = null;
     updateDepartmentSelects();
+    document.getElementById('addDirectorModal').querySelector('h2').textContent = 'Yangi rahbar qo\'shish';
+    document.getElementById('directorPhone').value = '+998 ';
+    document.getElementById('addDirectorModal').style.display = 'block';
+}
+
+function openEditDirectorModal(deptId) {
+    const dept = departments.find(d => d.id === deptId);
+    if (!dept || !dept.director) return;
+    
+    editingItem = { type: 'director', deptId: deptId };
+    updateDepartmentSelects();
+    
+    document.getElementById('directorDept').value = deptId;
+    document.getElementById('directorName').value = dept.director.name;
+    document.getElementById('directorPhone').value = dept.director.phone;
+    
+    // Sanani to'g'ri formatga o'tkazish
+    const [day, month, year] = dept.director.birthDate.split('.');
+    document.getElementById('directorBirth').value = `${year}-${month}-${day}`;
+    document.getElementById('directorPhotoPreview').src = dept.director.photo;
+    
+    document.getElementById('addDirectorModal').querySelector('h2').textContent = 'Rahbarni tahrirlash';
     document.getElementById('addDirectorModal').style.display = 'block';
 }
 
 function openAddEmployeeModal() {
+    editingItem = null;
     updateDepartmentSelects();
+    document.getElementById('addEmployeeModal').querySelector('h2').textContent = 'Yangi xodim qo\'shish';
+    document.getElementById('employeePhone').value = '+998 ';
     document.getElementById('addEmployeeModal').style.display = 'block';
+}
+
+function openEditEmployeeModal(deptId, empIndex) {
+    const dept = departments.find(d => d.id === deptId);
+    if (!dept || !dept.employees[empIndex]) return;
+    
+    const emp = dept.employees[empIndex];
+    editingItem = { type: 'employee', deptId: deptId, empIndex: empIndex };
+    updateDepartmentSelects();
+    
+    document.getElementById('employeeDept').value = deptId;
+    document.getElementById('employeeName').value = emp.name;
+    document.getElementById('employeePosition').value = emp.position;
+    document.getElementById('employeePhone').value = emp.phone;
+    
+    // Sanani to'g'ri formatga o'tkazish
+    const [day, month, year] = emp.birthDate.split('.');
+    document.getElementById('employeeBirth').value = `${year}-${month}-${day}`;
+    document.getElementById('employeePhotoPreview').src = emp.photo;
+    
+    document.getElementById('addEmployeeModal').querySelector('h2').textContent = 'Xodimni tahrirlash';
+    document.getElementById('addEmployeeModal').style.display = 'block';
+}
+
+function openTelegramModal() {
+    loadTelegramSettings();
+    document.getElementById('telegramModal').style.display = 'block';
 }
 
 function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
+    editingItem = null;
 }
 
 // Rasm preview
@@ -313,24 +422,35 @@ function formatDateForDisplay(dateString) {
     return `${day}.${month}.${year}`;
 }
 
-// Bo'lim qo'shish
+// Bo'lim qo'shish/tahrirlash
 function addDepartment(event) {
     event.preventDefault();
     const name = document.getElementById('deptName').value;
     
-    departments.push({
-        id: nextId++,
-        name: name,
-        director: null,
-        employees: []
-    });
+    if (editingItem && editingItem.type === 'department') {
+        // Tahrirlash
+        const dept = departments.find(d => d.id === editingItem.id);
+        if (dept) {
+            dept.name = name;
+        }
+    } else {
+        // Yangi qo'shish
+        departments.push({
+            id: nextId++,
+            name: name,
+            director: null,
+            employees: []
+        });
+    }
     
     saveData();
     renderDepartments();
     updateDepartmentSelects();
+    renderDirectorsList();
+    renderEmployeesList();
     closeModal('addDepartmentModal');
     document.getElementById('deptName').value = '';
-    alert('Bo\'lim muvaffaqiyatli qo\'shildi!');
+    alert(editingItem ? 'Bo\'lim yangilandi!' : 'Bo\'lim muvaffaqiyatli qo\'shildi!');
 }
 
 // Bo'lim o'chirish
@@ -343,7 +463,7 @@ function deleteDepartment(deptId) {
     renderEmployeesList();
 }
 
-// Rahbar qo'shish
+// Rahbar qo'shish/tahrirlash
 function addDirector(event) {
     event.preventDefault();
     const deptId = parseInt(document.getElementById('directorDept').value);
@@ -355,36 +475,34 @@ function addDirector(event) {
     const dept = departments.find(d => d.id === deptId);
     if (!dept) return;
 
-    if (dept.director) {
+    if (!editingItem && dept.director) {
         alert('Bu bo\'limda allaqachon rahbar mavjud!');
         return;
     }
 
-    if (photoFile) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            dept.director = { name, phone, birthDate, photo: e.target.result };
-            saveData();
-            renderDepartments();
-            renderDirectorsList();
-        };
-        reader.readAsDataURL(photoFile);
-    } else {
-        const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2);
-        dept.director = {
-            name, phone, birthDate,
-            photo: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%231e3c72' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3E${initials}%3C/text%3E%3C/svg%3E`
-        };
+    const updateDirector = (photo) => {
+        dept.director = { name, phone, birthDate, photo };
         saveData();
         renderDepartments();
         renderDirectorsList();
-    }
+        closeModal('addDirectorModal');
+        event.target.reset();
+        document.getElementById('directorPhone').value = '+998 ';
+        document.getElementById('directorPhotoPreview').src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23e0e0e0' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' font-size='20' fill='%23999' text-anchor='middle' dy='.3em'%3ERasm%3C/text%3E%3C/svg%3E";
+        alert(editingItem ? 'Rahbar yangilandi!' : 'Rahbar muvaffaqiyatli qo\'shildi!');
+    };
 
-    closeModal('addDirectorModal');
-    event.target.reset();
-    document.getElementById('directorPhone').value = '+998 ';
-    document.getElementById('directorPhotoPreview').src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23e0e0e0' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' font-size='20' fill='%23999' text-anchor='middle' dy='.3em'%3ERasm%3C/text%3E%3C/svg%3E";
-    alert('Rahbar muvaffaqiyatli qo\'shildi!');
+    if (photoFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            updateDirector(e.target.result);
+        };
+        reader.readAsDataURL(photoFile);
+    } else {
+        const currentPhoto = editingItem && dept.director ? dept.director.photo : null;
+        const photo = currentPhoto || `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%231e3c72' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3E${name.split(' ').map(n => n[0]).join('').substring(0, 2)}%3C/text%3E%3C/svg%3E`;
+        updateDirector(photo);
+    }
 }
 
 // Rahbar o'chirish
@@ -398,7 +516,7 @@ function deleteDirector(deptId) {
     }
 }
 
-// Xodim qo'shish
+// Xodim qo'shish/tahrirlash
 function addEmployee(event) {
     event.preventDefault();
     const deptId = parseInt(document.getElementById('employeeDept').value);
@@ -411,31 +529,36 @@ function addEmployee(event) {
     const dept = departments.find(d => d.id === deptId);
     if (!dept) return;
 
-    if (photoFile) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            dept.employees.push({ name, position, phone, birthDate, photo: e.target.result });
-            saveData();
-            renderDepartments();
-            renderEmployeesList();
-        };
-        reader.readAsDataURL(photoFile);
-    } else {
-        const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2);
-        dept.employees.push({
-            name, position, phone, birthDate,
-            photo: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%232a5298' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3E${initials}%3C/text%3E%3C/svg%3E`
-        });
+    const updateEmployee = (photo) => {
+        if (editingItem && editingItem.type === 'employee') {
+            // Tahrirlash
+            dept.employees[editingItem.empIndex] = { name, position, phone, birthDate, photo };
+        } else {
+            // Yangi qo'shish
+            dept.employees.push({ name, position, phone, birthDate, photo });
+        }
+        
         saveData();
         renderDepartments();
         renderEmployeesList();
-    }
+        closeModal('addEmployeeModal');
+        event.target.reset();
+        document.getElementById('employeePhone').value = '+998 ';
+        document.getElementById('employeePhotoPreview').src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23e0e0e0' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' font-size='20' fill='%23999' text-anchor='middle' dy='.3em'%3ERasm%3C/text%3E%3C/svg%3E";
+        alert(editingItem ? 'Xodim yangilandi!' : 'Xodim muvaffaqiyatli qo\'shildi!');
+    };
 
-    closeModal('addEmployeeModal');
-    event.target.reset();
-    document.getElementById('employeePhone').value = '+998 ';
-    document.getElementById('employeePhotoPreview').src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23e0e0e0' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' font-size='20' fill='%23999' text-anchor='middle' dy='.3em'%3ERasm%3C/text%3E%3C/svg%3E";
-    alert('Xodim muvaffaqiyatli qo\'shildi!');
+    if (photoFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            updateEmployee(e.target.result);
+        };
+        reader.readAsDataURL(photoFile);
+    } else {
+        const currentPhoto = (editingItem && editingItem.type === 'employee' && dept.employees[editingItem.empIndex]) ? dept.employees[editingItem.empIndex].photo : null;
+        const photo = currentPhoto || `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%232a5298' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3E${name.split(' ').map(n => n[0]).join('').substring(0, 2)}%3C/text%3E%3C/svg%3E`;
+        updateEmployee(photo);
+    }
 }
 
 // Xodim o'chirish
@@ -458,5 +581,6 @@ function logout() {
 window.onclick = function(event) {
     if (event.target.classList.contains('modal')) {
         event.target.style.display = 'none';
+        editingItem = null;
     }
 }
