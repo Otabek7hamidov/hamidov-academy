@@ -897,4 +897,625 @@
                 name: "Samarqand shahar",
                 director: {
                     name: "Abdullayev Javohir",
-                    phone: "+
+                    phone: "+998 90 123 45 67",
+                    birthDate: "15.03.1985",
+                    photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%231e3c72' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3EAJ%3C/text%3E%3C/svg%3E"
+                },
+                employees: [
+                    {
+                        name: "Karimov Otabek",
+                        position: "Bosh mutaxassis",
+                        phone: "+998 91 234 56 78",
+                        birthDate: "20.05.1990",
+                        photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%232a5298' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3EKO%3C/text%3E%3C/svg%3E"
+                    },
+                    {
+                        name: "Rahimova Dilnoza",
+                        position: "Mutaxassis",
+                        phone: "+998 93 345 67 89",
+                        birthDate: "10.08.1995",
+                        photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%23e74c3c' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3ERD%3C/text%3E%3C/svg%3E"
+                    }
+                ]
+            },
+            {
+                id: 2,
+                name: "Kattaqo'rg'on tumani",
+                director: {
+                    name: "Tursunov Bobur",
+                    phone: "+998 94 456 78 90",
+                    birthDate: "25.07.1988",
+                    photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%231e3c72' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3ETB%3C/text%3E%3C/svg%3E"
+                },
+                employees: [
+                    {
+                        name: "Yusupova Malika",
+                        position: "Mutaxassis",
+                        phone: "+998 95 567 89 01",
+                        birthDate: "18.11.1992",
+                        photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%232a5298' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3EYM%3C/text%3E%3C/svg%3E"
+                    }
+                ]
+            },
+            {
+                id: 3,
+                name: "Bulung'ur tumani",
+                director: {
+                    name: "Ergashev Sardor",
+                    phone: "+998 97 678 90 12",
+                    birthDate: "30.01.1987",
+                    photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%231e3c72' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3EES%3C/text%3E%3C/svg%3E"
+                },
+                employees: [
+                    {
+                        name: "Normatov Aziz",
+                        position: "Bosh mutaxassis",
+                        phone: "+998 98 789 01 23",
+                        birthDate: "05.04.1991",
+                        photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%232a5298' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3ENA%3C/text%3E%3C/svg%3E"
+                    },
+                    {
+                        name: "Hamidova Zarina",
+                        position: "Mutaxassis",
+                        phone: "+998 99 890 12 34",
+                        birthDate: "12.09.1994",
+                        photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%23e74c3c' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3EHZ%3C/text%3E%3C/svg%3E"
+                    }
+                ]
+            }
+        ];
+
+        let isAdmin = false;
+        let nextId = 4;
+        let confirmCallback = null;
+
+        // Phone input formatting
+        function formatPhoneInput(input) {
+            input.addEventListener('input', function(e) {
+                let value = e.target.value;
+                
+                if (!value.startsWith('+998 ')) {
+                    value = '+998 ';
+                }
+                
+                let cleaned = value.replace(/[^\d+]/g, '');
+                
+                if (cleaned.length > 12) {
+                    cleaned = cleaned.substring(0, 12);
+                }
+                
+                let formatted = '+998 ';
+                let digits = cleaned.substring(4);
+                
+                if (digits.length > 0) {
+                    formatted += digits.substring(0, 2);
+                }
+                if (digits.length > 2) {
+                    formatted += ' ' + digits.substring(2, 5);
+                }
+                if (digits.length > 5) {
+                    formatted += ' ' + digits.substring(5, 7);
+                }
+                if (digits.length > 7) {
+                    formatted += ' ' + digits.substring(7, 9);
+                }
+                
+                e.target.value = formatted;
+            });
+
+            input.addEventListener('keydown', function(e) {
+                if (e.target.selectionStart <= 5 && (e.key === 'Backspace' || e.key === 'Delete')) {
+                    e.preventDefault();
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneInputs = ['directorPhone', 'employeePhone'];
+            phoneInputs.forEach(id => {
+                const input = document.getElementById(id);
+                if (input) formatPhoneInput(input);
+            });
+        });
+
+        function renderDepartments() {
+            const grid = document.getElementById('departmentsGrid');
+            const adminGrid = document.getElementById('adminDepartmentsGrid');
+            
+            const html = departments.map(dept => `
+                <div class="department-card" data-dept-id="${dept.id}" data-dept-name="${dept.name.toLowerCase()}" onclick="openDepartment(${dept.id})">
+                    <button class="delete-dept-btn" onclick="event.stopPropagation(); confirmDelete('department', ${dept.id})" title="Bo'limni o'chirish">×</button>
+                    <div class="department-name">
+                        <div class="department-icon">🏢</div>
+                        <span>${dept.name}</span>
+                    </div>
+                    <div class="department-info">
+                        Bo'lim ma'lumotlarini ko'rish uchun bosing
+                    </div>
+                    <div class="staff-count">
+                        <div class="count-item">
+                            <span>👤 Rahbar:</span>
+                            <span class="count-number">${dept.director ? '1' : '0'}</span>
+                        </div>
+                        <div class="count-item">
+                            <span>👥 Xodimlar:</span>
+                            <span class="count-number">${dept.employees.length}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            grid.innerHTML = html;
+            if (adminGrid) adminGrid.innerHTML = html;
+        }
+
+        function updateDepartmentSelects() {
+            const directorSelect = document.getElementById('directorDept');
+            const employeeSelect = document.getElementById('employeeDept');
+            
+            const options = departments.map(dept => 
+                `<option value="${dept.id}">${dept.name}</option>`
+            ).join('');
+            
+            if (directorSelect) directorSelect.innerHTML = '<option value="">Tanlang...</option>' + options;
+            if (employeeSelect) employeeSelect.innerHTML = '<option value="">Tanlang...</option>' + options;
+        }
+
+        function renderDirectorsList() {
+            const list = document.getElementById('directorsListAdmin');
+            if (!list) return;
+
+            const html = departments.map(dept => {
+                if (!dept.director) return '';
+                return `
+                    <div class="staff-item-admin" data-dir-name="${dept.director.name.toLowerCase()}" data-dept-name="${dept.name.toLowerCase()}">
+                        <div class="staff-item-info">
+                            <img src="${dept.director.photo}" class="staff-item-photo">
+                            <div class="staff-item-details">
+                                <h4>${dept.director.name}</h4>
+                                <p>📍 ${dept.name}</p>
+                                <p>📞 ${dept.director.phone}</p>
+                                <p>🎂 ${dept.director.birthDate}</p>
+                            </div>
+                        </div>
+                        <button class="delete-btn" onclick="confirmDelete('director', ${dept.id})">O'chirish</button>
+                    </div>
+                `;
+            }).join('');
+
+            list.innerHTML = html || '<p style="text-align:center; color:#666;">Hozircha rahbarlar yo\'q</p>';
+        }
+
+        function renderEmployeesList() {
+            const list = document.getElementById('employeesListAdmin');
+            if (!list) return;
+
+            let html = '';
+            departments.forEach(dept => {
+                dept.employees.forEach((emp, index) => {
+                    html += `
+                        <div class="staff-item-admin" data-emp-name="${emp.name.toLowerCase()}" data-dept-name="${dept.name.toLowerCase()}">
+                            <div class="staff-item-info">
+                                <img src="${emp.photo}" class="staff-item-photo">
+                                <div class="staff-item-details">
+                                    <h4>${emp.name}</h4>
+                                    <p>💼 ${emp.position}</p>
+                                    <p>📍 ${dept.name}</p>
+                                    <p>📞 ${emp.phone}</p>
+                                    <p>🎂 ${emp.birthDate}</p>
+                                </div>
+                            </div>
+                            <button class="delete-btn" onclick="confirmDelete('employee', ${dept.id}, ${index})">O'chirish</button>
+                        </div>
+                    `;
+                });
+            });
+
+            list.innerHTML = html || '<p style="text-align:center; color:#666;">Hozircha xodimlar yo\'q</p>';
+        }
+
+        function searchPublic() {
+            const query = document.getElementById('publicSearch').value.toLowerCase();
+            const cards = document.querySelectorAll('#departmentsGrid .department-card');
+            let hasResults = false;
+
+            cards.forEach(card => {
+                const deptName = card.getAttribute('data-dept-name');
+                if (deptName.includes(query)) {
+                    card.classList.remove('hidden');
+                    hasResults = true;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            document.getElementById('noResultsPublic').style.display = hasResults ? 'none' : 'block';
+        }
+
+        function searchDepartments() {
+            const query = document.getElementById('deptSearch').value.toLowerCase();
+            const cards = document.querySelectorAll('#adminDepartmentsGrid .department-card');
+            let hasResults = false;
+
+            cards.forEach(card => {
+                const deptName = card.getAttribute('data-dept-name');
+                if (deptName.includes(query)) {
+                    card.classList.remove('hidden');
+                    hasResults = true;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            document.getElementById('noResultsDept').style.display = hasResults ? 'none' : 'block';
+        }
+
+        function searchDirectors() {
+            const query = document.getElementById('dirSearch').value.toLowerCase();
+            const items = document.querySelectorAll('#directorsListAdmin .staff-item-admin');
+            let hasResults = false;
+
+            items.forEach(item => {
+                const name = item.getAttribute('data-dir-name');
+                const dept = item.getAttribute('data-dept-name');
+                if (name.includes(query) || dept.includes(query)) {
+                    item.classList.remove('hidden');
+                    hasResults = true;
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+
+            document.getElementById('noResultsDir').style.display = hasResults ? 'none' : 'block';
+        }
+
+        function searchEmployees() {
+            const query = document.getElementById('empSearch').value.toLowerCase();
+            const items = document.querySelectorAll('#employeesListAdmin .staff-item-admin');
+            let hasResults = false;
+
+            items.forEach(item => {
+                const name = item.getAttribute('data-emp-name');
+                const dept = item.getAttribute('data-dept-name');
+                if (name.includes(query) || dept.includes(query)) {
+                    item.classList.remove('hidden');
+                    hasResults = true;
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+
+            document.getElementById('noResultsEmp').style.display = hasResults ? 'none' : 'block';
+        }
+
+        function confirmDelete(type, deptId, empIndex) {
+            let message = '';
+            
+            if (type === 'department') {
+                const dept = departments.find(d => d.id === deptId);
+                message = `"${dept.name}" bo'limini o'chirmoqchimisiz?`;
+                confirmCallback = () => deleteDepartment(deptId);
+            } else if (type === 'director') {
+                const dept = departments.find(d => d.id === deptId);
+                message = `"${dept.director.name}" rahbarni o'chirmoqchimisiz?`;
+                confirmCallback = () => deleteDirector(deptId);
+            } else if (type === 'employee') {
+                const dept = departments.find(d => d.id === deptId);
+                const emp = dept.employees[empIndex];
+                message = `"${emp.name}" xodimni o'chirmoqchimisiz?`;
+                confirmCallback = () => deleteEmployee(deptId, empIndex);
+            }
+
+            document.getElementById('confirmMessage').textContent = message;
+            document.getElementById('confirmModal').style.display = 'block';
+        }
+
+        document.getElementById('confirmYes').onclick = function() {
+            if (confirmCallback) {
+                confirmCallback();
+                confirmCallback = null;
+            }
+            closeModal('confirmModal');
+        };
+
+        function openDepartment(deptId) {
+            const dept = departments.find(d => d.id === deptId);
+            if (!dept) return;
+
+            document.getElementById('modalDepartmentName').textContent = dept.name;
+            
+            const modalBody = document.getElementById('modalBody');
+            let html = '';
+
+            if (dept.director) {
+                html += `
+                    <div class="staff-section">
+                        <h3 class="section-title">👤 Bo'lim rahbari</h3>
+                        <div class="staff-list">
+                            <div class="staff-card">
+                                <img src="${dept.director.photo}" alt="${dept.director.name}" class="staff-photo">
+                                <div class="staff-details">
+                                    <div class="staff-name">${dept.director.name}</div>
+                                    <div class="staff-info-item">
+                                        <span class="info-label">📞 Telefon:</span>
+                                        <span>${dept.director.phone}</span>
+                                    </div>
+                                    <div class="staff-info-item">
+                                        <span class="info-label">🎂 Tug'ilgan sana:</span>
+                                        <span>${dept.director.birthDate}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (dept.employees.length > 0) {
+                html += `
+                    <div class="staff-section">
+                        <h3 class="section-title">👥 Xodimlar (${dept.employees.length})</h3>
+                        <div class="staff-list">
+                            ${dept.employees.map(emp => `
+                                <div class="staff-card">
+                                    <img src="${emp.photo}" alt="${emp.name}" class="staff-photo">
+                                    <div class="staff-details">
+                                        <div class="staff-name">${emp.name}</div>
+                                        <div class="staff-info-item">
+                                            <span class="info-label">💼 Lavozim:</span>
+                                            <span>${emp.position}</span>
+                                        </div>
+                                        <div class="staff-info-item">
+                                            <span class="info-label">📞 Telefon:</span>
+                                            <span>${emp.phone}</span>
+                                        </div>
+                                        <div class="staff-info-item">
+                                            <span class="info-label">🎂 Tug'ilgan sana:</span>
+                                            <span>${emp.birthDate}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (!dept.director && dept.employees.length === 0) {
+                html = '<p style="text-align:center; color:#666; padding:40px;">Bu bo\'limda hozircha xodimlar yo\'q</p>';
+            }
+
+            modalBody.innerHTML = html;
+            document.getElementById('departmentModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function openLoginModal() {
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('loginModal').style.display = 'block';
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'admin' && password === 'admin123') {
+                isAdmin = true;
+                document.getElementById('publicView').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('loginBtn').style.display = 'none';
+                document.getElementById('logoutBtn').style.display = 'block';
+                closeModal('loginModal');
+                renderDepartments();
+                updateDepartmentSelects();
+                renderDirectorsList();
+                renderEmployeesList();
+            } else {
+                alert('Login yoki parol noto\'g\'ri!');
+            }
+        }
+
+        function logout() {
+            isAdmin = false;
+            document.getElementById('publicView').style.display = 'block';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('loginBtn').style.display = 'block';
+            document.getElementById('logoutBtn').style.display = 'none';
+            document.getElementById('publicSearch').value = '';
+            renderDepartments();
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tab + 'Tab').classList.add('active');
+        }
+
+        function openAddDepartmentModal() {
+            document.getElementById('addDepartmentModal').style.display = 'block';
+        }
+
+        function openAddDirectorModal() {
+            updateDepartmentSelects();
+            document.getElementById('addDirectorModal').style.display = 'block';
+        }
+
+        function openAddEmployeeModal() {
+            updateDepartmentSelects();
+            document.getElementById('addEmployeeModal').style.display = 'block';
+        }
+
+        function previewPhoto(event, previewId) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(previewId).src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function formatDateForDisplay(dateString) {
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}.${month}.${year}`;
+        }
+
+        function addDepartment(event) {
+            event.preventDefault();
+            const name = document.getElementById('deptName').value;
+            
+            departments.push({
+                id: nextId++,
+                name: name,
+                director: null,
+                employees: []
+            });
+            
+            renderDepartments();
+            updateDepartmentSelects();
+            closeModal('addDepartmentModal');
+            document.getElementById('deptName').value = '';
+            alert('Bo\'lim muvaffaqiyatli qo\'shildi!');
+        }
+
+        function deleteDepartment(deptId) {
+            departments = departments.filter(d => d.id !== deptId);
+            renderDepartments();
+            updateDepartmentSelects();
+            renderDirectorsList();
+            renderEmployeesList();
+        }
+
+        function addDirector(event) {
+            event.preventDefault();
+            const deptId = parseInt(document.getElementById('directorDept').value);
+            const name = document.getElementById('directorName').value;
+            const phone = document.getElementById('directorPhone').value;
+            const birthDate = formatDateForDisplay(document.getElementById('directorBirth').value);
+            const photoFile = document.getElementById('directorPhoto').files[0];
+            
+            const dept = departments.find(d => d.id === deptId);
+            if (!dept) return;
+
+            if (dept.director) {
+                alert('Bu bo\'limda allaqachon rahbar mavjud!');
+                return;
+            }
+
+            if (photoFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    dept.director = {
+                        name: name,
+                        phone: phone,
+                        birthDate: birthDate,
+                        photo: e.target.result
+                    };
+                    renderDepartments();
+                    renderDirectorsList();
+                };
+                reader.readAsDataURL(photoFile);
+            } else {
+                const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2);
+                dept.director = {
+                    name: name,
+                    phone: phone,
+                    birthDate: birthDate,
+                    photo: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%231e3c72' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3E${initials}%3C/text%3E%3C/svg%3E`
+                };
+                renderDepartments();
+                renderDirectorsList();
+            }
+
+            closeModal('addDirectorModal');
+            event.target.reset();
+            document.getElementById('directorPhone').value = '+998 ';
+            document.getElementById('directorPhotoPreview').src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23e0e0e0' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' font-size='20' fill='%23999' text-anchor='middle' dy='.3em'%3ERasm%3C/text%3E%3C/svg%3E";
+            alert('Rahbar muvaffaqiyatli qo\'shildi!');
+        }
+
+        function deleteDirector(deptId) {
+            const dept = departments.find(d => d.id === deptId);
+            if (dept) {
+                dept.director = null;
+                renderDepartments();
+                renderDirectorsList();
+            }
+        }
+
+        function addEmployee(event) {
+            event.preventDefault();
+            const deptId = parseInt(document.getElementById('employeeDept').value);
+            const name = document.getElementById('employeeName').value;
+            const position = document.getElementById('employeePosition').value;
+            const phone = document.getElementById('employeePhone').value;
+            const birthDate = formatDateForDisplay(document.getElementById('employeeBirth').value);
+            const photoFile = document.getElementById('employeePhoto').files[0];
+            
+            const dept = departments.find(d => d.id === deptId);
+            if (!dept) return;
+
+            if (photoFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    dept.employees.push({
+                        name: name,
+                        position: position,
+                        phone: phone,
+                        birthDate: birthDate,
+                        photo: e.target.result
+                    });
+                    renderDepartments();
+                    renderEmployeesList();
+                };
+                reader.readAsDataURL(photoFile);
+            } else {
+                const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2);
+                dept.employees.push({
+                    name: name,
+                    position: position,
+                    phone: phone,
+                    birthDate: birthDate,
+                    photo: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%232a5298' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3E${initials}%3C/text%3E%3C/svg%3E`
+                });
+                renderDepartments();
+                renderEmployeesList();
+            }
+
+            closeModal('addEmployeeModal');
+            event.target.reset();
+            document.getElementById('employeePhone').value = '+998 ';
+            document.getElementById('employeePhotoPreview').src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23e0e0e0' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' font-size='20' fill='%23999' text-anchor='middle' dy='.3em'%3ERasm%3C/text%3E%3C/svg%3E";
+            alert('Xodim muvaffaqiyatli qo\'shildi!');
+        }
+
+        function deleteEmployee(deptId, empIndex) {
+            const dept = departments.find(d => d.id === deptId);
+            if (dept) {
+                dept.employees.splice(empIndex, 1);
+                renderDepartments();
+                renderEmployeesList();
+            }
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        renderDepartments();
+    </script>
+</body>
+</html>
