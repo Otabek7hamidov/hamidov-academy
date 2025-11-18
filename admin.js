@@ -87,8 +87,8 @@ function formatPhoneInput(input) {
         
         let cleaned = value.replace(/[^\d+]/g, '');
         
-        if (cleaned.length > 12) {
-            cleaned = cleaned.substring(0, 12);
+        if (cleaned.length > 13) {
+            cleaned = cleaned.substring(0, 13);
         }
         
         let formatted = '+998 ';
