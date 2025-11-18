@@ -86,6 +86,66 @@
             padding: 0 20px;
         }
 
+        .birthday-notifications {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.3);
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .birthday-notifications h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .birthday-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .birthday-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .birthday-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .birthday-info h4 {
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .birthday-info p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
         .search-box {
             background: white;
             padding: 20px;
@@ -107,66 +167,6 @@
             outline: none;
             border-color: #1e3c72;
             box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
-        }
-
-        .admin-panel {
-            display: none;
-        }
-
-        .admin-header {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .admin-header h1 {
-            color: #1e3c72;
-            font-size: 32px;
-        }
-
-        .admin-controls {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-
-        .control-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #e0e0e0;
-        }
-
-        .tab-btn {
-            padding: 12px 25px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            color: #666;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn.active {
-            color: #1e3c72;
-            border-bottom-color: #e74c3c;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
         }
 
         .region-title {
@@ -264,177 +264,6 @@
             font-weight: bold;
             color: #e74c3c;
             font-size: 18px;
-        }
-
-        .delete-dept-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .admin-panel .delete-dept-btn {
-            display: flex;
-        }
-
-        .delete-dept-btn:hover {
-            background: #c0392b;
-            transform: scale(1.1);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #1e3c72;
-            font-weight: 600;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #1e3c72;
-        }
-
-        .photo-upload {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .photo-preview {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #e74c3c;
-        }
-
-        .file-input-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-        }
-
-        .file-input-wrapper input[type=file] {
-            position: absolute;
-            left: -9999px;
-        }
-
-        .file-input-label {
-            background: #1e3c72;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-
-        .file-input-label:hover {
-            background: #2a5298;
-        }
-
-        .submit-btn, .add-btn {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
-            border: none;
-            padding: 14px 30px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .submit-btn:hover, .add-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
-        }
-
-        .add-btn {
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        .staff-list-admin {
-            display: grid;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .staff-item-admin {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .staff-item-admin.hidden {
-            display: none;
-        }
-
-        .staff-item-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .staff-item-photo {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #e74c3c;
-        }
-
-        .staff-item-details h4 {
-            color: #1e3c72;
-            margin-bottom: 5px;
-        }
-
-        .staff-item-details p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .delete-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .delete-btn:hover {
-            background: #c0392b;
         }
 
         .modal {
@@ -582,53 +411,66 @@
             padding: 30px;
         }
 
-        .confirm-modal .modal-content {
-            max-width: 450px;
+        .form-group {
+            margin-bottom: 20px;
         }
 
-        .confirm-body {
-            padding: 30px;
-            text-align: center;
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1e3c72;
+            font-weight: 600;
         }
 
-        .confirm-body p {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 25px;
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
         }
 
-        .confirm-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
+        .form-group input:focus {
+            outline: none;
+            border-color: #1e3c72;
         }
 
-        .confirm-btn, .cancel-btn {
-            padding: 12px 30px;
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+            font-size: 20px;
+            user-select: none;
+        }
+
+        .password-toggle:hover {
+            color: #1e3c72;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
             border: none;
+            padding: 14px 30px;
             border-radius: 8px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            width: 100%;
         }
 
-        .confirm-btn {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .confirm-btn:hover {
-            background: #c0392b;
-        }
-
-        .cancel-btn {
-            background: #95a5a6;
-            color: white;
-        }
-
-        .cancel-btn:hover {
-            background: #7f8c8d;
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
         }
 
         .no-results {
@@ -662,15 +504,19 @@
                 </div>
             </div>
             <button class="login-btn" id="loginBtn" onclick="openLoginModal()">Kirish</button>
-            <button class="logout-btn" id="logoutBtn" style="display:none;" onclick="logout()">Chiqish</button>
         </div>
     </div>
 
     <div class="container">
-        <!-- Public View -->
         <div id="publicView">
+            <!-- Birthday Notifications -->
+            <div id="birthdayNotifications" class="birthday-notifications" style="display:none;">
+                <h3>🎉 Bugun tug'ilgan kunlar</h3>
+                <div class="birthday-list" id="birthdayList"></div>
+            </div>
+
             <div class="region-title">
-                <h1>🏛️ Samarqand viloyati</h1>
+                <h1 id="regionName">🏛️ Samarqand viloyati</h1>
                 <p>Bo'limlar va xodimlar ma'lumotlari</p>
             </div>
             
@@ -680,57 +526,6 @@
 
             <div class="departments-grid" id="departmentsGrid"></div>
             <div id="noResultsPublic" class="no-results" style="display:none;">Hech narsa topilmadi</div>
-        </div>
-
-        <!-- Admin Panel -->
-        <div id="adminPanel" class="admin-panel">
-            <div class="admin-header">
-                <h1>🔧 Admin Panel</h1>
-            </div>
-
-            <div class="admin-controls">
-                <div class="control-tabs">
-                    <button class="tab-btn active" onclick="switchTab('departments')">Bo'limlar</button>
-                    <button class="tab-btn" onclick="switchTab('directors')">Rahbarlar</button>
-                    <button class="tab-btn" onclick="switchTab('employees')">Xodimlar</button>
-                </div>
-
-                <!-- Departments Tab -->
-                <div id="departmentsTab" class="tab-content active">
-                    <button class="add-btn" onclick="openAddDepartmentModal()">➕ Yangi bo'lim qo'shish</button>
-                    
-                    <div class="search-box">
-                        <input type="text" class="search-input" id="deptSearch" placeholder="🔍 Bo'lim nomi bo'yicha qidirish..." onkeyup="searchDepartments()">
-                    </div>
-                    
-                    <div class="departments-grid" id="adminDepartmentsGrid"></div>
-                    <div id="noResultsDept" class="no-results" style="display:none;">Hech narsa topilmadi</div>
-                </div>
-
-                <!-- Directors Tab -->
-                <div id="directorsTab" class="tab-content">
-                    <button class="add-btn" onclick="openAddDirectorModal()">➕ Yangi rahbar qo'shish</button>
-                    
-                    <div class="search-box">
-                        <input type="text" class="search-input" id="dirSearch" placeholder="🔍 Rahbar ismi bo'yicha qidirish..." onkeyup="searchDirectors()">
-                    </div>
-                    
-                    <div class="staff-list-admin" id="directorsListAdmin"></div>
-                    <div id="noResultsDir" class="no-results" style="display:none;">Hech narsa topilmadi</div>
-                </div>
-
-                <!-- Employees Tab -->
-                <div id="employeesTab" class="tab-content">
-                    <button class="add-btn" onclick="openAddEmployeeModal()">➕ Yangi xodim qo'shish</button>
-                    
-                    <div class="search-box">
-                        <input type="text" class="search-input" id="empSearch" placeholder="🔍 Xodim ismi bo'yicha qidirish..." onkeyup="searchEmployees()">
-                    </div>
-                    
-                    <div class="staff-list-admin" id="employeesListAdmin"></div>
-                    <div id="noResultsEmp" class="no-results" style="display:none;">Hech narsa topilmadi</div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -760,131 +555,12 @@
                     </div>
                     <div class="form-group">
                         <label>Parol</label>
-                        <input type="password" id="password" required placeholder="Parolni kiriting" autocomplete="off">
+                        <div class="password-wrapper">
+                            <input type="password" id="password" required placeholder="Parolni kiriting" autocomplete="off">
+                            <span class="password-toggle" onclick="togglePassword()">👁️</span>
+                        </div>
                     </div>
                     <button type="submit" class="submit-btn">Kirish</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Confirm Modal -->
-    <div id="confirmModal" class="modal confirm-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Tasdiqlash</h2>
-                <span class="close" onclick="closeModal('confirmModal')">&times;</span>
-            </div>
-            <div class="confirm-body">
-                <p id="confirmMessage"></p>
-                <div class="confirm-buttons">
-                    <button class="confirm-btn" id="confirmYes">Ha</button>
-                    <button class="cancel-btn" onclick="closeModal('confirmModal')">Yo'q</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Department Modal -->
-    <div id="addDepartmentModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Yangi bo'lim qo'shish</h2>
-                <span class="close" onclick="closeModal('addDepartmentModal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form onsubmit="addDepartment(event)">
-                    <div class="form-group">
-                        <label>Bo'lim nomi</label>
-                        <input type="text" id="deptName" required placeholder="Masalan: Urgut tumani">
-                    </div>
-                    <button type="submit" class="submit-btn">Qo'shish</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Director Modal -->
-    <div id="addDirectorModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Yangi rahbar qo'shish</h2>
-                <span class="close" onclick="closeModal('addDirectorModal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form onsubmit="addDirector(event)">
-                    <div class="form-group">
-                        <label>Bo'limni tanlang</label>
-                        <select id="directorDept" required></select>
-                    </div>
-                    <div class="form-group">
-                        <label>F.I.O</label>
-                        <input type="text" id="directorName" required placeholder="To'liq ism">
-                    </div>
-                    <div class="form-group">
-                        <label>Telefon raqam</label>
-                        <input type="tel" id="directorPhone" required placeholder="+998 90 123 45 67" value="+998 " maxlength="17">
-                    </div>
-                    <div class="form-group">
-                        <label>Tug'ilgan sana</label>
-                        <input type="date" id="directorBirth" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Rasm</label>
-                        <div class="photo-upload">
-                            <img id="directorPhotoPreview" class="photo-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23e0e0e0' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' font-size='20' fill='%23999' text-anchor='middle' dy='.3em'%3ERasm%3C/text%3E%3C/svg%3E">
-                            <div class="file-input-wrapper">
-                                <label class="file-input-label" for="directorPhoto">Rasm tanlash</label>
-                                <input type="file" id="directorPhoto" accept="image/*" onchange="previewPhoto(event, 'directorPhotoPreview')">
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="submit-btn">Qo'shish</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Employee Modal -->
-    <div id="addEmployeeModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Yangi xodim qo'shish</h2>
-                <span class="close" onclick="closeModal('addEmployeeModal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form onsubmit="addEmployee(event)">
-                    <div class="form-group">
-                        <label>Bo'limni tanlang</label>
-                        <select id="employeeDept" required></select>
-                    </div>
-                    <div class="form-group">
-                        <label>F.I.O</label>
-                        <input type="text" id="employeeName" required placeholder="To'liq ism">
-                    </div>
-                    <div class="form-group">
-                        <label>Lavozim</label>
-                        <input type="text" id="employeePosition" required placeholder="Masalan: Mutaxassis">
-                    </div>
-                    <div class="form-group">
-                        <label>Telefon raqam</label>
-                        <input type="tel" id="employeePhone" required placeholder="+998 90 123 45 67" value="+998 " maxlength="17">
-                    </div>
-                    <div class="form-group">
-                        <label>Tug'ilgan sana</label>
-                        <input type="date" id="employeeBirth" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Rasm</label>
-                        <div class="photo-upload">
-                            <img id="employeePhotoPreview" class="photo-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23e0e0e0' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' font-size='20' fill='%23999' text-anchor='middle' dy='.3em'%3ERasm%3C/text%3E%3C/svg%3E">
-                            <div class="file-input-wrapper">
-                                <label class="file-input-label" for="employeePhoto">Rasm tanlash</label>
-                                <input type="file" id="employeePhoto" accept="image/*" onchange="previewPhoto(event, 'employeePhotoPreview')">
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="submit-btn">Qo'shish</button>
                 </form>
             </div>
         </div>
@@ -906,7 +582,7 @@
                         name: "Karimov Otabek",
                         position: "Bosh mutaxassis",
                         phone: "+998 91 234 56 78",
-                        birthDate: "20.05.1990",
+                        birthDate: "18.11.1990",
                         photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%232a5298' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3EKO%3C/text%3E%3C/svg%3E"
                     },
                     {
@@ -965,66 +641,114 @@
             }
         ];
 
-        let isAdmin = false;
-        let nextId = 4;
-        let confirmCallback = null;
+        let regionName = "Samarqand viloyati";
+        const TELEGRAM_BOT_TOKEN = "8046041742:AAH2alhHXbOOg7PLW3yM6j8LkNBxyXT9IhM";
+        const TELEGRAM_CHAT_ID = "766677061";
 
-        // Phone input formatting
-        function formatPhoneInput(input) {
-            input.addEventListener('input', function(e) {
-                let value = e.target.value;
-                
-                if (!value.startsWith('+998 ')) {
-                    value = '+998 ';
+        function checkBirthdays() {
+            const today = new Date();
+            const todayDay = today.getDate();
+            const todayMonth = today.getMonth() + 1;
+            
+            const birthdayPeople = [];
+            
+            departments.forEach(dept => {
+                if (dept.director) {
+                    const [day, month] = dept.director.birthDate.split('.').map(Number);
+                    if (day === todayDay && month === todayMonth) {
+                        birthdayPeople.push({
+                            name: dept.director.name,
+                            position: "Rahbar",
+                            department: dept.name,
+                            photo: dept.director.photo
+                        });
+                    }
                 }
                 
-                let cleaned = value.replace(/[^\d+]/g, '');
-                
-                if (cleaned.length > 12) {
-                    cleaned = cleaned.substring(0, 12);
-                }
-                
-                let formatted = '+998 ';
-                let digits = cleaned.substring(4);
-                
-                if (digits.length > 0) {
-                    formatted += digits.substring(0, 2);
-                }
-                if (digits.length > 2) {
-                    formatted += ' ' + digits.substring(2, 5);
-                }
-                if (digits.length > 5) {
-                    formatted += ' ' + digits.substring(5, 7);
-                }
-                if (digits.length > 7) {
-                    formatted += ' ' + digits.substring(7, 9);
-                }
-                
-                e.target.value = formatted;
+                dept.employees.forEach(emp => {
+                    const [day, month] = emp.birthDate.split('.').map(Number);
+                    if (day === todayDay && month === todayMonth) {
+                        birthdayPeople.push({
+                            name: emp.name,
+                            position: emp.position,
+                            department: dept.name,
+                            photo: emp.photo
+                        });
+                    }
+                });
             });
-
-            input.addEventListener('keydown', function(e) {
-                if (e.target.selectionStart <= 5 && (e.key === 'Backspace' || e.key === 'Delete')) {
-                    e.preventDefault();
-                }
-            });
+            
+            if (birthdayPeople.length > 0) {
+                showBirthdayNotifications(birthdayPeople);
+                sendTelegramNotifications(birthdayPeople);
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const phoneInputs = ['directorPhone', 'employeePhone'];
-            phoneInputs.forEach(id => {
-                const input = document.getElementById(id);
-                if (input) formatPhoneInput(input);
-            });
-        });
+        function showBirthdayNotifications(people) {
+            const container = document.getElementById('birthdayNotifications');
+            const list = document.getElementById('birthdayList');
+            
+            list.innerHTML = people.map(person => `
+                <div class="birthday-item">
+                    <img src="${person.photo}" alt="${person.name}">
+                    <div class="birthday-info">
+                        <h4>${person.name}</h4>
+                        <p>${person.position} - ${person.department}</p>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.style.display = 'block';
+        }
+
+        async function sendTelegramNotifications(people) {
+            if (!TELEGRAM_BOT_TOKEN || TELEGRAM_BOT_TOKEN === "YOUR_BOT_TOKEN_HERE") {
+                console.log("Telegram bot token sozlanmagan");
+                return;
+            }
+
+            const message = `🎉 *TUG'ILGAN KUN TABRIKLARIMIZ!*\n\n` +
+                people.map(p => 
+                    `👤 *${p.name}*\n` +
+                    `💼 ${p.position}\n` +
+                    `📍 ${p.department}\n`
+                ).join('\n');
+
+            try {
+                await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+            } catch (error) {
+                console.error('Telegram xabar yuborishda xatolik:', error);
+            }
+        }
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggle = document.querySelector('.password-toggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggle.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggle.textContent = '👁️';
+            }
+        }
 
         function renderDepartments() {
             const grid = document.getElementById('departmentsGrid');
-            const adminGrid = document.getElementById('adminDepartmentsGrid');
             
             const html = departments.map(dept => `
-                <div class="department-card" data-dept-id="${dept.id}" data-dept-name="${dept.name.toLowerCase()}" onclick="openDepartment(${dept.id})">
-                    <button class="delete-dept-btn" onclick="event.stopPropagation(); confirmDelete('department', ${dept.id})" title="Bo'limni o'chirish">×</button>
+                <div class="department-card" data-dept-name="${dept.name.toLowerCase()}" onclick="openDepartment(${dept.id})">
                     <div class="department-name">
                         <div class="department-icon">🏢</div>
                         <span>${dept.name}</span>
@@ -1046,72 +770,6 @@
             `).join('');
             
             grid.innerHTML = html;
-            if (adminGrid) adminGrid.innerHTML = html;
-        }
-
-        function updateDepartmentSelects() {
-            const directorSelect = document.getElementById('directorDept');
-            const employeeSelect = document.getElementById('employeeDept');
-            
-            const options = departments.map(dept => 
-                `<option value="${dept.id}">${dept.name}</option>`
-            ).join('');
-            
-            if (directorSelect) directorSelect.innerHTML = '<option value="">Tanlang...</option>' + options;
-            if (employeeSelect) employeeSelect.innerHTML = '<option value="">Tanlang...</option>' + options;
-        }
-
-        function renderDirectorsList() {
-            const list = document.getElementById('directorsListAdmin');
-            if (!list) return;
-
-            const html = departments.map(dept => {
-                if (!dept.director) return '';
-                return `
-                    <div class="staff-item-admin" data-dir-name="${dept.director.name.toLowerCase()}" data-dept-name="${dept.name.toLowerCase()}">
-                        <div class="staff-item-info">
-                            <img src="${dept.director.photo}" class="staff-item-photo">
-                            <div class="staff-item-details">
-                                <h4>${dept.director.name}</h4>
-                                <p>📍 ${dept.name}</p>
-                                <p>📞 ${dept.director.phone}</p>
-                                <p>🎂 ${dept.director.birthDate}</p>
-                            </div>
-                        </div>
-                        <button class="delete-btn" onclick="confirmDelete('director', ${dept.id})">O'chirish</button>
-                    </div>
-                `;
-            }).join('');
-
-            list.innerHTML = html || '<p style="text-align:center; color:#666;">Hozircha rahbarlar yo\'q</p>';
-        }
-
-        function renderEmployeesList() {
-            const list = document.getElementById('employeesListAdmin');
-            if (!list) return;
-
-            let html = '';
-            departments.forEach(dept => {
-                dept.employees.forEach((emp, index) => {
-                    html += `
-                        <div class="staff-item-admin" data-emp-name="${emp.name.toLowerCase()}" data-dept-name="${dept.name.toLowerCase()}">
-                            <div class="staff-item-info">
-                                <img src="${emp.photo}" class="staff-item-photo">
-                                <div class="staff-item-details">
-                                    <h4>${emp.name}</h4>
-                                    <p>💼 ${emp.position}</p>
-                                    <p>📍 ${dept.name}</p>
-                                    <p>📞 ${emp.phone}</p>
-                                    <p>🎂 ${emp.birthDate}</p>
-                                </div>
-                            </div>
-                            <button class="delete-btn" onclick="confirmDelete('employee', ${dept.id}, ${index})">O'chirish</button>
-                        </div>
-                    `;
-                });
-            });
-
-            list.innerHTML = html || '<p style="text-align:center; color:#666;">Hozircha xodimlar yo\'q</p>';
         }
 
         function searchPublic() {
@@ -1132,92 +790,6 @@
             document.getElementById('noResultsPublic').style.display = hasResults ? 'none' : 'block';
         }
 
-        function searchDepartments() {
-            const query = document.getElementById('deptSearch').value.toLowerCase();
-            const cards = document.querySelectorAll('#adminDepartmentsGrid .department-card');
-            let hasResults = false;
-
-            cards.forEach(card => {
-                const deptName = card.getAttribute('data-dept-name');
-                if (deptName.includes(query)) {
-                    card.classList.remove('hidden');
-                    hasResults = true;
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
-
-            document.getElementById('noResultsDept').style.display = hasResults ? 'none' : 'block';
-        }
-
-        function searchDirectors() {
-            const query = document.getElementById('dirSearch').value.toLowerCase();
-            const items = document.querySelectorAll('#directorsListAdmin .staff-item-admin');
-            let hasResults = false;
-
-            items.forEach(item => {
-                const name = item.getAttribute('data-dir-name');
-                const dept = item.getAttribute('data-dept-name');
-                if (name.includes(query) || dept.includes(query)) {
-                    item.classList.remove('hidden');
-                    hasResults = true;
-                } else {
-                    item.classList.add('hidden');
-                }
-            });
-
-            document.getElementById('noResultsDir').style.display = hasResults ? 'none' : 'block';
-        }
-
-        function searchEmployees() {
-            const query = document.getElementById('empSearch').value.toLowerCase();
-            const items = document.querySelectorAll('#employeesListAdmin .staff-item-admin');
-            let hasResults = false;
-
-            items.forEach(item => {
-                const name = item.getAttribute('data-emp-name');
-                const dept = item.getAttribute('data-dept-name');
-                if (name.includes(query) || dept.includes(query)) {
-                    item.classList.remove('hidden');
-                    hasResults = true;
-                } else {
-                    item.classList.add('hidden');
-                }
-            });
-
-            document.getElementById('noResultsEmp').style.display = hasResults ? 'none' : 'block';
-        }
-
-        function confirmDelete(type, deptId, empIndex) {
-            let message = '';
-            
-            if (type === 'department') {
-                const dept = departments.find(d => d.id === deptId);
-                message = `"${dept.name}" bo'limini o'chirmoqchimisiz?`;
-                confirmCallback = () => deleteDepartment(deptId);
-            } else if (type === 'director') {
-                const dept = departments.find(d => d.id === deptId);
-                message = `"${dept.director.name}" rahbarni o'chirmoqchimisiz?`;
-                confirmCallback = () => deleteDirector(deptId);
-            } else if (type === 'employee') {
-                const dept = departments.find(d => d.id === deptId);
-                const emp = dept.employees[empIndex];
-                message = `"${emp.name}" xodimni o'chirmoqchimisiz?`;
-                confirmCallback = () => deleteEmployee(deptId, empIndex);
-            }
-
-            document.getElementById('confirmMessage').textContent = message;
-            document.getElementById('confirmModal').style.display = 'block';
-        }
-
-        document.getElementById('confirmYes').onclick = function() {
-            if (confirmCallback) {
-                confirmCallback();
-                confirmCallback = null;
-            }
-            closeModal('confirmModal');
-        };
-
         function openDepartment(deptId) {
             const dept = departments.find(d => d.id === deptId);
             if (!dept) return;
@@ -1236,10 +808,6 @@
                                 <img src="${dept.director.photo}" alt="${dept.director.name}" class="staff-photo">
                                 <div class="staff-details">
                                     <div class="staff-name">${dept.director.name}</div>
-                                    <div class="staff-info-item">
-                                        <span class="info-label">📞 Telefon:</span>
-                                        <span>${dept.director.phone}</span>
-                                    </div>
                                     <div class="staff-info-item">
                                         <span class="info-label">🎂 Tug'ilgan sana:</span>
                                         <span>${dept.director.birthDate}</span>
@@ -1296,6 +864,8 @@
         function openLoginModal() {
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
+            document.getElementById('password').type = 'password';
+            document.querySelector('.password-toggle').textContent = '👁️';
             document.getElementById('loginModal').style.display = 'block';
         }
 
@@ -1305,207 +875,10 @@
             const password = document.getElementById('password').value;
 
             if (username === 'admin' && password === 'admin123') {
-                isAdmin = true;
-                document.getElementById('publicView').style.display = 'none';
-                document.getElementById('adminPanel').style.display = 'block';
-                document.getElementById('loginBtn').style.display = 'none';
-                document.getElementById('logoutBtn').style.display = 'block';
-                closeModal('loginModal');
-                renderDepartments();
-                updateDepartmentSelects();
-                renderDirectorsList();
-                renderEmployeesList();
+                // Admin panelga o'tish - admin.html faylini ochish
+                window.location.href = 'admin.html';
             } else {
                 alert('Login yoki parol noto\'g\'ri!');
-            }
-        }
-
-        function logout() {
-            isAdmin = false;
-            document.getElementById('publicView').style.display = 'block';
-            document.getElementById('adminPanel').style.display = 'none';
-            document.getElementById('loginBtn').style.display = 'block';
-            document.getElementById('logoutBtn').style.display = 'none';
-            document.getElementById('publicSearch').value = '';
-            renderDepartments();
-        }
-
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
-            event.target.classList.add('active');
-            document.getElementById(tab + 'Tab').classList.add('active');
-        }
-
-        function openAddDepartmentModal() {
-            document.getElementById('addDepartmentModal').style.display = 'block';
-        }
-
-        function openAddDirectorModal() {
-            updateDepartmentSelects();
-            document.getElementById('addDirectorModal').style.display = 'block';
-        }
-
-        function openAddEmployeeModal() {
-            updateDepartmentSelects();
-            document.getElementById('addEmployeeModal').style.display = 'block';
-        }
-
-        function previewPhoto(event, previewId) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById(previewId).src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function formatDateForDisplay(dateString) {
-            const date = new Date(dateString);
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const year = date.getFullYear();
-            return `${day}.${month}.${year}`;
-        }
-
-        function addDepartment(event) {
-            event.preventDefault();
-            const name = document.getElementById('deptName').value;
-            
-            departments.push({
-                id: nextId++,
-                name: name,
-                director: null,
-                employees: []
-            });
-            
-            renderDepartments();
-            updateDepartmentSelects();
-            closeModal('addDepartmentModal');
-            document.getElementById('deptName').value = '';
-            alert('Bo\'lim muvaffaqiyatli qo\'shildi!');
-        }
-
-        function deleteDepartment(deptId) {
-            departments = departments.filter(d => d.id !== deptId);
-            renderDepartments();
-            updateDepartmentSelects();
-            renderDirectorsList();
-            renderEmployeesList();
-        }
-
-        function addDirector(event) {
-            event.preventDefault();
-            const deptId = parseInt(document.getElementById('directorDept').value);
-            const name = document.getElementById('directorName').value;
-            const phone = document.getElementById('directorPhone').value;
-            const birthDate = formatDateForDisplay(document.getElementById('directorBirth').value);
-            const photoFile = document.getElementById('directorPhoto').files[0];
-            
-            const dept = departments.find(d => d.id === deptId);
-            if (!dept) return;
-
-            if (dept.director) {
-                alert('Bu bo\'limda allaqachon rahbar mavjud!');
-                return;
-            }
-
-            if (photoFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    dept.director = {
-                        name: name,
-                        phone: phone,
-                        birthDate: birthDate,
-                        photo: e.target.result
-                    };
-                    renderDepartments();
-                    renderDirectorsList();
-                };
-                reader.readAsDataURL(photoFile);
-            } else {
-                const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2);
-                dept.director = {
-                    name: name,
-                    phone: phone,
-                    birthDate: birthDate,
-                    photo: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%231e3c72' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3E${initials}%3C/text%3E%3C/svg%3E`
-                };
-                renderDepartments();
-                renderDirectorsList();
-            }
-
-            closeModal('addDirectorModal');
-            event.target.reset();
-            document.getElementById('directorPhone').value = '+998 ';
-            document.getElementById('directorPhotoPreview').src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23e0e0e0' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' font-size='20' fill='%23999' text-anchor='middle' dy='.3em'%3ERasm%3C/text%3E%3C/svg%3E";
-            alert('Rahbar muvaffaqiyatli qo\'shildi!');
-        }
-
-        function deleteDirector(deptId) {
-            const dept = departments.find(d => d.id === deptId);
-            if (dept) {
-                dept.director = null;
-                renderDepartments();
-                renderDirectorsList();
-            }
-        }
-
-        function addEmployee(event) {
-            event.preventDefault();
-            const deptId = parseInt(document.getElementById('employeeDept').value);
-            const name = document.getElementById('employeeName').value;
-            const position = document.getElementById('employeePosition').value;
-            const phone = document.getElementById('employeePhone').value;
-            const birthDate = formatDateForDisplay(document.getElementById('employeeBirth').value);
-            const photoFile = document.getElementById('employeePhoto').files[0];
-            
-            const dept = departments.find(d => d.id === deptId);
-            if (!dept) return;
-
-            if (photoFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    dept.employees.push({
-                        name: name,
-                        position: position,
-                        phone: phone,
-                        birthDate: birthDate,
-                        photo: e.target.result
-                    });
-                    renderDepartments();
-                    renderEmployeesList();
-                };
-                reader.readAsDataURL(photoFile);
-            } else {
-                const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2);
-                dept.employees.push({
-                    name: name,
-                    position: position,
-                    phone: phone,
-                    birthDate: birthDate,
-                    photo: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%232a5298' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' font-size='30' fill='white' text-anchor='middle' dy='.3em'%3E${initials}%3C/text%3E%3C/svg%3E`
-                });
-                renderDepartments();
-                renderEmployeesList();
-            }
-
-            closeModal('addEmployeeModal');
-            event.target.reset();
-            document.getElementById('employeePhone').value = '+998 ';
-            document.getElementById('employeePhotoPreview').src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23e0e0e0' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' font-size='20' fill='%23999' text-anchor='middle' dy='.3em'%3ERasm%3C/text%3E%3C/svg%3E";
-            alert('Xodim muvaffaqiyatli qo\'shildi!');
-        }
-
-        function deleteEmployee(deptId, empIndex) {
-            const dept = departments.find(d => d.id === deptId);
-            if (dept) {
-                dept.employees.splice(empIndex, 1);
-                renderDepartments();
-                renderEmployeesList();
             }
         }
 
@@ -1515,7 +888,20 @@
             }
         }
 
+        // Sahifa yuklanganda tug'ilgan kunlarni tekshirish
+        checkBirthdays();
         renderDepartments();
+
+        // Har kuni soat 00:00 da tekshirish (real loyihada backend'da qilish kerak)
+        setInterval(() => {
+            const now = new Date();
+            if (now.getHours() === 0 && now.getMinutes() === 0) {
+                checkBirthdays();
+            }
+        }, 60000); // Har daqiqada tekshirish
     </script>
 </body>
-</html>
+</html><span class="info-label">📞 Telefon:</span>
+                                        <span>${dept.director.phone}</span>
+                                    </div>
+                                    <div class="staff-info-item">
