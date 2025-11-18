@@ -21,7 +21,7 @@ let departments = JSON.parse(localStorage.getItem('departments')) || [
     }
 ];
 
-let regionName = localStorage.getItem('regionName') || "Buxoro viloyati";
+let regionName = localStorage.getItem('regionName') || "Samarqand viloyati";
 let nextId = departments.length > 0 ? Math.max(...departments.map(d => d.id)) + 1 : 1;
 let confirmCallback = null;
 let editingItem = null; // Tahrirlash uchun
@@ -87,8 +87,8 @@ function formatPhoneInput(input) {
         
         let cleaned = value.replace(/[^\d+]/g, '');
         
-        if (cleaned.length > 13) {
-            cleaned = cleaned.substring(0, 13);
+        if (cleaned.length > 12) {
+            cleaned = cleaned.substring(0, 12);
         }
         
         let formatted = '+998 ';
